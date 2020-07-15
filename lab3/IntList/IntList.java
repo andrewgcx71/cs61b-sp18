@@ -127,7 +127,7 @@ public class IntList {
             temp = temp.rest;
         }
         temp.rest = B;
-        return c_a;
+        return ca;
     }
     /** Make a copy of IntList object.
      * @return
