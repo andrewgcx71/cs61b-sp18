@@ -102,7 +102,8 @@ public class LinkedListDeque<T> {
         System.out.println(x);
     }
 
-    /** Removes and returns the item at the front of the deque. If no such item exists, returns null. */
+    /** Removes and returns the item at the front of the deque.
+     * If no such item exists, returns null. */
     public T removeFirst() {
         if (isEmpty()) {
             return null;
@@ -114,7 +115,8 @@ public class LinkedListDeque<T> {
         return res;
     }
 
-    /**Removes and returns the item at the back of the deque. If no such item exists, returns null.*/
+    /**Removes and returns the item at the back of the deque.
+     * If no such item exists, returns null.*/
     public T removeLast() {
         if (isEmpty()) {
             return null;
@@ -154,7 +156,7 @@ public class LinkedListDeque<T> {
         if (index == 0) {
             return n.data;
         } else {
-            return getT(index--, n.next);
+            return getT(--index, n.next);
         }
     }
 }

@@ -23,7 +23,9 @@ public class ArrayDeque<T> {
         this.size = 0;
     }
 
-    /** Resizing either decrease the size of Array due to usage factor of the Array is lower than 25% or increase the size of Array because it's full.
+    /** Resizing
+     * either decrease the size of Array due to usage factor of the Array is lower than 25%
+     * or increase the size of Array because it's full.
      * */
     private void resizing() {
         int currentSize = size;
@@ -48,7 +50,9 @@ public class ArrayDeque<T> {
             System.arraycopy(items, start, temp, startTemp, size);
         } else {
             System.arraycopy(items, start, temp, startTemp, (items.length - start));
-            System.arraycopy(items, 0, temp, startTemp + (items.length - start), size - (items.length - start));
+            int a = startTemp + (items.length - start);
+            int b = size - (items.length - start);
+            System.arraycopy(items, 0, temp, a, b);
         }
         nextFirst = startTemp - 1;
         nextLast = nextFirst + size + 1;
@@ -118,7 +122,8 @@ public class ArrayDeque<T> {
         System.out.println(x);
     }
 
-    /** Removes and returns the item at the front of the deque. If no such item exists, returns null. */
+    /** Removes and returns the item at the front of the deque.
+     * If no such item exists, returns null. */
     public T removeFirst() {
         if (size == 0) {
             return null;
@@ -136,7 +141,8 @@ public class ArrayDeque<T> {
         return res;
     }
 
-    /**Removes and returns the item at the back of the deque. If no such item exists, returns null.*/
+    /**Removes and returns the item at the back of the deque.
+     * If no such item exists, returns null.*/
     public T removeLast() {
         if (size == 0) {
             return null;
