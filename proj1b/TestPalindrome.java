@@ -21,8 +21,10 @@ public class TestPalindrome {
         //test isPalindrome(String word)
         assertTrue(palindrome.isPalindrome(""));
         assertTrue(palindrome.isPalindrome("a"));
+        assertFalse(palindrome.isPalindrome("%"));
         assertTrue(palindrome.isPalindrome("aurcrua"));
         assertFalse(palindrome.isPalindrome("school"));
+        assertFalse(palindrome.isPalindrome("&%"));
 
         //test isPalindrome(String word, CharacterComparator cc)
 
@@ -31,6 +33,7 @@ public class TestPalindrome {
         assertFalse(palindrome.isPalindrome("%", new OffByOne()));
         assertTrue(palindrome.isPalindrome("flake", new OffByOne()));
         assertFalse(palindrome.isPalindrome("school", new OffByOne()));
+        assertFalse(palindrome.isPalindrome("&%", new OffByOne()));
     }
 
 //    @Test
