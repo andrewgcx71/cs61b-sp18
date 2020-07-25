@@ -26,9 +26,6 @@ public class Palindrome {
         Deque<Character> characters = wordToDeque(word);
         String reverse = "";
         for (int i = word.length() - 1; i >= 0; i--) {
-            if (!isAlphabet(word.charAt(i))) {
-                return false;
-            }
             reverse += characters.get(i);
         }
         return reverse.equals(word);
@@ -37,15 +34,9 @@ public class Palindrome {
      * to the character comparison test provided by the
      * CharacterComparator passed in as argument cc.*/
     public boolean isPalindrome(String word, CharacterComparator cc) {
-        if (word.length() % 2 == 1 && !isAlphabet(word.charAt((word.length() - 1) / 2))) {
-            return false;
-        }
         int start = 0;
         int end = word.length() - 1;
         while (start < end) {
-            if (!isAlphabet(word.charAt(start)) || !isAlphabet(word.charAt(end))) {
-                return false;
-            }
             if (!cc.equalChars(word.charAt(start), word.charAt(end))) {
                 return false;
             }
@@ -53,11 +44,6 @@ public class Palindrome {
             end--;
         }
         return true;
-    }
-
-    /** Return true if character is alphabet, otherwise return false.*/
-    private boolean isAlphabet(char c) {
-        return ((c > 64 && c < 91) || (c > 96 && c < 123));
     }
 
 

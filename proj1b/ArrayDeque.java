@@ -128,7 +128,7 @@ public class ArrayDeque<T> implements Deque<T> {
 
     /** Removes and returns the item at the front of the deque.
      * If no such item exists, returns null. */
-     @Override
+    @Override
     public T removeFirst() {
         if (size == 0) {
             return null;
@@ -148,7 +148,7 @@ public class ArrayDeque<T> implements Deque<T> {
 
     /**Removes and returns the item at the back of the deque.
      * If no such item exists, returns null.*/
-     @Override
+    @Override
     public T removeLast() {
         if (size == 0) {
             return null;
@@ -169,7 +169,7 @@ public class ArrayDeque<T> implements Deque<T> {
     /**Gets the item at the given index, where 0 is the front,
      * 1 is the next item, and so forth. If no such item exists,
      * returns null. Must not alter the deque!*/
-     @Override
+    @Override
     public T get(int index) {
         if (index >= size) {
             return null;

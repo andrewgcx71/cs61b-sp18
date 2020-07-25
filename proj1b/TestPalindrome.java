@@ -21,24 +21,17 @@ public class TestPalindrome {
         //test isPalindrome(String word)
         assertTrue(palindrome.isPalindrome(""));
         assertTrue(palindrome.isPalindrome("a"));
-        assertFalse(palindrome.isPalindrome("%"));
-        assertTrue(palindrome.isPalindrome("aurcrua"));
+        assertTrue(palindrome.isPalindrome("cs61b16sc"));
+        assertFalse(palindrome.isPalindrome("cs61b16sC"));
         assertFalse(palindrome.isPalindrome("school"));
-        assertFalse(palindrome.isPalindrome("&%"));
 
         //test isPalindrome(String word, CharacterComparator cc)
 
         assertTrue(palindrome.isPalindrome("", new OffByOne()));
         assertTrue(palindrome.isPalindrome("a", new OffByOne()));
-        assertFalse(palindrome.isPalindrome("%", new OffByOne()));
         assertTrue(palindrome.isPalindrome("flake", new OffByOne()));
+        assertFalse(palindrome.isPalindrome("flakE", new OffByOne()));
         assertFalse(palindrome.isPalindrome("school", new OffByOne()));
-        assertFalse(palindrome.isPalindrome("&%", new OffByOne()));
     }
 
-//    @Test
-//    public void testisAlphabet() {
-//        assertTrue(palindrome.isAlphabet('c'));
-//        assertFalse(palindrome.isAlphabet('&'));
-//    }
 }

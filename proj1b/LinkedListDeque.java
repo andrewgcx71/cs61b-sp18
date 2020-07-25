@@ -1,6 +1,6 @@
 /** double end Queue.*/
 
-public class LinkedListDeque<T> implements Deque<T>{
+public class LinkedListDeque<T> implements Deque<T> {
 
     /** sentinel: node provides convenience while building double end Queue.
      * previous reference points to last node in the list
@@ -107,7 +107,7 @@ public class LinkedListDeque<T> implements Deque<T>{
 
     /** Removes and returns the item at the front of the deque.
      * If no such item exists, returns null. */
-     @Override
+    @Override
     public T removeFirst() {
         if (isEmpty()) {
             return null;
@@ -121,7 +121,7 @@ public class LinkedListDeque<T> implements Deque<T>{
 
     /**Removes and returns the item at the back of the deque.
      * If no such item exists, returns null.*/
-     @Override
+    @Override
     public T removeLast() {
         if (isEmpty()) {
             return null;
@@ -137,7 +137,7 @@ public class LinkedListDeque<T> implements Deque<T>{
     /**Gets the item at the given index, where 0 is the front,
      * 1 is the next item, and so forth. If no such item exists,
      * returns null. Must not alter the deque!*/
-     @Override
+    @Override
     public T get(int index) {
         if (index >= size) {
             return null;
