@@ -24,6 +24,7 @@ public class TestPalindrome {
         assertTrue(palindrome.isPalindrome("cs61b16sc"));
         assertFalse(palindrome.isPalindrome("cs61b16sC"));
         assertFalse(palindrome.isPalindrome("school"));
+        assertTrue(palindrome.isPalindrome("%^%"));
 
         //test isPalindrome(String word, CharacterComparator cc)
 
@@ -32,6 +33,7 @@ public class TestPalindrome {
         assertTrue(palindrome.isPalindrome("flake", new OffByOne()));
         assertFalse(palindrome.isPalindrome("flakE", new OffByOne()));
         assertFalse(palindrome.isPalindrome("school", new OffByOne()));
+        assertTrue(palindrome.isPalindrome("#$", new OffByOne()));
     }
 
 }
