@@ -1,5 +1,6 @@
 package synthesizer;
 
+
 public abstract class AbstractBoundedQueue<T> implements BoundedQueue<T> {
     /** number of items in the list so far.*/
     protected int fillCount;

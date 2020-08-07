@@ -6,7 +6,7 @@ public interface BoundedQueue<T> extends Iterable<T> {
      * capacity is the max size of the boundedQueue*/
     int capacity();
 
-    /** return number of items currently in the buffer*/
+    /** return number of items currently in the buffer. */
     int fillCount();
 
     /** // add item x to the end.*/
