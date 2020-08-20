@@ -6,8 +6,12 @@ import byog.TileEngine.TETile;
 public class Game {
     TERenderer ter = new TERenderer();
     /* Feel free to change the width and height. */
-    public static final int WIDTH = 80;
-    public static final int HEIGHT = 30;
+    public static final int WIDTH = 85;
+    public static final int HEIGHT = 45;
+
+    // Saved game
+
+    private static TETile[][] world;
 
     /**
      * Method used for playing a fresh game. The game should start from the main menu.
@@ -30,9 +34,38 @@ public class Game {
     public TETile[][] playWithInputString(String input) {
         // TODO: Fill out this method to run the game using the input passed in,
         // and return a 2D tile representation of the world that would have been
-        // drawn if the same inputs had been given to playWithKeyboard().
+        // drawn if the same inputs had been given to playWithKeyboard().]
+        input = input.toLowerCase();
+        if (input.substring(0, 1).equals("l")) {
+            return world;
+        } else {
+            long seed = getSeed(input);
+            MapGeneration map = new MapGeneration(seed);
+            TETile[][] newWorld = map.generate(WIDTH, HEIGHT);
+            if (input.substring(input.length() - 1, input.length()).equals("q")) {
+                world = newWorld;
+            }
+            return newWorld;
+        }
+    }
 
-        TETile[][] finalWorldFrame = null;
-        return finalWorldFrame;
+    /** Return the seed. */
+    private long getSeed(String input) {
+        int l = 0;
+        for (int i = input.length() - 1; i >= 0; i--) {
+            if(isSingleDigitNumber(input.charAt(i))) {
+                l = i;
+                break;
+            }
+        }
+        return Long.parseLong(input.substring(1, l + 1));
+    }
+
+    //check if the current character is a number between 0 to 9.
+    private boolean isSingleDigitNumber(char c) {
+        if (c >= '0' && c <= '9') {
+            return true;
+        }
+        return false;
     }
 }

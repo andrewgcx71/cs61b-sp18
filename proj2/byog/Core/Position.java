@@ -1,4 +1,8 @@
-package byog.lab5;
+package byog.Core;
+
+import byog.TileEngine.TERenderer;
+import byog.TileEngine.TETile;
+import byog.TileEngine.Tileset;
 
 public class Position {
     // x-axis
@@ -18,9 +22,8 @@ public class Position {
     }
 
     /** Getter method for instance variable x. */
-    public int getY() {
-        return y;
-    }
+    public int getY() { return y; }
+
 
 
 }
