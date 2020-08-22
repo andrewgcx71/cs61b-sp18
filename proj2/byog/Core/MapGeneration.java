@@ -41,8 +41,8 @@ public class MapGeneration {
 
     public static TETile[][] generate(int X, int Y) {
         // initialize the tile rendering engine with a window of size X x Y
-        TERenderer ter = new TERenderer();
-        ter.initialize(X, Y);
+        //TERenderer ter = new TERenderer();
+        //ter.initialize(X, Y);
         // initialize tiles
         TETile[][] world = new TETile[X][Y];
         for (int x = 0; x < X; x += 1) {
