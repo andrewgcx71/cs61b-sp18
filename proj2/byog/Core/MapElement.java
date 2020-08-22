@@ -3,7 +3,9 @@ package byog.Core;
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
 
-public interface MapElement {
+import java.io.Serializable;
+
+public interface MapElement extends Serializable {
 
     // getter method for length
     int getLength();

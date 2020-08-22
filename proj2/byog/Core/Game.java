@@ -2,6 +2,10 @@ package byog.Core;
 
 import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
+import byog.TileEngine.Tileset;
+import com.sun.corba.se.impl.orbutil.ObjectWriter;
+
+import java.io.*;
 
 public class Game {
     TERenderer ter = new TERenderer();
@@ -9,9 +13,6 @@ public class Game {
     public static final int WIDTH = 85;
     public static final int HEIGHT = 45;
 
-    // Saved game
-
-    private static TETile[][] world;
 
     /**
      * Method used for playing a fresh game. The game should start from the main menu.
@@ -31,19 +32,35 @@ public class Game {
      * @param input the input string to feed to your program
      * @return the 2D TETile[][] representing the state of the world
      */
-    public TETile[][] playWithInputString(String input) {
+    public TETile[][] playWithInputString(String input) throws Exception {
         // TODO: Fill out this method to run the game using the input passed in,
         // and return a 2D tile representation of the world that would have been
         // drawn if the same inputs had been given to playWithKeyboard().]
         input = input.toLowerCase();
         if (input.substring(0, 1).equals("l")) {
+            TETile[][] world = new TETile[WIDTH][HEIGHT];
+            File path = new File("//Users//andrew//OneDrive//CS61B//skeleton-sp18//proj2//byog//Core//save.txt");
+            FileInputStream fis = new FileInputStream(path);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            for (int i = 0; i < WIDTH; i++) {
+                for (int j = 0; j < HEIGHT; j++) {
+                    world[i][j] = (TETile) ois.readObject();
+                }
+            }
             return world;
         } else {
             long seed = getSeed(input);
             MapGeneration map = new MapGeneration(seed);
             TETile[][] newWorld = map.generate(WIDTH, HEIGHT);
             if (input.substring(input.length() - 1, input.length()).equals("q")) {
-                world = newWorld;
+                File path = new File("//Users//andrew//OneDrive//CS61B//skeleton-sp18//proj2//byog//Core//save.txt");
+                FileOutputStream fileOutput = new FileOutputStream(path);
+                ObjectOutputStream oos = new ObjectOutputStream(fileOutput);
+                for (int i = 0; i < WIDTH; i++) {
+                    for (int j = 0; j < HEIGHT; j++) {
+                        oos.writeObject(newWorld[i][j]);
+                    }
+                }
             }
             return newWorld;
         }
@@ -65,6 +82,19 @@ public class Game {
     private boolean isSingleDigitNumber(char c) {
         if (c >= '0' && c <= '9') {
             return true;
+        }
+        return false;
+    }
+
+    //return true if the file is empty, otherwise false
+    private boolean fileIsEmpty(File path) {
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(path));
+            if (br.readLine() == null) {
+                return true;
+            }
+        } catch (Exception e) {
+            System.out.println("File doesn't exist");
         }
         return false;
     }

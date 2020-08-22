@@ -15,7 +15,7 @@ public class MapGeneration {
 
     public static void main(String[] args) {
 
-        MapGeneration.generate(85, 40);
+        MapGeneration.generate(85, 45);
 
     }
 
@@ -50,8 +50,8 @@ public class MapGeneration {
                 world[x][y] = Tileset.NOTHING;
             }
         }
-        int a = r.nextInt( X - maxRandomWidth + 1) + (maxRandomWidth + 1);
-        int b = r.nextInt( Y - maxRandomLength + 1) + (maxRandomLength + 1);
+        int a = r.nextInt( X - (maxRandomWidth + 1)) + ((maxRandomWidth - 1) / 2 + 1);
+        int b = r.nextInt( Y - (maxRandomLength + 1)) + ((maxRandomLength - 1) / 2 + 1);
         Position initialP = new Position(a, b);
         MapElement next = new Room(randomLength(),maxRandomWidth, initialP);
         next.draw(world);

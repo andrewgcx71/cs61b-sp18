@@ -13,8 +13,12 @@ public class Main {
             System.exit(0);
         } else if (args.length == 1) {
             Game game = new Game();
-            TETile[][] worldState = game.playWithInputString(args[0]);
-            System.out.println(TETile.toString(worldState));
+            try {
+                TETile[][] worldState = game.playWithInputString(args[0]);
+                System.out.println(TETile.toString(worldState));
+            } catch (Exception e) {
+                System.out.println("error");
+            }
         } else {
             Game game = new Game();
             game.playWithKeyboard();
