@@ -31,35 +31,24 @@ public class Game {
      * @param input the input string to feed to your program
      * @return the 2D TETile[][] representing the state of the world
      */
-    public TETile[][] playWithInputString(String input) throws Exception {
+    public TETile[][] playWithInputString(String input) {
         // TODO: Fill out this method to run the game using the input passed in,
         // and return a 2D tile representation of the world that would have been
         // drawn if the same inputs had been given to playWithKeyboard().]
         input = input.toLowerCase();
+        File path = new File("//Users//andrew//OneDrive//CS61B//skeleton-sp18//proj2//byog//Core//save.txt");
         if (input.substring(0, 1).equals("l")) {
-            TETile[][] world = new TETile[WIDTH][HEIGHT];
-            File path = new File("//Users//andrew//OneDrive//CS61B//skeleton-sp18//proj2//byog//Core//save.txt");
-            FileInputStream fis = new FileInputStream(path);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            for (int i = 0; i < WIDTH; i++) {
-                for (int j = 0; j < HEIGHT; j++) {
-                    world[i][j] = (TETile) ois.readObject();
-                }
+            if (fileIsEmpty(path)) {
+                System.exit(0);
             }
-            return world;
+            return getWorld(path);
+
         } else {
             long seed = getSeed(input);
             MapGeneration map = new MapGeneration(seed);
             TETile[][] newWorld = map.generate(WIDTH, HEIGHT);
             if (input.substring(input.length() - 1, input.length()).equals("q")) {
-                File path = new File("//Users//andrew//OneDrive//CS61B//skeleton-sp18//proj2//byog//Core//save.txt");
-                FileOutputStream fileOutput = new FileOutputStream(path);
-                ObjectOutputStream oos = new ObjectOutputStream(fileOutput);
-                for (int i = 0; i < WIDTH; i++) {
-                    for (int j = 0; j < HEIGHT; j++) {
-                        oos.writeObject(newWorld[i][j]);
-                    }
-                }
+                save(path, newWorld);
             }
             return newWorld;
         }
@@ -96,5 +85,37 @@ public class Game {
             System.out.println("File doesn't exist");
         }
         return false;
+    }
+
+    // Return a previous saved world
+    private TETile[][] getWorld(File path) {
+        TETile[][] world = new TETile[WIDTH][HEIGHT];
+        try {
+            FileInputStream fis = new FileInputStream(path);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            for (int i = 0; i < WIDTH; i++) {
+                for (int j = 0; j < HEIGHT; j++) {
+                    world[i][j] = (TETile) ois.readObject();
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Error on reading file");
+        }
+        return world;
+    }
+
+    // Save a world to a txt file
+    private void save(File path, TETile[][] world) {
+        try {
+            FileOutputStream fileOutput = new FileOutputStream(path);
+            ObjectOutputStream oos = new ObjectOutputStream(fileOutput);
+            for (int i = 0; i < WIDTH; i++) {
+                for (int j = 0; j < HEIGHT; j++) {
+                    oos.writeObject(world[i][j]);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Error on writing file");
+        }
     }
 }

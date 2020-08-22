@@ -5,7 +5,7 @@ import byog.TileEngine.Tileset;
 
 import java.io.Serializable;
 
-public interface MapElement extends Serializable {
+public interface MapElement {
 
     // getter method for length
     int getLength();
