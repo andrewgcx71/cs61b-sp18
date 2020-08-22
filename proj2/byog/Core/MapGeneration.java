@@ -75,7 +75,7 @@ public class MapGeneration {
                 next = stack.peek();
             }
         }
-        ter.renderFrame(world);  // draws the world to the screen
+        //ter.renderFrame(world);  draws the world to the screen
         return world;
     }
 
