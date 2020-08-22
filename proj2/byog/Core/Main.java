@@ -13,12 +13,12 @@ public class Main {
             System.exit(0);
         } else if (args.length == 1) {
             Game game = new Game();
-            TETile[][] worldState = game.playWithInputString("N34343S:Q");
+            TETile[][] worldState = game.playWithInputString("n124s");
             System.out.println(TETile.toString(worldState));
 
             System.out.println("-----------------");
 
-            TETile[][] w = game.playWithInputString("L");
+            TETile[][] w = game.playWithInputString("n124s");
             System.out.println(TETile.toString(w));
 
             System.out.println("-----------------");

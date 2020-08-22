@@ -41,8 +41,8 @@ public class MapGeneration {
 
     public static TETile[][] generate(int X, int Y) {
         // initialize the tile rendering engine with a window of size X x Y
-        //TERenderer ter = new TERenderer();
-        //ter.initialize(X, Y);
+//        TERenderer ter = new TERenderer();
+//        ter.initialize(X, Y);
         // initialize tiles
         TETile[][] world = new TETile[X][Y];
         for (int x = 0; x < X; x += 1) {
@@ -53,7 +53,7 @@ public class MapGeneration {
         int a = r.nextInt( X - (maxRandomWidth + 1)) + ((maxRandomWidth - 1) / 2 + 1);
         int b = r.nextInt( Y - (maxRandomLength + 1)) + ((maxRandomLength - 1) / 2 + 1);
         Position initialP = new Position(a, b);
-        MapElement next = new Room(randomLength(),maxRandomWidth, initialP);
+        MapElement next = new Room(randomLength(),randomWidth(), initialP);
         next.draw(world);
         Stack<MapElement> stack = new Stack<>();
         stack.push(next);
@@ -75,7 +75,7 @@ public class MapGeneration {
                 next = stack.peek();
             }
         }
-        //ter.renderFrame(world);  draws the world to the screen
+        //ter.renderFrame(world);  // draws the world to the screen
         return world;
     }
 
