@@ -55,7 +55,7 @@ public class Game {
     }
 
     /** Return the seed. */
-    private long getSeed(String input) {
+    public long getSeed(String input) {
         int l = 0;
         for (int i = input.length() - 1; i >= 0; i--) {
             if(isSingleDigitNumber(input.charAt(i))) {

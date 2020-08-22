@@ -15,7 +15,9 @@ public class MapGeneration {
 
     public static void main(String[] args) {
 
-        MapGeneration.generate(85, 45);
+        MapGeneration mg = new MapGeneration(854711);
+        mg.generate(85, 45);
+
 
     }
 
@@ -23,15 +25,15 @@ public class MapGeneration {
     // when s = 0, generate a vertical hallway
     // when s = 1, generate a horizontal hallway
     // when s = 2, generate a room
-    private static int s = 0;
+    private int s = 0;
 
     //max random length of a room or a hallway, and it has to be odd number.
-    private static int maxRandomLength = 11;
+    private int maxRandomLength = 11;
 
     //max random width of a room or a hallway, and it has to be odd number.
-    private static int maxRandomWidth = 11;
+    private int maxRandomWidth = 11;
 
-    private static Random r = new Random();
+    private Random r;
 
     // Create a constructor with seed input.
     public MapGeneration(long seed) {
@@ -39,7 +41,7 @@ public class MapGeneration {
     }
 
 
-    public static TETile[][] generate(int X, int Y) {
+    public TETile[][] generate(int X, int Y) {
         // initialize the tile rendering engine with a window of size X x Y
 //        TERenderer ter = new TERenderer();
 //        ter.initialize(X, Y);
@@ -75,13 +77,13 @@ public class MapGeneration {
                 next = stack.peek();
             }
         }
-        //ter.renderFrame(world);  // draws the world to the screen
+//        ter.renderFrame(world);  // draws the world to the screen
         return world;
     }
 
 
     //Generate a random odd length.
-    private static int randomLength() {
+    private int randomLength() {
         if (s == 0) {
             return 1;
         } else {
@@ -93,7 +95,7 @@ public class MapGeneration {
         }
     }
     //Generate a random odd width.
-    private static int randomWidth() {
+    private int randomWidth() {
         if (s == 1) {
             return 1;
         } else {
@@ -106,7 +108,7 @@ public class MapGeneration {
     }
 
     //Generate a random direction that hasn't been explored yet.
-    private static int randomDirect(boolean[] directions) {
+    private int randomDirect(boolean[] directions) {
         List<Integer> lst = new ArrayList<>();
         for (int i = 0; i < directions.length; i++) {
             if (directions[i] == false) {

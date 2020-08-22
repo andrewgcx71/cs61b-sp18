@@ -13,15 +13,16 @@ public class Main {
             System.exit(0);
         } else if (args.length == 1) {
             Game game = new Game();
-            TETile[][] worldState = game.playWithInputString("n124s");
+            TETile[][] worldState = game.playWithInputString("n5197880843569031643s");
             System.out.println(TETile.toString(worldState));
 
             System.out.println("-----------------");
 
-            TETile[][] w = game.playWithInputString("n124s");
+            TETile[][] w = game.playWithInputString("n5197880843569031643s");
             System.out.println(TETile.toString(w));
 
             System.out.println("-----------------");
+
 
 
         } else {
