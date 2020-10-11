@@ -11,19 +11,19 @@ public class PercolationStats {
     // t represents the number of experiment
     private int t;
 
-    private PercolationFactory pf;
+    private PercolationFactory PF;
 
     //Array of fraction of open sites
     private double[] lst;
 
     // perform T independent experiments on an N-by-N grid
-    public PercolationStats(int N, int T, PercolationFactory PF) {
+    public PercolationStats(int N, int T, PercolationFactory pf) {
         if (N <= 0 || T <= 0) {
             throw new IllegalArgumentException();
         }
         n = N;
         t = T;
-        pf = PF;
+        PF = pf;
         lst = new double[t];
         for (int i = 0; i < t; i++) {
             lst[i] = calculateFractionOfOpenSites();
@@ -53,7 +53,7 @@ public class PercolationStats {
 
     //return fraction of open sites as soon as system is percolated.
     private double calculateFractionOfOpenSites() {
-        Percolation system = pf.make(n);
+        Percolation system = PF.make(n);
         while (!system.percolates()) {
             int row = StdRandom.uniform(0, n);
             int col = StdRandom.uniform(0, n);
@@ -62,7 +62,7 @@ public class PercolationStats {
         }
         return ((double) system.numberOfOpenSites()) / (n * n);
     }
-    public static void main(String[] args) {
+    private static void main(String[] args) {
         PercolationFactory pf = new PercolationFactory();
         PercolationStats ps = new PercolationStats(200, 2, pf);
         System.out.println(ps.confidenceHigh());

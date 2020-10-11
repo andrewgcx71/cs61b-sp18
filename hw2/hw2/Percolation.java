@@ -15,8 +15,18 @@ public class Percolation {
     // indicate weather the system percolate
     private boolean isPercolated;
 
-    // union find
-    private WeightedQuickUnionUF uf;
+    // union find with virtual bottom site
+    private WeightedQuickUnionUF uf1;
+
+    // union find without virtual bottom site
+    private WeightedQuickUnionUF uf2;
+
+    //virtual top site
+    private int virtualTopSite;
+
+    //virtual bottom site
+    private int virtualBottomSite;
+
 
     // create N-by-N grid, with all sites initially blocked
     public Percolation(int N) {
@@ -25,9 +35,14 @@ public class Percolation {
         }
         n = N;
         grid = new boolean[n][n];
-        uf = new WeightedQuickUnionUF(n * n + 1);
+        uf1 = new WeightedQuickUnionUF(n * n + 2);
+        uf2 = new WeightedQuickUnionUF(n * n + 1);
+        virtualTopSite = n * n;
+        virtualBottomSite = n * n + 1;
         for (int i = 0; i < n; i++) {
-            uf.union(n * n, getIndex(0, i));
+            uf1.union(virtualTopSite, getIndex(0, i));
+            uf1.union(virtualBottomSite, getIndex(n - 1, i));
+            uf2.union(virtualTopSite, getIndex(0, i));
         }
     }
     //takes row and col, return the index number of site
@@ -41,18 +56,22 @@ public class Percolation {
             grid[row][col] = true;
             noos++;
             if (row - 1 >= 0 && isOpen(row - 1, col)) {
-                uf.union(getIndex(row, col), getIndex(row - 1, col));
+                uf1.union(getIndex(row, col), getIndex(row - 1, col));
+                uf2.union(getIndex(row, col), getIndex(row - 1, col));
             }
             if (row + 1 < n && isOpen(row + 1, col)) {
-                uf.union(getIndex(row, col), getIndex(row + 1, col));
+                uf1.union(getIndex(row, col), getIndex(row + 1, col));
+                uf2.union(getIndex(row, col), getIndex(row + 1, col));
             }
             if (col - 1 >= 0 && isOpen(row, col - 1)) {
-                uf.union(getIndex(row, col), getIndex(row, col - 1));
+                uf1.union(getIndex(row, col), getIndex(row, col - 1));
+                uf2.union(getIndex(row, col), getIndex(row, col - 1));
             }
             if (col + 1 < n && isOpen(row, col + 1)) {
-                uf.union(getIndex(row, col), getIndex(row, col + 1));
+                uf1.union(getIndex(row, col), getIndex(row, col + 1));
+                uf2.union(getIndex(row, col), getIndex(row, col + 1));
             }
-            if (!isPercolated && row == n - 1 && isFull(row, col)) {
+            if (uf1.connected(virtualTopSite, virtualBottomSite)) {
                 isPercolated = true;
             }
         }
@@ -65,7 +84,7 @@ public class Percolation {
 
     // is the site (row, col) full?
     public boolean isFull(int row, int col) {
-        return uf.connected(n * n, getIndex(row, col)) && isOpen(row, col);
+        return uf2.connected(virtualTopSite, getIndex(row, col)) && isOpen(row, col);
     }
 
     // number of open sites
@@ -77,5 +96,9 @@ public class Percolation {
     public boolean percolates() {
         return isPercolated;
     }
-    //public static void main(String[] args)   // use for unit testing (not required)
+
+    // use for unit testing (not required)
+    public static void main(String[] args) {
+
+    }
 }
