@@ -29,12 +29,12 @@ public class Game{
         while(!selectGameOptionOver) {
             drawUI();
             if (StdDraw.hasNextKeyTyped()) {
-                String ui = Character.toString(StdDraw.nextKeyTyped()).toLowerCase(); // ui = user input
-                if (ui.equals("l")) {
+                String userInput = Character.toString(StdDraw.nextKeyTyped()).toLowerCase();
+                if (userInput.equals("l")) {
                     gamedata = getGameData(path);
                     selectGameOptionOver = true;
                 }
-                if (ui.equals("n")) {
+                if (userInput.equals("n")) {
                     selectGameOptionOver = true;
                     drawFrame(""); // clear the canvas.
                     while (true) {
@@ -56,7 +56,7 @@ public class Game{
                         drawFrame(seed);
                     }
                 }
-                if (ui.equals("q")) {
+                if (userInput.equals("q")) {
                     System.exit(0);
                 }
             }
@@ -88,9 +88,8 @@ public class Game{
             MapGeneration map = new MapGeneration(seed);
             gamedata = map.generate(WIDTH, HEIGHT);
         }
-        //startGameWithInputString(gamedata.getWorld(), gamedata.getPlayer(), input);
-        startGame(gamedata);
-        if (saveGame(input)) {
+        startGameWithInputString(gamedata.getWorld(), gamedata.getPlayer(), input);
+        if (LoadLastGame(input)) {
             save(path, gamedata);
         }
         return gamedata.getWorld();
@@ -117,7 +116,7 @@ public class Game{
     }
 
     // return true if want to load last saved, otherwise false
-    private boolean saveGame(String input) {
+    private boolean LoadLastGame(String input) {
         return input.substring(input.length() - 1, input.length()).equals("q");
     }
 
