@@ -89,7 +89,7 @@ public class Game{
             gamedata = map.generate(WIDTH, HEIGHT);
         }
         startGameWithInputString(gamedata.getWorld(), gamedata.getPlayer(), input);
-        if (LoadLastGame(input)) {
+        if (saveCurrentGame(input)) {
             save(path, gamedata);
         }
         return gamedata.getWorld();
@@ -99,15 +99,15 @@ public class Game{
     public void startGameWithInputString(TETile[][] world, Player player, String input) {
         String movement = UserCommands(input);
         int n = 0;
-        ter.initialize(WIDTH, HEIGHT);
+        //ter.initialize(WIDTH, HEIGHT);
         while (!gameOver && n < movement.length()) {
             player.move(world, movement.substring(n, n + 1), this);
-            ter.renderFrame(world);
-            StdDraw.pause(1000);
+            //ter.renderFrame(world);
+            //StdDraw.pause(1000);
             n++;
         }
-        StdDraw.clear(Color.black);
-        StdDraw.show();
+//        StdDraw.clear(Color.black);
+//        StdDraw.show();
     }
 
     // return true if want to load last saved, otherwise false
@@ -115,8 +115,8 @@ public class Game{
         return input.substring(0, 1).equals("l");
     }
 
-    // return true if want to load last saved, otherwise false
-    private boolean LoadLastGame(String input) {
+    // return true if want to save game, otherwise false
+    private boolean saveCurrentGame(String input) {
         return input.substring(input.length() - 1, input.length()).equals("q");
     }
 
