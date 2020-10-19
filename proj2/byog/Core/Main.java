@@ -1,6 +1,6 @@
 package byog.Core;
 
-import byog.TileEngine.TETile;
+import byog.TileEngine.*;
 
 /** This is the main entry point for the program. This class simply parses
  *  the command line inputs, and lets the byog.Core.Game class take over
@@ -13,18 +13,8 @@ public class Main {
             System.exit(0);
         } else if (args.length == 1) {
             Game game = new Game();
-            TETile[][] worldState = game.playWithInputString("n5197880843569031643s");
+            TETile[][] worldState = game.playWithInputString("n34343343s:q");
             System.out.println(TETile.toString(worldState));
-
-            System.out.println("-----------------");
-
-            TETile[][] w = game.playWithInputString("n5197880843569031643s");
-            System.out.println(TETile.toString(w));
-
-            System.out.println("-----------------");
-
-
-
         } else {
             Game game = new Game();
             game.playWithKeyboard();

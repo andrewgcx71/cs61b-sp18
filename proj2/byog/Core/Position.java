@@ -1,10 +1,8 @@
 package byog.Core;
 
-import byog.TileEngine.TERenderer;
-import byog.TileEngine.TETile;
-import byog.TileEngine.Tileset;
-
-public class Position {
+import java.io.Serializable;
+//Represent a direction of a room/hallway (center position, the length and width are odd numbers only) or a player.
+public class Position implements Serializable {
     // x-axis
     private int x;
 
@@ -24,6 +22,9 @@ public class Position {
     /** Getter method for instance variable x. */
     public int getY() { return y; }
 
-
-
+    /** Update x and y */
+    public void update(int X, int Y) {
+        x = X;
+        y = Y;
+    }
 }

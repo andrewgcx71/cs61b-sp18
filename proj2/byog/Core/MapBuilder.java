@@ -3,9 +3,10 @@ package byog.Core;
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
 
-/** a builder can either build a room or a hallway (either horizontal or vertical)
+/** a MapBuilder instance can build a room/hallway and can be expand with room/hallway(s) at its adjacency.
+ * (a room/hallway is considered as adjacency to another room/hallway when they connected.)
  * @author Andrew Zhu */
-public class Builder {
+public class MapBuilder {
 
     /**length of room.*/
     private int l;
@@ -13,24 +14,21 @@ public class Builder {
     /**width of room.*/
     private int w;
 
-    /**Position of Room, p is locate at the center of room.*/
+    /**position represents the x-coordinate and y-coordinate in the center of room.*/
     private Position position;
 
-    // getter method.
-    public boolean[] getDirections() {
-        return directions;
-    }
 
     /**
-     * directions[0]:true if left has been explored, otherwise false.
-     * directions[1]:true if bottom has been explored, otherwise false.
-     * directions[2]:true if right has been explored, otherwise false.
-     * directions[3]:true if top has been explored, otherwise false.
+     *Each element in the boolean array represents a direction, by default: false.
+     * visits[0]: set to true if it has been visited (either expanded or it's a dead end) on the left.
+     * visits[1]:set to true if it has been visited (either expanded or it's a dead end) on the bottom.
+     * visits[2]:set to true if it has been visited (either expanded or it's a dead end).
+     * visits[3]:set to true if it has visited (either expanded or it's a dead end).
      */
-    private boolean[] directions = new boolean[4];
+    private boolean[] visits = new boolean[4];
 
     //Constructor with parameters.
-    public Builder(int L, int W, Position P) {
+    public MapBuilder(int L, int W, Position P) {
         l = L;
         w = W;
         position = P;
@@ -51,8 +49,9 @@ public class Builder {
         return w == 1;
     }
 
-    /** add a new room or hallway at current builder's build, and return the new room or hallway was build */
-    public Builder expand(TETile[][] world, int l, int w, int d) {
+    /** work with expandAtD() method, has to call expandAtD() method before calling this method.
+     * This method expand current room/hallway with a new room/hallway at direction d, and return the new room/hallway created */
+    public MapBuilder expandD(TETile[][] world, int l, int w, int d) {
 
         int x = getEdgePos(d).getX();
         int y = getEdgePos(d).getY();
@@ -65,25 +64,26 @@ public class Builder {
         } else {
             y = y + ((l - 1) / 2 + 2);
         }
-        Builder next = new Builder(l, w, new Position(x, y));
-        next.drawToWorld(world);
-        connectWithFloor(world, next, d);
-        directions[d] = true;
-        next.directions[getOpposite(d)] = true;
-        return next;
+        MapBuilder newRoom = new MapBuilder(l, w, new Position(x, y));
+        newRoom.BuildToWorld(world);
+        connectWithFloor(world, newRoom, d);
+        visits[d] = true;
+        newRoom.visits[getOpposite(d)] = true;
+        return newRoom;
     }
 
-    /** check if room/hallway with a particular length and width can be expanded at a specific direction, if expandable, return true, otherwise return false.*/
-    public boolean isExpand(TETile[][] world, int l, int w, int d, int X, int Y) {
-        if (isNotOutOfBoundaries(l, w, d, X, Y) && isNotOverlap(world, l, w, d)) {
+    /** check if room/hallway with a particular shape can be expanded at direction d,
+     * if expandable, return true, otherwise false.*/
+    public boolean expandAtD(TETile[][] world, int l, int w, int d, int X, int Y) {
+        if (!outOfBoundaries(l, w, d, X, Y) && !isOverlap(world, l, w, d)) {
             return true;
         }
         return false;
     }
 
-    /**Return true if all directions have been explored, otherwise false */
-    public boolean exploredAllDirections() {
-        for (boolean temp: directions) {
+    /**Return true if 4 directions have been visited, otherwise false */
+    public boolean visited() {
+        for (boolean temp: visits) {
             if (!temp) {
                 return false;
             }
@@ -91,20 +91,20 @@ public class Builder {
         return true;
     }
 
-    /** Call drawWall() and DrawFloor().
-     * p is in the center of object.
+    /** build the room/hallway to the world.
+     * p (position) is in the center of room/hallway.
      *   x x x x x
      *   x   p   x
      *   x x x x x
      */
-    public void drawToWorld(TETile[][] world) {
+    public void BuildToWorld(TETile[][] world) {
         int y = getEdgePos(2).getY() - ((l - 1) / 2 + 1);
         int x = getEdgePos(2).getX();
-        drawFloor(world, new Position(x, y));
-        drawWall(world, new Position(x, y));
+        BuildFloorsToWorld(world, new Position(x, y));
+        BuildWallsToWorld(world, new Position(x, y));
     }
 
-    /** Return a position at the edge. Either at left, bottom, right, or top */
+    /** Return a position at the edge of current room/hallway. */
     public Position getEdgePos(int d) {
         if (d == 0) {
             return new Position(position.getX() + ((w - 1) / 2 + 1), position.getY());
@@ -118,8 +118,8 @@ public class Builder {
     }
 
 
-    //fill row with tiles, n is the numbers of tiles.
-    private void fillRow(TETile[][] world, int n, Position p) {
+    /** Helper function, use by BuildWallsToWorld(). (Build Horizontal walls at a starter position, n is the size of walls.)  */
+    private void BuildHorizontalWalls(TETile[][] world, int n, Position p) {
         int x = p.getX();
         int y = p.getY();
         for (int i = 0; i < n; i++) {
@@ -128,18 +128,26 @@ public class Builder {
         }
     }
 
-    /** Draw the wall of the object.*/
-    private void drawWall(TETile[][] world, Position p) {
-        fillRow(world, w + 2, p);
-        fillRow(world, w + 2, new Position(p.getX(), p.getY() + l + 1));
-        for (int i = 1; i <= l; i++) {
-            world[p.getX()][p.getY() + i] = Tileset.WALL;
-            world[p.getX() + w + 1][p.getY() + i] = Tileset.WALL;
+    /** Helper function, use by BuildWallsToWorld(). (Build vertical walls at a starter position, n is the size of walls.)  */
+    private void BuildVerticalWalls(TETile[][] world, int n, Position p) {
+        int x = p.getX();
+        int y = p.getY();
+        for (int i = 0; i < n; i++) {
+            world[x][y] = Tileset.WALL;
+            y++;
         }
     }
 
-    /** Draw floor of the object. */
-    private void drawFloor(TETile[][] world, Position p) {
+    /** Helper function, use by BuildToWorld(). */
+    private void BuildWallsToWorld(TETile[][] world, Position p) {
+        BuildHorizontalWalls(world, w + 2, p);
+        BuildHorizontalWalls(world, w + 2, new Position(p.getX(), p.getY() + l + 1));
+        BuildVerticalWalls(world, l, new Position(p.getX(), p.getY() + 1));
+        BuildVerticalWalls(world, l, new Position(p.getX() + w + 1, p.getY() + 1));
+    }
+
+    /** Helper function, use by drawToWorld(). */
+    private void BuildFloorsToWorld(TETile[][] world, Position p) {
         for (int y = p.getY() + 1; y <= p.getY() + l + 1; y++) {
             for (int x = p.getX() + 1; x <= p.getX() + w + 1; x++){
                 world[x][y] = Tileset.FLOOR;
@@ -148,52 +156,45 @@ public class Builder {
     }
 
 
-    /** return true if not out of boundaries, otherwise false. */
-    private boolean isNotOutOfBoundaries(int l, int w, int d, int X, int Y) {
+    /** Helper function, use by expandAtD(). (Return true if out of boundaries at d, otherwise false.) */
+    private boolean outOfBoundaries(int l, int w, int d, int X, int Y) {
         Position EdgePos = getEdgePos(d);
         if (d == 0) {
             if (EdgePos.getX() + (w + 2) >= X || EdgePos.getY() - ((l - 1) / 2 + 1) < 0 || EdgePos.getY() + ((l - 1) / 2 + 1) >= Y) {
-                return false;
+                return true;
             }
         } else if (d == 1) {
             if (EdgePos.getY() - (l + 2) < 0 || EdgePos.getX() - ((w - 1) / 2 + 1) < 0 || EdgePos.getX() + ((w - 1) / 2 + 1) >= X) {
-                return false;
+                return true;
             }
         } else if (d == 2) {
             if (EdgePos.getX() - (w + 2) < 0 || EdgePos.getY() - ((l - 1) / 2 + 1) < 0 || EdgePos.getY() + ((l - 1) / 2 + 1) >= Y) {
-                return false;
+                return true;
             }
         } else {
             if (EdgePos.getY() + (l + 2) >= Y || EdgePos.getX() - ((w - 1) / 2 + 1) < 0 || EdgePos.getX() + ((w - 1) / 2 + 1) >= X) {
-                return false;
+                return true;
             }
-        } return true;
+        } return false;
     }
 
-    /** return true if no other hallways or rooms at the area about to expand, otherwise false. */
-    private boolean isNotOverlap(TETile[][] world, int l, int w, int d) {
+    /** Helper function, use by expandAtD(). (Return true if another room/hallway stand the way at d, otherwise false.) */
+    private boolean isOverlap(TETile[][] world, int l, int w, int d) {
         Position p = getEdgePos(d);
-        if (d == 0) {
-            if (overlap(world, l, w, new Position(p.getX() + 1, p.getY() - ((l - 1) / 2 + 1)))) {
-                return false;
-            }
-        } else if (d == 1) {
-            if (overlap(world, l, w, new Position(p.getX() - ((w - 1) / 2 + 1), p.getY() - (l + 2)))) {
-                return false;
-            }
-        } else if (d == 2) {
-            if (overlap(world, l, w, new Position(p.getX() - (w + 2), p.getY() - ((l - 1) / 2 + 1)))) {
-                return false;
-            }
-        } else {
-            if (overlap(world, l, w, new Position(p.getX() - ((w - 1) / 2 + 1), p.getY() + 1))) {
-                return false;
-            }
+        switch (d) {
+            case 0:
+                return overlap(world, l, w, new Position(p.getX() + 1, p.getY() - ((l - 1) / 2 + 1)));
+            case 1:
+                return overlap(world, l, w, new Position(p.getX() - ((w - 1) / 2 + 1), p.getY() - (l + 2)));
+            case 2:
+                return overlap(world, l, w, new Position(p.getX() - (w + 2), p.getY() - ((l - 1) / 2 + 1)));
+            case 3:
+                return overlap(world, l, w, new Position(p.getX() - ((w - 1) / 2 + 1), p.getY() + 1));
         }
         return true;
     }
 
-    /** return true if overlap, otherwise false.*/
+    /** Helper function, use by isOverlap(). (return true is the new room/hallway about to expand will be overlap with other room/hallway at direction d, otherwise false.) */
     private boolean overlap(TETile[][] world, int l, int w, Position p) {
         if (!checkRow(world, w + 2, p) || !checkRow(world, w + 2, new Position(p.getX(), p.getY() + l + 1))) {
             return true;
@@ -206,7 +207,7 @@ public class Builder {
         return false;
     }
 
-    //check each tile in that row, return false we found a tile is not "NOTHING", otherwise true.*/
+    //Helper function, use by overlap(). (check each tile in that row, return false a tile is not "Nothing", otherwise false.)*/
     private boolean checkRow(TETile[][] world, int n, Position p) {
         int x = p.getX();
         int y = p.getY();
@@ -218,8 +219,8 @@ public class Builder {
         } return true;
     }
 
-    /** Connect two objects with floors at specific direction, d is the direction of current object want to  */
-    private void connectWithFloor(TETile[][] world, Builder b, int d) {
+    /** Helper function, use by expandAtD(). (break the walls, connect two MapBuilder instances (Room/hallway) together with floors.)  */
+    private void connectWithFloor(TETile[][] world, MapBuilder b, int d) {
         int x = getEdgePos(d).getX();
         int y = getEdgePos(d).getY();
         world[x][y] = Tileset.FLOOR;
@@ -227,7 +228,8 @@ public class Builder {
         y = b.getEdgePos(getOpposite(d)).getY();
         world[x][y] = Tileset.FLOOR;
     }
-    /**Return the opposite direction.*/
+
+    /**Helper function, use by connectWithFloor() and ExpandD(). (Get the opposite direction of current direction.)*/
     private int getOpposite(int d) {
         if (d == 0) {
             return 2;
@@ -238,5 +240,10 @@ public class Builder {
         } else {
             return 1;
         }
+    }
+
+    /** return visits.*/
+    public boolean[] getVisits() {
+        return visits;
     }
 }

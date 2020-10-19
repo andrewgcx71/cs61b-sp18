@@ -2,8 +2,7 @@ package byog.lab6;
 
 import edu.princeton.cs.introcs.StdDraw;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
 import java.util.Random;
 
 public class MemoryGameSolution {
@@ -95,6 +94,7 @@ public class MemoryGameSolution {
         drawFrame(input);
 
         while (input.length() < n) {
+            // end the current iteration and continue to next iteration, for example below, if the statement in true, then it will skip the rest and move to next iteration
             if (!StdDraw.hasNextKeyTyped()) {
                 continue;
             }
@@ -107,8 +107,8 @@ public class MemoryGameSolution {
     }
 
     public void drawFrame(String s) {
-        int midWidth = width / 2;
-        int midHeight = height / 2;
+        int midWidth = width / 2; // x-axis
+        int midHeight = height / 2; //y-axis
 
         StdDraw.clear();
         StdDraw.clear(Color.black);

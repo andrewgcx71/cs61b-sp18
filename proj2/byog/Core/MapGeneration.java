@@ -1,11 +1,11 @@
 package byog.Core;
 
-import byog.TileEngine.TERenderer;
-import byog.TileEngine.TETile;
-import byog.TileEngine.Tileset;
-import java.util.*;
+import byog.TileEngine.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import java.util.Stack;
 
 /** Generate random rooms.
  * @author
@@ -13,13 +13,15 @@ import java.util.Random;
 
 public class MapGeneration {
 
-    public static void main(String[] args) {
-
-        MapGeneration mg = new MapGeneration(854711);
-        mg.generate(85, 45);
-
-
-    }
+    //testing purpose
+//    public static void main(String[] args) {
+//
+//        MapGeneration mg = new MapGeneration(854711);
+//        TERenderer ter = new TERenderer();
+//        ter.initialize(85, 48);
+//        ter.renderFrame(mg.generate(85, 48).getWorld());
+//
+//    }
 
     // a switch indicate if it should generate a room or a hallway.
     // when s = 0, generate a vertical hallway
@@ -27,13 +29,18 @@ public class MapGeneration {
     // when s = 2, generate a room
     private int s = 0;
 
-    //max random length of a room or a hallway, and it has to be odd number.
-    private int maxRandomLength = 11;
+    //max random length of a room or a hallway, and it has to be an odd number.
+    private int maxRandomLength = 9;
 
-    //max random width of a room or a hallway, and it has to be odd number.
-    private int maxRandomWidth = 11;
+    //max random width of a room or a hallway, and it has to be an   odd number.
+    private int maxRandomWidth = 7;
 
+    //Random generator
     private Random r;
+
+    //true if there is a door, otherwise false.
+    private boolean doorCre = false;
+
 
     // Create a constructor with seed input.
     public MapGeneration(long seed) {
@@ -41,48 +48,68 @@ public class MapGeneration {
     }
 
 
-    public TETile[][] generate(int X, int Y) {
-        // initialize the tile rendering engine with a window of size X x Y
-//        TERenderer ter = new TERenderer();
-//        ter.initialize(X, Y);
-        // initialize tiles
+    // Generate a new world by the given seed, and return a GameData object which store world and player data.
+    public GameData generate(int X, int Y) {
         TETile[][] world = new TETile[X][Y];
         for (int x = 0; x < X; x += 1) {
             for (int y = 0; y < Y; y += 1) {
                 world[x][y] = Tileset.NOTHING;
             }
         }
-        int a = r.nextInt( X - (maxRandomWidth + 1)) + ((maxRandomWidth - 1) / 2 + 1);
-        int b = r.nextInt( Y - (maxRandomLength + 1)) + ((maxRandomLength - 1) / 2 + 1);
-        Position initialP = new Position(a, b);
-        MapElement next = new Room(randomLength(),randomWidth(), initialP);
-        next.draw(world);
-        Stack<MapElement> stack = new Stack<>();
+        int initialX = r.nextInt(X - (maxRandomWidth + 1)) + ((maxRandomWidth - 1) / 2 + 1);
+        int initialY = r.nextInt(Y - 3  - (maxRandomLength + 1)) + ((maxRandomLength - 1) / 2 + 1);
+        Position initialPos = new Position(initialX, initialY);
+        MapBuilder next = new MapBuilder(randomLength(), randomWidth(), initialPos);
+        next.BuildToWorld(world);
+        Player player = new Player(world, initialPos);
+        Stack<MapBuilder> stack = new Stack<>();
         stack.push(next);
         while (!stack.isEmpty()) {
-            while (!next.isExplored()) {
-                s = r.nextInt(3);
-                int d = randomDirect(next.getExplored());
+            while (!next.visited()) {
+                s = r.nextInt(3); // the value of s indicate to build a room or hallway next
+                int d = randomDirect(next.getVisits()); // expand at current room/hallway's random direction
                 int l = randomLength();
                 int w = randomWidth();
-                if (next.isNotOutOfBoundaries(l, w, d, X, Y) && next.isNotOverlap(world, l, w, d)) {
-                    next = next.add(world, l, w, d);
+                if (next.expandAtD(world, l, w, d, X, Y - 3)) {
+                    next = next.expandD(world, l, w, d);
                     stack.push(next);
                 } else {
-                    next.getExplored()[d] = true;
+                    next.getVisits()[d] = true;
                 }
+            }
+            MapBuilder current = stack.peek();
+            if (!doorCre && current.isRoom()) {
+                makeDoor(world, current);
+                doorCre = true;
             }
             stack.pop();
             if (!stack.isEmpty()) {
                 next = stack.peek();
             }
         }
-//        ter.renderFrame(world);  // draws the world to the screen
-        return world;
+        return new GameData(world, player);
+    }
+
+    //Replace a wall to a door in a room
+    private void makeDoor(TETile[][] world, MapBuilder room) {
+        for (int i = 0; i < 4; i++) {
+            room.getVisits()[i] = false;
+        }
+        while (!room.visited()) {
+            int d = randomDirect(room.getVisits());
+            int x = room.getEdgePos(d).getX();
+            int y = room.getEdgePos(d).getY();
+            if (world[x][y].equals(Tileset.WALL)) {
+                world[x][y] = Tileset.LOCKED_DOOR;
+                break;
+            } else {
+                room.getVisits()[d] = true;
+            }
+        }
     }
 
 
-    //Generate a random odd length.
+    //Generate a random length (odd number only).
     private int randomLength() {
         if (s == 0) {
             return 1;
