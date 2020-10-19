@@ -13,7 +13,7 @@ public class Main {
             System.exit(0);
         } else if (args.length == 1) {
             Game game = new Game();
-            TETile[][] worldState = game.playWithInputString("n34343343s:q");
+            TETile[][] worldState = game.playWithInputString(args[0]);
             System.out.println(TETile.toString(worldState));
         } else {
             Game game = new Game();
