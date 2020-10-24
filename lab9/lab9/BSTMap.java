@@ -11,25 +11,15 @@ import java.util.Set;
  */
 public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V>, Iterable<K> {
 
-//    public static void main(String[] args) {
-//        BSTMap<Integer, String> map = new BSTMap<>();
-//        map.put(3,"a");
-//        map.put(9,"a");
-//        map.put(5,"a");
-//        map.put(4,"a");
-//        map.put(2,"a");
-//        map.put(7,"a");
-//        map.put(8,"a");
-//        map.put(14,"a");
-//        map.put(11,"a");
-//        map.put(12,"a");
-//        map.put(6,"a");
-//        map.remove(9);
-//        for(int n: map) {
-//            System.out.println(n);
-//        }
-//
-//    }
+    public static void main(String[] args) {
+        BSTMap<Integer, String> map = new BSTMap<>();
+        map.put(3,"a");
+        map.remove(3);
+        for(int n: map) {
+            System.out.println(n);
+        }
+
+    }
     public class Node {
         /* (K, V) pair stored in this Node. */
         private K key;
@@ -156,39 +146,46 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V>, Iterabl
             return null;
         }
         Node parent = Parent(key, root);
-        Node abandonedSon = (isLeftChild(parent, key)) ? parent.left : parent.right;
-        Node newSon = getSmallestNode(abandonedSon);
-        if(parent.equals(abandonedSon) && newSon != null) {
-            root = newSon;
-            newSon.left = abandonedSon.left;
-            newSon.right = abandonedSon.right;
+        Node remove = keyroot(key) ? root: ((leftChild(parent, key)) ? parent.left : parent.right);
+        Node replace = getSmallestNode(remove); // from all the children on the right of remove node, get the child with smallest key, if remove node has no child on the right, return null;
+        if(replace != null) {
+            if (keyroot(key)) {
+                root = replace;
+            }
+            if (leftChild(parent, key)) {
+                parent.left = replace;
+            }
+            if (rightChild(parent, key)) {
+                parent.right = replace;
+            }
+            replace.left = remove.left;
+            replace.right = remove.right;
         }
-        if(isLeftChild(parent, key) && newSon != null) {
-            parent.left = newSon;
-            newSon.left = abandonedSon.left;
-            newSon.right = abandonedSon.right;
-        }
-        if(isRightChild(parent, key) && newSon != null) {
-            parent.right = newSon;
-            newSon.left = abandonedSon.left;
-            newSon.right = abandonedSon.right;
-        }
-        if(isLeftChild(parent, key) && newSon == null) {
-            parent.left = abandonedSon.left;
-        }
-        if(isRightChild(parent, key) && newSon == null) {
-            parent.right = abandonedSon.left;
+        if(replace == null) {
+            if (keyroot(key)) {
+                root = root.left;
+            }
+            if (leftChild(parent, key)) {
+                parent.left = remove.left;
+            }
+            if (rightChild(parent, key)) {
+                parent.right = remove.left;
+            }
         }
         set.remove(key);
         size--;
-        return abandonedSon.value;
+        return remove.value;
 
         //throw new UnsupportedOperationException();
     }
 
+    // return true if key is at root, otherwise false.
+    private boolean keyroot(K key) {
+        return root.key.equals(key);
+    }
 
     // return true if is left child, otherwise false.
-    private boolean isLeftChild(Node parent, K key) {
+    private boolean leftChild(Node parent, K key) {
         if(parent.left == null) {
             return false;
         }
@@ -196,7 +193,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V>, Iterabl
     }
 
     // return true if is right child, otherwise false.
-    private boolean isRightChild(Node parent, K key) {
+    private boolean rightChild(Node parent, K key) {
         if(parent.right == null) {
             return false;
         }
