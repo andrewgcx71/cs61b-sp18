@@ -14,7 +14,8 @@ public class OomageTestUtility {
             buckets[hc]++;
         }
         // can't put if statement in previous for-loop
-        // because we want to check the number of Oomage objects in each bucket is within (N / 50, N / 2.5)
+        // because we want to check the number of Oomage objects
+        // in each bucket is within (N / 50, N / 2.5)
         for (int i = 0; i < M; i++) {
             if (buckets[i] <= min || buckets[i] >= max) {
                 return false;

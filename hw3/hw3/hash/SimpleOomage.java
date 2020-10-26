@@ -1,6 +1,5 @@
 package hw3.hash;
 import java.awt.Color;
-import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdDraw;
 
 
@@ -28,7 +27,6 @@ public class SimpleOomage implements Oomage {
         if (!USE_PERFECT_HASH) {
             return red + green + blue;
         } else {
-            // TODO: Write a perfect hash function for Simple Oomages.
             int r = red + red % 9;
             int b = blue + red % 9;
             int g = green + red % 9;
