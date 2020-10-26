@@ -15,19 +15,15 @@ public class SimpleOomage implements Oomage {
     @Override
     public boolean equals(Object o) {
         // TODO: Write this method.
-        if(o == null) {
+        if (o == null) {
             return false;
         }
-        if(this.getClass().equals(o.getClass())) {
+        if (this.getClass().equals(o.getClass())) {
             SimpleOomage that = (SimpleOomage) o;
             return this.red == that.red && this.blue == that.blue && this.green == this.green;
         }
         return false;
     }
-
-    /* Uncomment this method after you've written
-       equals and failed the testHashCodeAndEqualsConsistency
-       test.*/
     @Override
     public int hashCode() {
         if (!USE_PERFECT_HASH) {
