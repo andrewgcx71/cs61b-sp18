@@ -34,10 +34,10 @@ public class SimpleOomage implements Oomage {
             return red + green + blue;
         } else {
             // TODO: Write a perfect hash function for Simple Oomages.
-            int a = StdRandom.uniform(1, 5);
-            int b = StdRandom.uniform(1, 5);
-            int c = StdRandom.uniform(1, 5);
-            return (int) ((red + a) * Math.pow(256, 2) + (green +b) * Math.pow(256, 1) + (blue + c) * Math.pow(256, 0));
+            int r = red + red % 9;
+            int b = blue + red % 9;
+            int g = green + red % 9;
+            return (int) (r * Math.pow(256, 2) + g * Math.pow(256, 1) + b * Math.pow(256, 0));
         }
     }
 
