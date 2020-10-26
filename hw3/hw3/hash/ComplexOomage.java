@@ -71,6 +71,7 @@ public class ComplexOomage implements Oomage {
         }
     }
 
+
     public static ComplexOomage randomComplexOomage() {
         int N = StdRandom.uniform(1, 10);
         ArrayList<Integer> params = new ArrayList<>(N);
@@ -86,5 +87,6 @@ public class ComplexOomage implements Oomage {
         randomComplexOomage().draw(0.75, 0.75, 1.5);
         randomComplexOomage().draw(0.25, 0.75, 1.5);
         randomComplexOomage().draw(0.75, 0.25, 1.5);
+
     }
 } 
