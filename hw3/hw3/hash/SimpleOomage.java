@@ -37,7 +37,7 @@ public class SimpleOomage implements Oomage {
             int a = StdRandom.uniform(1, 5);
             int b = StdRandom.uniform(1, 5);
             int c = StdRandom.uniform(1, 5);
-            return (int) ((red + a) * Math.pow(31, 2) + (green +b) * Math.pow(31, 1) + (blue + c) * Math.pow(31, 0));
+            return (int) ((red + a) * Math.pow(256, 2) + (green +b) * Math.pow(256, 1) + (blue + c) * Math.pow(256, 0));
         }
     }
 
