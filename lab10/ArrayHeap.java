@@ -13,15 +13,8 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
 
     public static void main(String[] args) {
         ArrayHeap<String> pq = new ArrayHeap<>();
-        pq.insert("a", 'a');
-        pq.insert("d", 'd');
-        pq.insert("c", 'c');
-        pq.insert("e", 'e');
-        pq.insert("b", 'b');
-        pq.changePriority("a", 'z');
-        pq.insert("g", 'g');
         pq.removeMin();
-        pq.changePriority("g", 'a');
+ 
         for (int i = 1; i<= pq.size; i++) {
             System.out.println(pq.contents[i]);
         }
@@ -194,6 +187,9 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      */
     @Override
     public T removeMin() {
+        if (size == 0) {
+            return null;
+        }
        swap(1, size);
        T res = contents[size].myItem;
        contents[size] = null;
@@ -222,7 +218,7 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      */
     @Override
     public void changePriority(T item, double priority) {
-        if (contents[1].myItem.equals(item)) {
+        if (size >= 1 && contents[1].myItem.equals(item)) {
             if(priority > contents[1].myPriority) {
                 contents[1].myPriority = priority;
                 sink(1);
