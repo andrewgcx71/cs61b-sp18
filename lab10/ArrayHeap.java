@@ -27,24 +27,21 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      * Returns the index of the node to the left of the node at i.
      */
     private static int leftIndex(int i) {
-        /* TODO: Your code here! */
-        return 0;
+        return i * 2;
     }
 
     /**
      * Returns the index of the node to the right of the node at i.
      */
     private static int rightIndex(int i) {
-        /* TODO: Your code here! */
-        return 0;
+        return i * 2 + 1;
     }
 
     /**
      * Returns the index of the node that is the parent of the node at i.
      */
     private static int parentIndex(int i) {
-        /* TODO: Your code here! */
-        return 0;
+        return i / 2; // we can do this because it does floor division.
     }
 
     /**
@@ -106,9 +103,16 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
     private void swim(int index) {
         // Throws an exception if index is invalid. DON'T CHANGE THIS LINE.
         validateSinkSwimArg(index);
-
-        /** TODO: Your code here. */
-        return;
+        while (true) {
+            int parent = parentIndex(index);
+            //if index is equal to root or parent is less than or equal to index, break the while loop.
+            if (parent == 0 || contents[parent].myPriority <= contents[index].myPriority) {
+                break;
+            } else {
+                swap(parent, index);
+                index = parent;
+            }
+        }
     }
 
     /**
@@ -117,9 +121,22 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
     private void sink(int index) {
         // Throws an exception if index is invalid. DON'T CHANGE THIS LINE.
         validateSinkSwimArg(index);
-
-        /** TODO: Your code here. */
-        return;
+        while (true) {
+            int left = leftIndex(index);
+            int right = rightIndex(index);
+            int smallest = left; // assume smallest is at the left
+            // if right is not out of boundary and left is bigger than right, set right to smallest.
+            if (inBounds(right) && contents[smallest].myPriority > contents[right].myPriority) {
+                smallest = right;
+            }
+            // if left is out of boundary or index can not sink anymore, break the while loop.
+            if (!inBounds(left) || contents[index].myPriority < contents[smallest].myPriority) {
+                break;
+            } else {
+                swap(smallest, index);
+                index = smallest;
+            }
+        }
     }
 
     /**
@@ -132,8 +149,9 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         if (size + 1 == contents.length) {
             resize(contents.length * 2);
         }
-
-        /* TODO: Your code here! */
+        size++; // increment size by one
+        contents[size] = new Node(item, priority); // add new node to end of array
+        swim(size); // swim up to satisfy heap invariant.
     }
 
     /**
@@ -142,8 +160,11 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      */
     @Override
     public T peek() {
-        /* TODO: Your code here! */
-        return null;
+        if (size == 0) {
+            return null;
+        } else {
+            return contents[1].myItem;
+        }
     }
 
     /**
@@ -157,9 +178,14 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      */
     @Override
     public T removeMin() {
-        /* TODO: Your code here! */
-        return null;
+       swap(1, size);
+       T res = contents[size].myItem;
+       contents[size] = null;
+       size--; //decrement size by one
+       sink(1); // bubble down to satisfy heap invariant.
+       return res;
     }
+
 
     /**
      * Returns the number of items in the PQ. This is one less than the size
@@ -180,8 +206,18 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      */
     @Override
     public void changePriority(T item, double priority) {
-        /* TODO: Your code here! */
-        return;
+        for (int i = 1; i <= size; i++) {
+            if (contents[i].myItem.equals(item)) {
+                contents[i].myPriority = priority;
+                Node parent = contents[parentIndex(i)];
+                if (priority > parent.myPriority) {
+                    sink(i);
+                } else {
+                    swim(i);
+                }
+            }
+            break;
+        }
     }
 
     /**
