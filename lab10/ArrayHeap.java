@@ -11,6 +11,19 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
     private Node[] contents;
     private int size;
 
+    public static void main(String[] args) {
+        ArrayHeap<String> pq = new ArrayHeap<>();
+        pq.insert("a", 'a');
+        pq.insert("d", 'd');
+        pq.insert("c", 'c');
+        pq.insert("e", 'e');
+        pq.insert("b", 'b');
+        pq.changePriority("a", 'z');
+        for (int i = 1; i<= pq.size; i++) {
+            System.out.println(pq.contents[i]);
+        }
+    }
+
     public ArrayHeap() {
         contents = new ArrayHeap.Node[16];
 
@@ -105,7 +118,7 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         validateSinkSwimArg(index);
         while (true) {
             int parent = parentIndex(index);
-            //if index is equal to root or parent is less than or equal to index, break the while loop.
+            //if can not swim anymore, break the while loop.
             if (parent == 0 || contents[parent].myPriority <= contents[index].myPriority) {
                 break;
             } else {
@@ -206,7 +219,13 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      */
     @Override
     public void changePriority(T item, double priority) {
-        for (int i = 1; i <= size; i++) {
+        if (contents[1].myItem.equals(item)) {
+            if(priority > contents[1].myPriority) {
+                contents[1].myPriority = priority;
+                sink(1);
+            }
+        }
+        for (int i = 2; i <= size; i++) {
             if (contents[i].myItem.equals(item)) {
                 contents[i].myPriority = priority;
                 Node parent = contents[parentIndex(i)];
