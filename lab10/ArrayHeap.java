@@ -13,8 +13,8 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
 
     public static void main(String[] args) {
         ArrayHeap<String> pq = new ArrayHeap<>();
+        pq.insert("a", 3);
         pq.removeMin();
- 
         for (int i = 1; i<= pq.size; i++) {
             System.out.println(pq.contents[i]);
         }
@@ -194,7 +194,9 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
        T res = contents[size].myItem;
        contents[size] = null;
        size--; //decrement size by one
-       sink(1); // bubble down to satisfy heap invariant.
+        if (size >= 1) { // cannot sink if priority queue is empty. size has to be at least 1.
+            sink(1);
+        }// bubble down to satisfy heap invariant.
        return res;
     }
 
@@ -223,6 +225,7 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
                 contents[1].myPriority = priority;
                 sink(1);
             }
+            return;
         }
         for (int i = 2; i <= size; i++) {
             if (contents[i].myItem.equals(item)) {
@@ -236,6 +239,8 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
                 break;
             }
         }
+
+
     }
 
     /**
