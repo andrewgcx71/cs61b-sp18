@@ -19,6 +19,9 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         pq.insert("e", 'e');
         pq.insert("b", 'b');
         pq.changePriority("a", 'z');
+        pq.insert("g", 'g');
+        pq.removeMin();
+        pq.changePriority("g", 'a');
         for (int i = 1; i<= pq.size; i++) {
             System.out.println(pq.contents[i]);
         }
@@ -234,8 +237,8 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
                 } else {
                     swim(i);
                 }
+                break;
             }
-            break;
         }
     }
 
