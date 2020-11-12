@@ -3,12 +3,17 @@ package hw4.puzzle;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import edu.princeton.cs.algs4.Counter;
 import edu.princeton.cs.algs4.In;
 
 public class Board implements WorldState {
 
     private int[][] tiles;
 
+    private boolean hashCodeCalled = false;
+
+    private int hashcode;
 
     /**
      * Constructs a board from an N-by-N array of tiles where
@@ -103,23 +108,20 @@ public class Board implements WorldState {
      * Hamming estimate described below.
      */
     public int hamming() {
-        int n = 1;
+        int value = 1;
         int res = 0;
-        int size = tiles.length;
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size - 1; j++) {
-                if (tiles[i][j] != n) {
+        for (int i = 0; i < size(); i++) {
+            for (int j = 0; j < size(); j++) {
+                if (tiles[i][j] != 0 && tiles[i][j] != value) {
                     res++;
                 }
-                n++;
+                value++;
             }
         }
         return res;
     }
 
-    /**
-     * Manhattan estimate described below.
-     */
+    /** Manhattan estimate described below. */
     public int manhattan() {
         int res = 0;
         for (int i = 0; i < size(); i++) {
@@ -128,7 +130,7 @@ public class Board implements WorldState {
                 if (tiles[i][j] != 0 && actual != tiles[i][j]) {
                     int value = tiles[i][j];
                     //compute the actual position of value
-                    int row = (int) (value / (size() + 0.1)); // round down
+                    int row = (int) (value / (size() + 0.1));
                     int col = value - row * size() - 1;
                     res += Math.abs(row - i) + Math.abs(col - j);
                 }
@@ -151,16 +153,37 @@ public class Board implements WorldState {
      */
     @Override
     public boolean equals(Object y) {
-        int size = tiles.length;
-        Board Y = (Board) y;
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                if (this.tiles[i][j] != Y.tiles[i][j]) {
+        if (y == null) {
+            return false;
+        }
+        if (!this.getClass().equals(y.getClass())) {
+            return false;
+        }
+        if (size() != ((Board) y).tiles.length) {
+            return false;
+        }
+        for (int i = 0; i < size(); i++) {
+            for (int j = 0; j < size(); j++) {
+                if (this.tiles[i][j] != ((Board) y).tiles[i][j]) {
                     return false;
                 }
             }
         }
         return true;
+    }
+
+    /** */
+    @Override
+    public int hashCode() {
+        if (!hashCodeCalled) {
+            int counter = 0;
+            for (int i = 0; i < size() * size(); i++) {
+                for (int j = 0; j < size(); j++) {
+                    hashcode += tiles[i][j] * ((int) Math.pow(31, counter));
+                }
+            }
+        }
+        return hashcode;
     }
 
     /**
@@ -181,16 +204,16 @@ public class Board implements WorldState {
         s.append("\n");
         return s.toString();
     }
-    public static void main(String[] args) {
-        In in = new In(args[0]);
-        int N = in.readInt();
-        int[][] tiles = new int[N][N];
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                tiles[i][j] = in.readInt();
-            }
-        }
-        Board initial = new Board(tiles);
-        System.out.println(initial.manhattan());
-    }
+//    public static void main(String[] args) {
+//        In in = new In(args[0]);
+//        int N = in.readInt();
+//        int[][] tiles = new int[N][N];
+//        for (int i = 0; i < N; i++) {
+//            for (int j = 0; j < N; j++) {
+//                tiles[i][j] = in.readInt();
+//            }
+//        }
+//        Board initial = new Board(tiles);
+//        System.out.println(initial.manhattan());
+//    }
 }
