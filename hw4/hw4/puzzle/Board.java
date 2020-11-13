@@ -1,4 +1,5 @@
 package hw4.puzzle;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -124,9 +125,9 @@ public class Board implements WorldState {
                 int actual = i * size() + (j + 1);
                 if (tiles[i][j] != 0 && actual != tiles[i][j]) {
                     int value = tiles[i][j];
-                    //compute the position of value at goal tiles
-                    int row = (value - 1) / size();
-                    int col = (value - 1) % size();
+                    //compute the actual position of value
+                    int row = (int) (value / (size() + 0.1));
+                    int col = value - row * size() - 1;
                     res += Math.abs(row - i) + Math.abs(col - j);
                 }
             }
