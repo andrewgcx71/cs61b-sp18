@@ -1,6 +1,9 @@
 package hw4.puzzle;
 import edu.princeton.cs.algs4.MinPQ;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Comparator;
+import java.util.List;
+import java.util.ArrayList;
 public class Solver {
 
     /** minimum number of moves to solve the puzzle starting at initial worldState. */
@@ -16,10 +19,11 @@ public class Solver {
     private HashMap<WorldState, int[]> hm = new HashMap<>();
 
     /** store child and parent pair, where the key is child, and value is parent */
-    private HashMap<WorldState, WorldState> map= new HashMap<>();
+    private HashMap<WorldState, WorldState> map = new HashMap<>();
 
 
-    /**Return 1 if the the first WorldState is bigger than second, return -1 if less than, otherwise return 0. */
+    /**Return 1 if the the first WorldState is bigger than second,
+     *  return -1 if less than, otherwise return 0. */
     private class CompareWorldState implements Comparator<WorldState> {
         @Override
         public int compare(WorldState w1, WorldState w2) {

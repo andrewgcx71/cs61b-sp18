@@ -1,11 +1,6 @@
 package hw4.puzzle;
-
-
 import java.util.ArrayList;
 import java.util.List;
-
-import edu.princeton.cs.algs4.Counter;
-import edu.princeton.cs.algs4.In;
 
 public class Board implements WorldState {
 
@@ -130,8 +125,8 @@ public class Board implements WorldState {
                 if (tiles[i][j] != 0 && actual != tiles[i][j]) {
                     int value = tiles[i][j];
                     //compute the actual position of value
-                    int row = (int) (value / (size() + 0.1));
-                    int col = value - row * size() - 1;
+                    int row = (actual - 1) / size();
+                    int col = (actual - 1) % size();
                     res += Math.abs(row - i) + Math.abs(col - j);
                 }
             }
