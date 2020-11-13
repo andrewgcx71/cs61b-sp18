@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Comparator;
 import java.util.List;
 import java.util.ArrayList;
+
 public class Solver {
 
     /** minimum number of moves to solve the puzzle starting at initial worldState. */
@@ -44,7 +45,7 @@ public class Solver {
     public Solver(WorldState initial) {
         Solver.CompareWorldState cmp = new Solver.CompareWorldState();
         MinPQ<WorldState> pq = new MinPQ<>(cmp);
-        int[] a = {0, initial.estimatedDistanceToGoal()};
+        int[] a = {0,initial.estimatedDistanceToGoal()};
         hm.put(initial,a);
         pq.insert(initial);
         while (!pq.isEmpty()) {
@@ -53,7 +54,8 @@ public class Solver {
                 m = hm.get(current)[0];
                 lst.add(0, current); // always add to the beginning of the list.
                 for (int i = m - 1; i >= 0; i--) {
-                    lst.add(0, map.get(current));// always add to the beginning of the list.
+                    // always add to the beginning of the list.
+                    lst.add(0, map.get(current));
                     current = map.get(current);
                 }
                 break;
@@ -71,7 +73,8 @@ public class Solver {
         }
     }
 
-    /** Returns the minimum number of moves to solve the puzzle starting at the initial worldState. (How many steps get to goal?)*/
+    /** Returns the minimum number of moves to solve the puzzle starting at the initial worldState.
+     * (How many steps get to goal?)*/
     public int moves() {
         return m;
     }
@@ -81,4 +84,3 @@ public class Solver {
         return lst;
     }
 }
-

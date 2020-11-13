@@ -124,9 +124,9 @@ public class Board implements WorldState {
                 int actual = i * size() + (j + 1);
                 if (tiles[i][j] != 0 && actual != tiles[i][j]) {
                     int value = tiles[i][j];
-                    //compute the actual position of value
-                    int row = (actual - 1) / size();
-                    int col = (actual - 1) % size();
+                    //compute the position of value at goal tiles
+                    int row = (value - 1) / size();
+                    int col = (value - 1) % size();
                     res += Math.abs(row - i) + Math.abs(col - j);
                 }
             }
