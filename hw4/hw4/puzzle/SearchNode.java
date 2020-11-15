@@ -1,6 +1,6 @@
 package hw4.puzzle;
 
-public class SearchNode implements Comparable<SearchNode>{
+public class SearchNode implements Comparable<SearchNode> {
 
     private WorldState c;
     private SearchNode previousNode;
@@ -27,12 +27,22 @@ public class SearchNode implements Comparable<SearchNode>{
         this.priority = move + c.estimatedDistanceToGoal();
     }
 
-    /** return a number bigger than 0 if current object is bigger than the object in the passing argument,
-     * return a number less than 0 if current object is less than the object in the passing argument,
-     * return zero if both objects are equal.
+    /** return 1 if current object
+     * is bigger than the object in the passing argument.
+     * ------------------------------------------------
+     * return -1 if current object
+     * is less than the object in the passing argument.
+     * -----------------------------------------------
+     * return 0 if both objects are equal.
      */
     @Override
     public int compareTo(SearchNode n) {
-        return this.priority - n.priority;
+        if (this.priority > n.priority) {
+            return 1;
+        } else if (this.priority < n.priority) {
+            return -1;
+        } else {
+            return 0;
+        }
     }
 }

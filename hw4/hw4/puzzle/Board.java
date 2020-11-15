@@ -1,8 +1,5 @@
 package hw4.puzzle;
 
-import edu.princeton.cs.algs4.In;
-import edu.princeton.cs.algs4.StdOut;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -94,7 +91,7 @@ public class Board implements WorldState {
         return res;
     }
 
-    //helper method for neighbors(), return a copy of the passing argument.*/
+    //helper method for neighbors(), return a copy of tiles.*/
     private int[][] clone(int[][] t) {
         int size = t.length;
         int[][] T = new int[size][size];
@@ -128,8 +125,9 @@ public class Board implements WorldState {
         int res = 0;
         for (int i = 0; i < size(); i++) {
             for (int j = 0; j < size(); j++) {
-                int actual = i * size() + (j + 1);
-                if (tiles[i][j] != 0 && actual != tiles[i][j]) {
+                //goal: goal value in this tile[i][j]
+                int goal = i * size() + (j + 1);
+                if (tiles[i][j] != 0 && goal != tiles[i][j]) {
                     int value = tiles[i][j];
                     //compute the actual position of value
                     int row = (value - 1) / size();
@@ -174,7 +172,7 @@ public class Board implements WorldState {
         return true;
     }
 
-    /** */
+    /** Override it for the sake of Auto Grader */
     @Override
     public int hashCode() {
         if (!hashCodeCalled) {

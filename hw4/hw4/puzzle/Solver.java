@@ -32,7 +32,8 @@ public class Solver {
             if (node.ws().isGoal()) {
                 m = node.getMove();
                 while (node != null) {
-                    //we add each ws to the beginning of the list because it's currently in a reversed order.
+                    //we add each ws to the beginning of the list
+                    // because it's currently in a reversed order.
                     lst.add(0, node.ws());
                     node = node.previousNode();
                 }
