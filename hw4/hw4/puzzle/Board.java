@@ -1,7 +1,11 @@
 package hw4.puzzle;
 
+import edu.princeton.cs.algs4.In;
+import edu.princeton.cs.algs4.StdOut;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Board implements WorldState {
 
@@ -10,6 +14,8 @@ public class Board implements WorldState {
     private boolean hashCodeCalled = false;
 
     private int hashcode;
+
+    private Random r = new Random(4354);
 
     /**
      * Constructs a board from an N-by-N array of tiles where
@@ -126,8 +132,8 @@ public class Board implements WorldState {
                 if (tiles[i][j] != 0 && actual != tiles[i][j]) {
                     int value = tiles[i][j];
                     //compute the actual position of value
-                    int row = (int) (value / (size() + 0.1));
-                    int col = value - row * size() - 1;
+                    int row = (value - 1) / size();
+                    int col = (value - 1) % size();
                     res += Math.abs(row - i) + Math.abs(col - j);
                 }
             }
@@ -172,12 +178,12 @@ public class Board implements WorldState {
     @Override
     public int hashCode() {
         if (!hashCodeCalled) {
-            int counter = 0;
-            for (int i = 0; i < size() * size(); i++) {
+            for (int i = 0; i < size(); i++) {
                 for (int j = 0; j < size(); j++) {
-                    hashcode += tiles[i][j] * ((int) Math.pow(31, counter));
+                    hashcode += tiles[i][j] * r.nextInt(size() * size());
                 }
             }
+            hashCodeCalled = true;
         }
         return hashcode;
     }
@@ -200,16 +206,23 @@ public class Board implements WorldState {
         s.append("\n");
         return s.toString();
     }
-//    public static void main(String[] args) {
-//        In in = new In(args[0]);
-//        int N = in.readInt();
-//        int[][] tiles = new int[N][N];
-//        for (int i = 0; i < N; i++) {
-//            for (int j = 0; j < N; j++) {
-//                tiles[i][j] = in.readInt();
-//            }
-//        }
-//        Board initial = new Board(tiles);
-//        System.out.println(initial.manhattan());
-//    }
+    public static void main(String[] args) {
+        In in = new In(args[0]);
+        int N = in.readInt();
+        int[][] tiles = new int[N][N];
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                tiles[i][j] = in.readInt();
+            }
+        }
+
+        Board test = new Board(tiles);
+
+        Solver solver = new Solver(test);
+        StdOut.println(test.estimatedDistanceToGoal());
+        StdOut.println("Minimum number of moves = " + solver.moves());
+        for (WorldState ws : solver.solution()) {
+            StdOut.println(ws);
+        }
+    }
 }
