@@ -22,7 +22,6 @@ public abstract class MazeExplorer extends Observable {
 
     public MazeExplorer(Maze m) {
         maze = m;
-
         distTo = new int[maze.V()];
         edgeTo = new int[maze.V()];
         marked = new boolean[maze.V()];
