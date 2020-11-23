@@ -26,6 +26,7 @@ public class MazeCycles extends MazeExplorer {
     public void bfs(int source) {
         Queue<Integer> queue = new LinkedList<>();
         distTo[source] = 0;
+        edgeTo[source] = source;
         marked[source] = true;
         announce();
         queue.add(source);

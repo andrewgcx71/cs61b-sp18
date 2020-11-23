@@ -40,6 +40,7 @@ public class MazeBreadthFirstPaths extends MazeExplorer {
         distTo[source] = 0;
         queue.add(source);
         marked[source] = true;
+        edgeTo[source] = source;
         announce();
         while (!queue.isEmpty()) {
             int node = queue.remove();
