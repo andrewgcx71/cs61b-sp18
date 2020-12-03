@@ -76,7 +76,7 @@ public class MergeSort {
     public static <Item extends Comparable> Queue<Item> mergeSort(
             Queue<Item> items) {
         // Your code here!
-        if (items.size() == 1) {
+        if (items.size() == 1 || items.size() == 0) {
             return items;
         } else {
             int median = items.size() / 2;
