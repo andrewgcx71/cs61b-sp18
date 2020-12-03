@@ -1,17 +1,21 @@
 import edu.princeton.cs.algs4.Queue;
+import org.junit.Test;
 
-public class QuickSort {
+public class QuickSort <Item> {
     /**
      * Returns a new queue that contains the given queues catenated together.
      *
      * The items in q2 will be catenated after all of the items in q1.
      */
-    private static <Item extends Comparable> Queue<Item> catenate(Queue<Item> q1, Queue<Item> q2) {
+    private static <Item extends Comparable> Queue<Item> catenate(Queue<Item> q1, Queue<Item> q2, Queue<Item> q3) {
         Queue<Item> catenated = new Queue<Item>();
         for (Item item : q1) {
             catenated.enqueue(item);
         }
         for (Item item: q2) {
+            catenated.enqueue(item);
+        }
+        for (Item item: q3) {
             catenated.enqueue(item);
         }
         return catenated;
@@ -48,12 +52,57 @@ public class QuickSort {
             Queue<Item> unsorted, Item pivot,
             Queue<Item> less, Queue<Item> equal, Queue<Item> greater) {
         // Your code here!
+        for (Item item: unsorted) {
+            if (item.compareTo(pivot) > 0) {
+                greater.enqueue(item);
+            } else if (item.compareTo(pivot) < 0) {
+                less.enqueue(item);
+            } else {
+                equal.enqueue(item);
+            }
+        }
     }
 
     /** Returns a Queue that contains the given items sorted from least to greatest. */
     public static <Item extends Comparable> Queue<Item> quickSort(
             Queue<Item> items) {
         // Your code here!
-        return items;
+        if (items.size() == 1 || items.size() == 0) {
+            return items;
+        } else {
+            Queue<Item> less = new Queue<>();
+            Queue<Item> equal = new Queue<>();
+            Queue<Item> greater = new Queue<>();
+            Item pivot = getRandomItem(items);
+            partition(items, pivot, less, equal, greater);
+            less = quickSort(less);
+            greater = quickSort(greater);
+            return catenate(less, equal, greater);
+        }
+    }
+
+    @Test
+    public void testMergeSort() {
+        Queue<Integer> original = new Queue<>();
+        original.enqueue(3);
+        original.enqueue(98);
+        original.enqueue(50);
+        original.enqueue(39);
+        original.enqueue(85);
+        System.out.println("Original: ");
+        for (int temp: original) {
+            System.out.println(temp + ", ");
+        }
+        Queue result = QuickSort.quickSort(original);
+        System.out.println("----------------------------");
+        System.out.println("Original: ");
+        for (int temp: original) {
+            System.out.println( temp + ", ");
+        }
+        System.out.println("----------------------------");
+        System.out.println("Result: ");
+        for (Object temp: result) {
+            System.out.println((Integer) temp + ", ");
+        }
     }
 }

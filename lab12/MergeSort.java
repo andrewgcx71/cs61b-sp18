@@ -1,4 +1,5 @@
 import edu.princeton.cs.algs4.Queue;
+import org.junit.Test;
 
 public class MergeSort {
     /**
@@ -54,13 +55,71 @@ public class MergeSort {
     private static <Item extends Comparable> Queue<Item> mergeSortedQueues(
             Queue<Item> q1, Queue<Item> q2) {
         // Your code here!
-        return null;
+        Queue<Item> res = new Queue<>();
+        while (!q1.isEmpty() || !q2.isEmpty()) {
+            if (!q1.isEmpty() && !q2.isEmpty()) {
+                if (q1.peek().compareTo(q2.peek()) < 0) {
+                    res.enqueue(q1.dequeue());
+                } else {
+                    res.enqueue(q2.dequeue());
+                }
+            } else if (!q1.isEmpty()) {
+                res.enqueue(q1.dequeue());
+            } else {
+                res.enqueue(q2.dequeue());
+            }
+        }
+        return res;
     }
 
     /** Returns a Queue that contains the given items sorted from least to greatest. */
     public static <Item extends Comparable> Queue<Item> mergeSort(
             Queue<Item> items) {
         // Your code here!
-        return items;
+        if (items.size() == 1) {
+            return items;
+        } else {
+            int median = items.size() / 2;
+            Queue<Item> q1 = new Queue<>();
+            Queue<Item> q2 = new Queue<>();
+            int counter = 0;
+            for (Item item: items) {
+                if (counter <= median - 1) {
+                    q1.enqueue(item);
+                    counter++;
+                } else {
+                    q2.enqueue(item);
+                }
+            }
+            q1 = mergeSort(q1);
+            q2 = mergeSort(q2);
+            return mergeSortedQueues(q1, q2);
+        }
+    }
+
+    //Test
+    @Test
+    public void testMergeSort() {
+        Queue<Integer> original = new Queue<>();
+        original.enqueue(3);
+        original.enqueue(98);
+        original.enqueue(50);
+        original.enqueue(39);
+        original.enqueue(85);
+        System.out.println("Original: ");
+        for (int temp: original) {
+            System.out.println(temp + ", ");
+        }
+        Queue result = MergeSort.mergeSort(original);
+        System.out.println("----------------------------");
+        System.out.println("Original: ");
+        for (int temp: original) {
+            System.out.println( temp + ", ");
+        }
+        System.out.println("----------------------------");
+        System.out.println("Result: ");
+        for (Object temp: result) {
+            System.out.println((Integer) temp + ", ");
+        }
     }
 }
