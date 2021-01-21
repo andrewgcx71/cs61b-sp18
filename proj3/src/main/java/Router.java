@@ -1,5 +1,6 @@
-import java.util.List;
-import java.util.Objects;
+
+
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,6 +13,7 @@ import java.util.regex.Pattern;
  * down to the priority you use to order your vertices.
  */
 public class Router {
+
     /**
      * Return a List of longs representing the shortest path from the node
      * closest to a start location and the node closest to the destination
@@ -22,23 +24,127 @@ public class Router {
      * @param destlon The longitude of the destination location.
      * @param destlat The latitude of the destination location.
      * @return A list of node id's in the order visited on the shortest path.
+     * Original approach: similar to below except add duplicate node with difference priority instead of
+     * removing the node after change priority and then re-insert the node with updated priority.
+     * https://github.com/btke/CS61B-Spring-2018/blob/master/Projects/BearMaps/src/main/java/Router.java
      */
     public static List<Long> shortestPath(GraphDB g, double stlon, double stlat,
                                           double destlon, double destlat) {
-        return null; // FIXME
+        //DTS: distance to source
+        Map<Long, Double> mapDTS = new HashMap<>();
+        Set<Long> visited = new HashSet<>();
+        Map<Long, Long> preNode = new HashMap<>();
+        ExtrinsicPQ<Long> pq = new ArrayHeap<>();
+        //this approch make the code clean, maybe there is faster way to do it.
+        for(long node: g.vertices()) {
+            mapDTS.put(node, Double.MAX_VALUE);
+            pq.insert(node, Double.MAX_VALUE);
+        }
+        Long start = getSource(g, stlon, stlat);
+        Long end = getTarget(g, destlon, destlat);
+        mapDTS.put(start, 0.0);
+        pq.changePriority(start, 0.0);
+        preNode.put(start, start);
+        while(pq.size() != 0) {
+            Long current = pq.removeMin();
+            //add to visited as soon as it removed
+            visited.add(current);
+            //break if target has found
+            if(current.equals(end)) {
+                break;
+            } else { // relax edge otherwise.
+                for(Long adjNode: g.adjacent(current)) {
+                    if(!visited.contains(adjNode)) {
+                        double curDis = mapDTS.get(current) + g.distance(current, adjNode);
+                        double bestDis = mapDTS.get(adjNode);
+                        if(curDis < bestDis) {
+                            preNode.put(adjNode, current);
+                            mapDTS.put(adjNode, curDis);
+                            pq.changePriority(adjNode, curDis + g.distance(adjNode, end));
+                        }
+                    }
+                }
+            }
+        }
+        return path(start, end, preNode);
     }
+
+    //get source node
+    private static Long getSource(GraphDB g, double lon, double lat) {
+        return g.closest(lon, lat);
+    }
+
+    //get target node
+    private static Long getTarget(GraphDB g, double lon, double lat) {
+        return g.closest(lon, lat);
+    }
+
+
+    //given source and target, return a shortest path from source to target.
+    private static List<Long> path(Long start, Long end, Map<Long, Long> preNode) {
+        if(end.equals(start)) {
+            return new ArrayList<Long>(Arrays.asList(start));
+        } else {
+            List<Long> lst = path(start, preNode.get(end), preNode);
+            lst.add(end);
+            return lst;
+        }
+    }
+
+
 
     /**
      * Create the list of directions corresponding to a route on the graph.
      * @param g The graph to use.
-     * @param route The route to translate into directions. Each element
+     * @param nodes The route to translate into directions. Each element
      *              corresponds to a node from the graph in the route.
      * @return A list of NavigatiionDirection objects corresponding to the input
      * route.
      */
-    public static List<NavigationDirection> routeDirections(GraphDB g, List<Long> route) {
-        return null; // FIXME
+    public static List<NavigationDirection> routeDirections(GraphDB g, List<Long> nodes) {
+        List<NavigationDirection> results = new ArrayList<>();
+        if(nodes.size() <= 1) {
+            return results;
+        }
+        String previousWay = g.getStreetName(nodes.get(0), nodes.get(1));
+        double distance = g.distance(nodes.get(0), nodes.get(1));
+        int direction = 0;
+        if(nodes.size() == 2) {
+            NavigationDirection currentND = new NavigationDirection();
+            currentND.distance = distance;
+            currentND.direction =direction;
+            currentND.way = previousWay;
+            results.add(currentND);
+        }
+        for(int i = 2; i < nodes.size(); i++) {
+            String currentWay = g.getStreetName(nodes.get(i - 1), nodes.get(i));
+            //if we encounter a turn
+            if(!currentWay.equals(previousWay)) {
+                NavigationDirection currentND = new NavigationDirection();
+                currentND.distance = distance;
+                currentND.way = previousWay;
+                currentND.direction = direction;
+                results.add(currentND);
+                double preBearing = g.bearing(nodes.get(i - 2), nodes.get(i - 1));
+                double curBearing = g.bearing(nodes.get(i - 1), nodes.get(i));
+                System.out.println(preBearing);
+                direction = currentND.getDirection(preBearing, curBearing);
+                distance = 0;
+            }
+            previousWay = currentWay;
+            distance += g.distance(nodes.get(i - 1), nodes.get(i));
+            if(i == nodes.size() - 1) {
+                NavigationDirection currentND = new NavigationDirection();
+                currentND.direction = direction;
+                currentND.distance = distance;
+                currentND.way = previousWay;
+                results.add(currentND);
+            }
+        }
+        return results;
     }
+
+
 
 
     /**
@@ -65,7 +171,7 @@ public class Router {
 
         /** Default name for an unknown way. */
         public static final String UNKNOWN_ROAD = "unknown road";
-        
+
         /** Static initializer. */
         static {
             DIRECTIONS[START] = "Start";
@@ -92,6 +198,49 @@ public class Router {
             this.direction = STRAIGHT;
             this.way = UNKNOWN_ROAD;
             this.distance = 0.0;
+        }
+
+        /** Checks that a value is between the given ranges.*/
+        private static boolean numInRange(double value, double from, double to) {
+            return value >= from && value <= to;
+        }
+
+        /**
+         * Calculates what direction we are going based on the two bearings, which
+         * are the angles from true north. We compare the angles to see whether
+         * we are making a left turn or right turn. Then we can just use the absolute value of the
+         * difference to give us the degree of turn (straight, sharp, left, or right).
+         * @param prevBearing A double in [0, 360.0]
+         * @param currBearing A double in [0, 360.0]
+         * @return the Navigation Direction type
+         */
+        private static int getDirection(double prevBearing, double currBearing) {
+            double absDiff = Math.abs(currBearing - prevBearing);
+            if (numInRange(absDiff, 0.0, 15.0)) {
+                return NavigationDirection.STRAIGHT;
+
+            }
+            if ((currBearing > prevBearing && absDiff < 180.0)
+                    || (currBearing < prevBearing && absDiff > 180.0)) {
+                // we're going right
+                if (numInRange(absDiff, 15.0, 30.0) || absDiff > 330.0) {
+                    // bearmaps.proj2d.example of high abs diff is prev = 355 and curr = 2
+                    return NavigationDirection.SLIGHT_RIGHT;
+                } else if (numInRange(absDiff, 30.0, 100.0) || absDiff > 260.0) {
+                    return NavigationDirection.RIGHT;
+                } else {
+                    return NavigationDirection.SHARP_RIGHT;
+                }
+            } else {
+                // we're going left
+                if (numInRange(absDiff, 15.0, 30.0) || absDiff > 330.0) {
+                    return NavigationDirection.SLIGHT_LEFT;
+                } else if (numInRange(absDiff, 30.0, 100.0) || absDiff > 260.0) {
+                    return NavigationDirection.LEFT;
+                } else {
+                    return NavigationDirection.SHARP_LEFT;
+                }
+            }
         }
 
         public String toString() {

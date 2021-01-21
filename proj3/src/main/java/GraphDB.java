@@ -6,7 +6,7 @@ import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * Graph for storing all of the intersection (vertex) and road (edge) information.
@@ -17,13 +17,52 @@ import java.util.ArrayList;
  *
  * @author Alan Yao, Josh Hug
  */
+//From spec, You should ignore all one-way tags and pretend all roads are two-way.
 public class GraphDB {
-    /** Your instance variables for storing the graph. You should consider
-     * creating helper classes, e.g. Node, Edge, etc. */
+    /**
+     * Your instance variables for storing the graph. You should consider
+     * creating helper classes, e.g. Node, Edge, etc.
+     */
+
+    //
+    private static List<Map<String, Object>> locations = new ArrayList<>();
+
+    public static List<Map<String, Object>> getLocations() {
+        return locations;
+    }
+
+    //Trie data structure that store the location name
+    private static Trie trie = new Trie();
+
+
+    public Trie getTrie() {
+        return trie;
+    }
+
+    //vertices
+    private Set<Long> vertices = new HashSet<>();
+
+    //neighbors
+    private Map<Long, Set<Long>> edgesMap = new HashMap<>();
+
+    //coordinate
+    private Map<Long, Coordinate> coordinateMap = new HashMap<>();
+
+    //get street name for a particular edge
+    private Map<List<Long>, String> streetNameMap = new HashMap<>();
+
+    public Map<Long, Coordinate> getCoordinateMap() {
+        return coordinateMap;
+    }
+
+    public Map<List<Long>, String> getStreetNameMap() {
+        return streetNameMap;
+    }
 
     /**
      * Example constructor shows how to create and start an XML parser.
      * You do not need to modify this constructor, but you're welcome to do so.
+     *
      * @param dbPath Path to the XML file to be parsed.
      */
     public GraphDB(String dbPath) {
@@ -42,46 +81,94 @@ public class GraphDB {
         clean();
     }
 
+
+    //take a two nodes, and return the street name for these two nodes.
+    public String getStreetName(Long node1, Long node2) {
+        return streetNameMap.get(new ArrayList<Long>(Arrays.asList(node1, node2)));
+    }
+
+    /**
+     * Add node.
+     */
+    public void addNode(long id, double lat, double lon) {
+        vertices.add(id);
+        coordinateMap.put(id, new Coordinate(lat, lon));
+    }
+
+
+    /**
+     * Add edge.
+     */
+    public void addEdge(long id1, long id2) {
+        if (!edgesMap.containsKey(id1)) {
+            edgesMap.put(id1, new HashSet<>());
+        }
+        if (!edgesMap.containsKey(id2)) {
+            edgesMap.put(id2, new HashSet<>());
+        }
+        edgesMap.get(id1).add(id2);
+        edgesMap.get(id2).add(id1);
+    }
+
+    /**
+     * remove node.
+     */
+    public void removeNode(long id) {
+        vertices.remove(id);
+    }
+
+
     /**
      * Helper to process strings into their "cleaned" form, ignoring punctuation and capitalization.
+     *
      * @param s Input string.
      * @return Cleaned string.
      */
     static String cleanString(String s) {
+
         return s.replaceAll("[^a-zA-Z ]", "").toLowerCase();
     }
 
     /**
-     *  Remove nodes with no connections from the graph.
-     *  While this does not guarantee that any two nodes in the remaining graph are connected,
-     *  we can reasonably assume this since typically roads are connected.
+     * Remove nodes with no connections from the graph.
+     * While this does not guarantee that any two nodes in the remaining graph are connected,
+     * we can reasonably assume this since typically roads are connected.
      */
     private void clean() {
         // TODO: Your code here.
+        Set<Long> tempList = new HashSet<>(vertices);
+        for (Long node : tempList) {
+            if (!edgesMap.containsKey(node)) {
+                removeNode(node);
+            }
+        }
     }
 
     /**
      * Returns an iterable of all vertex IDs in the graph.
+     *
      * @return An iterable of id's of all vertices in the graph.
      */
     Iterable<Long> vertices() {
         //YOUR CODE HERE, this currently returns only an empty list.
-        return new ArrayList<Long>();
+        return vertices;
     }
 
     /**
      * Returns ids of all vertices adjacent to v.
+     *
      * @param v The id of the vertex we are looking adjacent to.
      * @return An iterable of the ids of the neighbors of v.
      */
     Iterable<Long> adjacent(long v) {
-        return null;
+        return edgesMap.get(v);
     }
 
     /**
-     * Returns the great-circle distance between vertices v and w in miles.
+     * Returns the shortest distance from point A to point B
      * Assumes the lon/lat methods are implemented properly.
      * <a href="https://www.movable-type.co.uk/scripts/latlong.html">Source</a>.
+     *
      * @param v The id of the first vertex.
      * @param w The id of the second vertex.
      * @return The great-circle distance between the two locations from the graph.
@@ -90,6 +177,7 @@ public class GraphDB {
         return distance(lon(v), lat(v), lon(w), lat(w));
     }
 
+    //assuming it's in miles right now.
     static double distance(double lonV, double latV, double lonW, double latW) {
         double phi1 = Math.toRadians(latV);
         double phi2 = Math.toRadians(latW);
@@ -109,6 +197,7 @@ public class GraphDB {
      * end point.
      * Assumes the lon/lat methods are implemented properly.
      * <a href="https://www.movable-type.co.uk/scripts/latlong.html">Source</a>.
+     *
      * @param v The id of the first vertex.
      * @param w The id of the second vertex.
      * @return The initial bearing between the vertices.
@@ -131,29 +220,46 @@ public class GraphDB {
 
     /**
      * Returns the vertex closest to the given longitude and latitude.
+     *
      * @param lon The target longitude.
      * @param lat The target latitude.
      * @return The id of the node in the graph closest to the target.
      */
     long closest(double lon, double lat) {
-        return 0;
+        //assuming the Set<Long> vertices is not empty, so we guarantee that there
+        // will be a distance will be less then Double.MAX_VALUE, the value of id
+        // is not important because the if statement will satisfy at least once in the for enhanced loop.
+        Double closest = Double.MAX_VALUE;
+        Long id = Long.MAX_VALUE;
+        for (long node : vertices) {
+            Coordinate c = coordinateMap.get(node);
+            double distance = distance(lon, lat, c.getLon(), c.getLat());
+            if (closest > distance) {
+                closest = distance;
+                id = node;
+            }
+        }
+        return id;
     }
 
     /**
      * Gets the longitude of a vertex.
+     *
      * @param v The id of the vertex.
      * @return The longitude of the vertex.
      */
     double lon(long v) {
-        return 0;
+        return coordinateMap.get(v).getLon();
     }
 
     /**
      * Gets the latitude of a vertex.
+     *
      * @param v The id of the vertex.
      * @return The latitude of the vertex.
      */
     double lat(long v) {
-        return 0;
+        return coordinateMap.get(v).getLat();
     }
+
 }

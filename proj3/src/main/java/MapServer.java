@@ -13,6 +13,7 @@ import java.util.Set;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 /* Maven is used to pull in these dependencies. */
@@ -285,7 +286,8 @@ public class MapServer {
      * cleaned <code>prefix</code>.
      */
     public static List<String> getLocationsByPrefix(String prefix) {
-        return new LinkedList<>();
+
+        return graph.getTrie().search(prefix);
     }
 
     /**
@@ -301,7 +303,13 @@ public class MapServer {
      * "id" : Number, The id of the node. <br>
      */
     public static List<Map<String, Object>> getLocations(String locationName) {
-        return new LinkedList<>();
+        List<Map<String, Object>> results = new ArrayList<>();
+        for(Map<String, Object> location: graph.getLocations()) {
+            if(((String) location.get("name")).equals(locationName)) {
+                results.add(location);
+            }
+        }
+        return results;
     }
 
     /**

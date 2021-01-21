@@ -1,6 +1,5 @@
-import java.util.List;
-import java.util.ArrayList;
-
+import java.util.*;
+// use it to play around with your GraphBuildingHandler
 /**
  * This class provides a main method for experimenting with GraphDB construction.
  * You could also use MapServer, but this class lets you play around with
