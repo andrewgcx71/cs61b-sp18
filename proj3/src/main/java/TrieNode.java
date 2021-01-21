@@ -4,7 +4,7 @@ import java.util.HashMap;
 public class TrieNode {
     public String word;
 
-    // the current letter points to next letter/letters.
+    // the current letter's children
     public Map<Character, TrieNode> children = new HashMap<>();
 
     public boolean isLeave() {
