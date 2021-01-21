@@ -38,12 +38,12 @@ public class Router {
         //this approch make the code clean, maybe there is faster way to do it.
         for(long node: g.vertices()) {
             mapDTS.put(node, Double.MAX_VALUE);
-            pq.insert(node, Double.MAX_VALUE);
+            //pq.insert(node, Double.MAX_VALUE);
         }
         Long start = getSource(g, stlon, stlat);
         Long end = getTarget(g, destlon, destlat);
         mapDTS.put(start, 0.0);
-        pq.changePriority(start, 0.0);
+        pq.insert(start, 0.0);
         preNode.put(start, start);
         while(pq.size() != 0) {
             Long current = pq.removeMin();
@@ -60,7 +60,12 @@ public class Router {
                         if(curDis < bestDis) {
                             preNode.put(adjNode, current);
                             mapDTS.put(adjNode, curDis);
-                            pq.changePriority(adjNode, curDis + g.distance(adjNode, end));
+                            if(pq.contain(adjNode)) {
+                                pq.changePriority(adjNode, curDis + g.distance(adjNode, end));
+                            }
+                        }
+                        if(!pq.contain(adjNode)) {
+                            pq.insert(adjNode, mapDTS.get(adjNode) + g.distance(adjNode, end));
                         }
                     }
                 }
