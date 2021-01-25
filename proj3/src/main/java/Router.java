@@ -13,26 +13,26 @@ import java.util.regex.Pattern;
  * down to the priority you use to order your vertices.
  */
 public class Router {
+//
+//    private static Map<Long, Double> distanceToSource;
+//    private static Set<Long> visitedNodes;
+//    private static Map<Long, Double> heuristicDistanceToTarget;
+//    private static Map<Long, Long> childToParent;
 
-    private static Map<Long, Double> distanceToSource;
-    private static Set<Long> visitedNodes;
-    private static Map<Long, Double> heuristicDistanceToTarget;
-    private static Map<Long, Long> childToParent;
-
-    private static class NodeComparator implements Comparator<Long> {
-        @Override
-        public int compare(Long var1, Long var2) {
-            double d1 = distanceToSource.get(var1) + heuristicDistanceToTarget.get(var1);
-            double d2 = distanceToSource.get(var2) + heuristicDistanceToTarget.get(var2);
-            if (d1 < d2) {
-                return -1;
-            } else if (d1 > d2) {
-                return 1;
-            } else {
-                return 0;
-            }
-        }
-    }
+//    private static class NodeComparator implements Comparator<Long> {
+//        @Override
+//        public int compare(Long var1, Long var2) {
+//            double d1 = distanceToSource.get(var1) + heuristicDistanceToTarget.get(var1);
+//            double d2 = distanceToSource.get(var2) + heuristicDistanceToTarget.get(var2);
+//            if (d1 < d2) {
+//                return -1;
+//            } else if (d1 > d2) {
+//                return 1;
+//            } else {
+//                return 0;
+//            }
+//        }
+//    }
 
 
     /**
@@ -53,45 +53,79 @@ public class Router {
     public static List<Long> shortestPath(GraphDB g, double stlon, double stlat,
                                           double destlon, double destlat) {
 
-        Long source = getSource(g, stlon, stlat);
-        Long target = getTarget(g, destlon, destlat);
-        childToParent = new HashMap<>();
-        distanceToSource = new HashMap<>();
-        visitedNodes = new HashSet<>();
-        heuristicDistanceToTarget = new HashMap<>();
-        for (Long vertex : g.vertices()) {
-            if (vertex.equals(source)) {
-                distanceToSource.put(vertex, 0.0);
-            } else {
-                distanceToSource.put(vertex, Double.MAX_VALUE);
-            }
-            heuristicDistanceToTarget.put(vertex, g.distance(vertex, target));
+//        Long source = getSource(g, stlon, stlat);
+//        Long target = getTarget(g, destlon, destlat);
+//        childToParent = new HashMap<>();
+//        distanceToSource = new HashMap<>();
+//        visitedNodes = new HashSet<>();
+//        heuristicDistanceToTarget = new HashMap<>();
+//        for (Long vertex : g.vertices()) {
+//            if (vertex.equals(source)) {
+//                distanceToSource.put(vertex, 0.0);
+//            } else {
+//                distanceToSource.put(vertex, Double.MAX_VALUE);
+//            }
+//            heuristicDistanceToTarget.put(vertex, g.distance(vertex, target));
+//        }
+//        Queue<Long> pq = new PriorityQueue<>(new NodeComparator());
+//        pq.add(source);
+//        childToParent.put(source, source);
+//        while (!pq.isEmpty()) {
+//            Long current = pq.remove();
+//            if(current.equals(target)) {
+//                break;
+//            }
+//            if (!visitedNodes.contains(current)) {
+//                visitedNodes.add(current);
+//                for (Long adj : g.adjacent(current)) {
+//                    if (visitedNodes.contains(adj)) {
+//                        continue;
+//                    }
+//                    double currentDistance = distanceToSource.get(current) + g.distance(current, adj);
+//                    double bestDistance = distanceToSource.get(adj);
+//                    if (currentDistance < bestDistance) {
+//                        childToParent.put(adj, current);
+//                        distanceToSource.put(adj, currentDistance);
+//                        pq.add(adj);
+//                    }
+//                }
+//            }
+//        }
+//        return path(source, target);
+        //DTS: distance to source
+        Map<Long, Double> distanceToSource = new HashMap<>();
+        Set<Long> visitedNodes = new HashSet<>();
+        Map<Long, Long> previousNode = new HashMap<>();
+        ExtrinsicPQ<Long> pq = new ArrayHeap<>();
+        for(long node: g.vertices()) {
+            distanceToSource.put(node, Double.MAX_VALUE);
         }
-        Queue<Long> pq = new PriorityQueue<>(new NodeComparator());
-        pq.add(source);
-        childToParent.put(source, source);
-        while (!pq.isEmpty()) {
-            Long current = pq.remove();
-            if(current.equals(target)) {
+        Long start = getSource(g, stlon, stlat);
+        Long end = getTarget(g, destlon, destlat);
+        distanceToSource.put(start, 0.0);
+        pq.insert(start, 0.0);
+        previousNode.put(start, start);
+        while(pq.size() != 0) {
+            Long current = pq.removeMin();
+            //add to visited as soon as it removed
+            visitedNodes.add(current);
+            //break if target has found
+            if(current.equals(end)) {
                 break;
-            }
-            if (!visitedNodes.contains(current)) {
-                visitedNodes.add(current);
-                for (Long adj : g.adjacent(current)) {
-                    if (visitedNodes.contains(adj)) {
-                        continue;
-                    }
-                    double currentDistance = distanceToSource.get(current) + g.distance(current, adj);
-                    double bestDistance = distanceToSource.get(adj);
-                    if (currentDistance < bestDistance) {
-                        childToParent.put(adj, current);
-                        distanceToSource.put(adj, currentDistance);
-                        pq.add(adj);
+            } else { // relax edge otherwise.
+                for(Long adj: g.adjacent(current)) {
+                    if(!visitedNodes.contains(adj)) {
+                        double currentDistance = distanceToSource.get(current) + g.distance(current, adj);
+                        if(currentDistance < distanceToSource.get(adj)) {
+                            previousNode.put(adj, current);
+                            distanceToSource.put(adj, currentDistance);
+                            pq.insert(adj, currentDistance);
+                        }
                     }
                 }
             }
         }
-        return path(source, target);
+        return path(start, end, previousNode);
     }
 
 
@@ -108,11 +142,11 @@ public class Router {
 
 
     //given source and target, return a shortest path from source to target.
-    private static List<Long> path(Long source, Long target) {
+    private static List<Long> path(Long source, Long target, Map<Long, Long> previousNode) {
         if (target.equals(source)) {
             return new ArrayList<Long>(Arrays.asList(source));
         } else {
-            List<Long> lst = path(source, childToParent.get(target));
+            List<Long> lst = path(source, previousNode.get(target), previousNode);
             lst.add(target);
             return lst;
         }
