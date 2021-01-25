@@ -14,10 +14,10 @@ import java.util.regex.Pattern;
  */
 public class Router {
 
-    private static Map<Long, Double> distanceToSource = new HashMap<>();
-    private static Set<Long> visitedNodes = new HashSet<>();
-    private static Map<Long, Double> heuristicDistanceToTarget = new HashMap<>();
-    private static Map<Long, Long> childToParent = new HashMap<>();
+    private static Map<Long, Double> distanceToSource;
+    private static Set<Long> visitedNodes;
+    private static Map<Long, Double> heuristicDistanceToTarget;
+    private static Map<Long, Long> childToParent;
 
     private static class NodeComparator implements Comparator<Long> {
         @Override
@@ -55,6 +55,10 @@ public class Router {
 
         Long source = getSource(g, stlon, stlat);
         Long target = getTarget(g, destlon, destlat);
+        childToParent = new HashMap<>();
+        distanceToSource = new HashMap<>();
+        visitedNodes = new HashSet<>();
+        heuristicDistanceToTarget = new HashMap<>();
         for (Long vertex : g.vertices()) {
             if (vertex.equals(source)) {
                 distanceToSource.put(vertex, 0.0);
@@ -67,8 +71,8 @@ public class Router {
         pq.add(source);
         childToParent.put(source, source);
         while (!pq.isEmpty()) {
-            long current = pq.remove();
-            if(current == target) {
+            Long current = pq.remove();
+            if(current.equals(target)) {
                 break;
             }
             if (!visitedNodes.contains(current)) {
