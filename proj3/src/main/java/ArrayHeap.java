@@ -3,7 +3,7 @@ import java.util.Set;
 import java.util.HashSet;
 public class ArrayHeap<T> implements ExtrinsicPQ<T> {
     private ArrayHeap<T>.Node[] contents = new ArrayHeap.Node[16];
-    private Set<T> queue = new HashSet<>();
+    //private Set<T> queue = new HashSet<>();
     private int size;
     public static void main(String[] args) {
         ArrayHeap<String> pq = new ArrayHeap();
@@ -94,13 +94,13 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         }
     }
 
-     public boolean contain(T t) {
-        return queue.contains(t);
-    }
+//     public boolean contain(T t) {
+//        return queue.contains(t);
+//    }
 
 
     public void insert(T item, double priority) {
-        queue.add(item);
+        //queue.add(item);
         if (this.size + 1 == this.contents.length) {
             this.resize(this.contents.length * 2);
         }
@@ -120,7 +120,7 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         } else {
             this.swap(1, this.size);
             T res = this.contents[this.size].myItem;
-            queue.remove(res);
+            //queue.remove(res);
             this.contents[this.size] = null;
             --this.size;
             if (this.size >= 1) {

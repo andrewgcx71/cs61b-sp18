@@ -129,8 +129,8 @@ public class GraphBuildingHandler extends DefaultHandler {
             Map<String, Object> location = new HashMap<>();
             location.put("id", (Long) currentNode);
             location.put("name", attributes.getValue("v"));
-            location.put("lat", g.getCoordinateMap().get(currentNode).getLat());
-            location.put("lon", g.getCoordinateMap().get(currentNode).getLon());
+            location.put("lat", g.getCoordinates().get(currentNode).getLat());
+            location.put("lon", g.getCoordinates().get(currentNode).getLon());
             g.getLocations().add(location);
             /* Hint: Since we found this <tag...> INSIDE a node, we should remember which
             node  this tag belongs to. Remember XML is parsed top-to-bottom, so it's the
@@ -168,8 +168,8 @@ public class GraphBuildingHandler extends DefaultHandler {
                 long previous = list.get(i);
                 g.addEdge(previous, current);
                 pre = i;
-                g.getStreetNameMap().put(new ArrayList<Long>(Arrays.asList(current, previous)), way.getWayName());
-                g.getStreetNameMap().put(new ArrayList<Long>(Arrays.asList(previous, current)), way.getWayName());
+                g.getWayName().put(new ArrayList<Long>(Arrays.asList(current, previous)), way.getWayName());
+                g.getWayName().put(new ArrayList<Long>(Arrays.asList(previous, current)), way.getWayName());
             }
             isHighway = false;
         }

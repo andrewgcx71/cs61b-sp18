@@ -5,7 +5,7 @@ public interface ExtrinsicPQ<T> {
 
     T peek();
 
-    boolean contain(T t);
+    //boolean contain(T t);
 
     T removeMin();
 

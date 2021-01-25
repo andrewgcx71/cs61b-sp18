@@ -14,13 +14,35 @@ import java.util.regex.Pattern;
  */
 public class Router {
 
+    private static Map<Long, Double> distanceToSource = new HashMap<>();
+    private static Set<Long> visitedNodes = new HashSet<>();
+    private static Map<Long, Double> heuristicDistanceToTarget = new HashMap<>();
+    private static Map<Long, Long> childToParent = new HashMap<>();
+
+    private static class NodeComparator implements Comparator<Long> {
+        @Override
+        public int compare(Long var1, Long var2) {
+            double d1 = distanceToSource.get(var1) + heuristicDistanceToTarget.get(var1);
+            double d2 = distanceToSource.get(var2) + heuristicDistanceToTarget.get(var2);
+            if (d1 < d2) {
+                return -1;
+            } else if (d1 > d2) {
+                return 1;
+            } else {
+                return 0;
+            }
+        }
+    }
+
+
     /**
      * Return a List of longs representing the shortest path from the node
      * closest to a start location and the node closest to the destination
      * location.
-     * @param g The graph to use.
-     * @param stlon The longitude of the start location.
-     * @param stlat The latitude of the start location.
+     *
+     * @param g       The graph to use.
+     * @param stlon   The longitude of the start location.
+     * @param stlat   The latitude of the start location.
      * @param destlon The longitude of the destination location.
      * @param destlat The latitude of the destination location.
      * @return A list of node id's in the order visited on the shortest path.
@@ -30,49 +52,45 @@ public class Router {
      */
     public static List<Long> shortestPath(GraphDB g, double stlon, double stlat,
                                           double destlon, double destlat) {
-        //DTS: distance to source
-        Map<Long, Double> mapDTS = new HashMap<>();
-        Set<Long> visited = new HashSet<>();
-        Map<Long, Long> preNode = new HashMap<>();
-        ExtrinsicPQ<Long> pq = new ArrayHeap<>();
-        //this approch make the code clean, maybe there is faster way to do it.
-        for(long node: g.vertices()) {
-            mapDTS.put(node, Double.MAX_VALUE);
-            //pq.insert(node, Double.MAX_VALUE);
+
+        Long source = getSource(g, stlon, stlat);
+        Long target = getTarget(g, destlon, destlat);
+        for (Long vertex : g.vertices()) {
+            if (vertex.equals(source)) {
+                distanceToSource.put(vertex, 0.0);
+            } else {
+                distanceToSource.put(vertex, Double.MAX_VALUE);
+            }
+            heuristicDistanceToTarget.put(vertex, g.distance(vertex, target));
         }
-        Long start = getSource(g, stlon, stlat);
-        Long end = getTarget(g, destlon, destlat);
-        mapDTS.put(start, 0.0);
-        pq.insert(start, 0.0);
-        preNode.put(start, start);
-        while(pq.size() != 0) {
-            Long current = pq.removeMin();
-            //add to visited as soon as it removed
-            visited.add(current);
-            //break if target has found
-            if(current.equals(end)) {
+        Queue<Long> pq = new PriorityQueue<>(new NodeComparator());
+        pq.add(source);
+        childToParent.put(source, source);
+        while (!pq.isEmpty()) {
+            long current = pq.remove();
+            if(current == target) {
                 break;
-            } else { // relax edge otherwise.
-                for(Long adjNode: g.adjacent(current)) {
-                    if(!visited.contains(adjNode)) {
-                        double curDis = mapDTS.get(current) + g.distance(current, adjNode);
-                        double bestDis = mapDTS.get(adjNode);
-                        if(curDis < bestDis) {
-                            preNode.put(adjNode, current);
-                            mapDTS.put(adjNode, curDis);
-                            if(pq.contain(adjNode)) {
-                                pq.changePriority(adjNode, curDis + g.distance(adjNode, end));
-                            }
-                        }
-                        if(!pq.contain(adjNode)) {
-                            pq.insert(adjNode, mapDTS.get(adjNode) + g.distance(adjNode, end));
-                        }
+            }
+            if (!visitedNodes.contains(current)) {
+                visitedNodes.add(current);
+                for (Long adj : g.adjacent(current)) {
+                    if (visitedNodes.contains(adj)) {
+                        continue;
+                    }
+                    double currentDistance = distanceToSource.get(current) + g.distance(current, adj);
+                    double bestDistance = distanceToSource.get(adj);
+                    if (currentDistance < bestDistance) {
+                        childToParent.put(adj, current);
+                        distanceToSource.put(adj, currentDistance);
+                        pq.add(adj);
                     }
                 }
             }
         }
-        return path(start, end, preNode);
+        return path(source, target);
     }
+
+
 
     //get source node
     private static Long getSource(GraphDB g, double lon, double lat) {
@@ -86,21 +104,21 @@ public class Router {
 
 
     //given source and target, return a shortest path from source to target.
-    private static List<Long> path(Long start, Long end, Map<Long, Long> preNode) {
-        if(end.equals(start)) {
-            return new ArrayList<Long>(Arrays.asList(start));
+    private static List<Long> path(Long source, Long target) {
+        if (target.equals(source)) {
+            return new ArrayList<Long>(Arrays.asList(source));
         } else {
-            List<Long> lst = path(start, preNode.get(end), preNode);
-            lst.add(end);
+            List<Long> lst = path(source, childToParent.get(target));
+            lst.add(target);
             return lst;
         }
     }
 
 
-
     /**
      * Create the list of directions corresponding to a route on the graph.
-     * @param g The graph to use.
+     *
+     * @param g     The graph to use.
      * @param nodes The route to translate into directions. Each element
      *              corresponds to a node from the graph in the route.
      * @return A list of NavigatiionDirection objects corresponding to the input
@@ -108,23 +126,23 @@ public class Router {
      */
     public static List<NavigationDirection> routeDirections(GraphDB g, List<Long> nodes) {
         List<NavigationDirection> results = new ArrayList<>();
-        if(nodes.size() <= 1) {
+        if (nodes.size() <= 1) {
             return results;
         }
         String previousWay = g.getStreetName(nodes.get(0), nodes.get(1));
         double distance = g.distance(nodes.get(0), nodes.get(1));
         int direction = 0;
-        if(nodes.size() == 2) {
+        if (nodes.size() == 2) {
             NavigationDirection currentND = new NavigationDirection();
             currentND.distance = distance;
-            currentND.direction =direction;
+            currentND.direction = direction;
             currentND.way = previousWay;
             results.add(currentND);
         }
-        for(int i = 2; i < nodes.size(); i++) {
+        for (int i = 2; i < nodes.size(); i++) {
             String currentWay = g.getStreetName(nodes.get(i - 1), nodes.get(i));
             //if we encounter a turn
-            if(!currentWay.equals(previousWay)) {
+            if (!currentWay.equals(previousWay)) {
                 NavigationDirection currentND = new NavigationDirection();
                 currentND.distance = distance;
                 currentND.way = previousWay;
@@ -138,7 +156,7 @@ public class Router {
             }
             previousWay = currentWay;
             distance += g.distance(nodes.get(i - 1), nodes.get(i));
-            if(i == nodes.size() - 1) {
+            if (i == nodes.size() - 1) {
                 NavigationDirection currentND = new NavigationDirection();
                 currentND.direction = direction;
                 currentND.distance = distance;
@@ -150,15 +168,15 @@ public class Router {
     }
 
 
-
-
     /**
      * Class to represent a navigation direction, which consists of 3 attributes:
      * a direction to go, a way, and the distance to travel for.
      */
     public static class NavigationDirection {
 
-        /** Integer constants representing directions. */
+        /**
+         * Integer constants representing directions.
+         */
         public static final int START = 0;
         public static final int STRAIGHT = 1;
         public static final int SLIGHT_LEFT = 2;
@@ -168,13 +186,19 @@ public class Router {
         public static final int SHARP_LEFT = 6;
         public static final int SHARP_RIGHT = 7;
 
-        /** Number of directions supported. */
+        /**
+         * Number of directions supported.
+         */
         public static final int NUM_DIRECTIONS = 8;
 
-        /** A mapping of integer values to directions.*/
+        /**
+         * A mapping of integer values to directions.
+         */
         public static final String[] DIRECTIONS = new String[NUM_DIRECTIONS];
 
-        /** Default name for an unknown way. */
+        /**
+         * Default name for an unknown way.
+         */
         public static final String UNKNOWN_ROAD = "unknown road";
 
         /** Static initializer. */
@@ -189,11 +213,17 @@ public class Router {
             DIRECTIONS[SHARP_RIGHT] = "Sharp right";
         }
 
-        /** The direction a given NavigationDirection represents.*/
+        /**
+         * The direction a given NavigationDirection represents.
+         */
         int direction;
-        /** The name of the way I represent. */
+        /**
+         * The name of the way I represent.
+         */
         String way;
-        /** The distance along this way I represent. */
+        /**
+         * The distance along this way I represent.
+         */
         double distance;
 
         /**
@@ -205,7 +235,9 @@ public class Router {
             this.distance = 0.0;
         }
 
-        /** Checks that a value is between the given ranges.*/
+        /**
+         * Checks that a value is between the given ranges.
+         */
         private static boolean numInRange(double value, double from, double to) {
             return value >= from && value <= to;
         }
@@ -215,6 +247,7 @@ public class Router {
          * are the angles from true north. We compare the angles to see whether
          * we are making a left turn or right turn. Then we can just use the absolute value of the
          * difference to give us the degree of turn (straight, sharp, left, or right).
+         *
          * @param prevBearing A double in [0, 360.0]
          * @param currBearing A double in [0, 360.0]
          * @return the Navigation Direction type
@@ -256,6 +289,7 @@ public class Router {
         /**
          * Takes the string representation of a navigation direction and converts it into
          * a Navigation Direction object.
+         *
          * @param dirAsString The string representation of the NavigationDirection.
          * @return A NavigationDirection object representing the input string.
          */
@@ -303,8 +337,8 @@ public class Router {
         public boolean equals(Object o) {
             if (o instanceof NavigationDirection) {
                 return direction == ((NavigationDirection) o).direction
-                    && way.equals(((NavigationDirection) o).way)
-                    && distance == ((NavigationDirection) o).distance;
+                        && way.equals(((NavigationDirection) o).way)
+                        && distance == ((NavigationDirection) o).distance;
             }
             return false;
         }

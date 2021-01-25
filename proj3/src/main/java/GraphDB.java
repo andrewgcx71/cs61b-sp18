@@ -43,20 +43,20 @@ public class GraphDB {
     private Set<Long> vertices = new HashSet<>();
 
     //neighbors
-    private Map<Long, Set<Long>> edgesMap = new HashMap<>();
+    private Map<Long, Set<Long>> edges = new HashMap<>();
 
     //coordinate
-    private Map<Long, Coordinate> coordinateMap = new HashMap<>();
+    private Map<Long, Coordinate> coordinates = new HashMap<>();
 
     //get street name for a particular edge
-    private Map<List<Long>, String> streetNameMap = new HashMap<>();
+    private Map<List<Long>, String> wayName = new HashMap<>();
 
-    public Map<Long, Coordinate> getCoordinateMap() {
-        return coordinateMap;
+    public Map<Long, Coordinate> getCoordinates() {
+        return coordinates;
     }
 
-    public Map<List<Long>, String> getStreetNameMap() {
-        return streetNameMap;
+    public Map<List<Long>, String> getWayName() {
+        return wayName;
     }
 
     /**
@@ -84,7 +84,7 @@ public class GraphDB {
 
     //take a two nodes, and return the street name for these two nodes.
     public String getStreetName(Long node1, Long node2) {
-        return streetNameMap.get(new ArrayList<Long>(Arrays.asList(node1, node2)));
+        return wayName.get(new ArrayList<Long>(Arrays.asList(node1, node2)));
     }
 
     /**
@@ -92,7 +92,7 @@ public class GraphDB {
      */
     public void addNode(long id, double lat, double lon) {
         vertices.add(id);
-        coordinateMap.put(id, new Coordinate(lat, lon));
+        coordinates.put(id, new Coordinate(lat, lon));
     }
 
 
@@ -100,14 +100,14 @@ public class GraphDB {
      * Add edge.
      */
     public void addEdge(long id1, long id2) {
-        if (!edgesMap.containsKey(id1)) {
-            edgesMap.put(id1, new HashSet<>());
+        if (!edges.containsKey(id1)) {
+            edges.put(id1, new HashSet<>());
         }
-        if (!edgesMap.containsKey(id2)) {
-            edgesMap.put(id2, new HashSet<>());
+        if (!edges.containsKey(id2)) {
+            edges.put(id2, new HashSet<>());
         }
-        edgesMap.get(id1).add(id2);
-        edgesMap.get(id2).add(id1);
+        edges.get(id1).add(id2);
+        edges.get(id2).add(id1);
     }
 
     /**
@@ -138,7 +138,7 @@ public class GraphDB {
         // TODO: Your code here.
         Set<Long> tempList = new HashSet<>(vertices);
         for (Long node : tempList) {
-            if (!edgesMap.containsKey(node)) {
+            if (!edges.containsKey(node)) {
                 removeNode(node);
             }
         }
@@ -161,7 +161,7 @@ public class GraphDB {
      * @return An iterable of the ids of the neighbors of v.
      */
     Iterable<Long> adjacent(long v) {
-        return edgesMap.get(v);
+        return edges.get(v);
     }
 
     /**
@@ -232,7 +232,7 @@ public class GraphDB {
         Double closest = Double.MAX_VALUE;
         Long id = Long.MAX_VALUE;
         for (long node : vertices) {
-            Coordinate c = coordinateMap.get(node);
+            Coordinate c = coordinates.get(node);
             double distance = distance(lon, lat, c.getLon(), c.getLat());
             if (closest > distance) {
                 closest = distance;
@@ -249,7 +249,7 @@ public class GraphDB {
      * @return The longitude of the vertex.
      */
     double lon(long v) {
-        return coordinateMap.get(v).getLon();
+        return coordinates.get(v).getLon();
     }
 
     /**
@@ -259,7 +259,7 @@ public class GraphDB {
      * @return The latitude of the vertex.
      */
     double lat(long v) {
-        return coordinateMap.get(v).getLat();
+        return coordinates.get(v).getLat();
     }
 
 }
