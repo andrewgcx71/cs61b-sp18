@@ -28,10 +28,10 @@ public class Trie {
     }
 
     // return a list result match to prefix word, if no match, return an empty list.
-    public List<String> search(String word) {
+    public List<String> search(String prefix) {
         TrieNode node = root;
-        for(int i = 0; i < word.length() - 1; i++) {
-            node = node.children.get(word.charAt(i));
+        for(int i = 0; i < prefix.length(); i++) {
+            node = node.children.get(prefix.charAt(i));
             if(node == null) {
                 return new ArrayList<>();
             }
