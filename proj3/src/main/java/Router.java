@@ -33,53 +33,43 @@ public class Router {
 
         Map<Long, Double> distanceToSource = new HashMap<>();
         Set<Long> visitedNodes = new HashSet<>();
-        Map<Long, Long> previousNode = new HashMap<>();
+        Map<Long, Long> edgeToPrevious = new HashMap<>();
         ExtrinsicPQ<Long> pq = new ArrayHeap<>();
         for (long node: g.vertices()) {
             distanceToSource.put(node, Double.MAX_VALUE);
         }
-        Long start = getSource(g, stlon, stlat);
-        Long end = getTarget(g, destlon, destlat);
-        distanceToSource.put(start, 0.0);
-        pq.insert(start, 0.0);
-        previousNode.put(start, start);
+        Long source = g.closest(stlon, stlat);
+        Long target = g.closest(destlon, destlat);
+        distanceToSource.put(source, 0.0);
+        pq.insert(source, 0.0);
+        edgeToPrevious.put(source, source);
         while (pq.size() != 0) {
             Long current = pq.removeMin();
-            if (visitedNodes.contains(current)) {
-                continue;
-            }
-            //marked the node as visited.
-            visitedNodes.add(current);
-            //break if target has found
-            if (current.equals(end)) {
-                break;
-            } else { // relax edge otherwise.
-                for(Long adj: g.adjacent(current)) {
-                    if(!visitedNodes.contains(adj)) {
-                        double currentDistance = distanceToSource.get(current) + g.distance(current, adj);
-                        if(currentDistance < distanceToSource.get(adj)) {
-                            previousNode.put(adj, current);
-                            distanceToSource.put(adj, currentDistance);
-                            pq.insert(adj, currentDistance);
+            if (!visitedNodes.contains(current)) {
+                visitedNodes.add(current);
+                if (current.equals(target)) {
+                    break;
+                } else {
+                    for (Long adj : g.adjacent(current)) {
+                        if (!visitedNodes.contains(adj)) {
+                            double currentDistance = distanceToSource.get(current) + g.distance(current, adj);
+                            if (currentDistance < distanceToSource.get(adj)) {
+                                edgeToPrevious.put(adj, current);
+                                distanceToSource.put(adj, currentDistance);
+                                pq.insert(adj, currentDistance);
+                            }
                         }
                     }
                 }
             }
         }
-        return path(start, end, previousNode);
+        if (edgeToPrevious.get(target) == null) {
+            return null;
+        }
+        return path(source, target, edgeToPrevious);
     }
 
 
-
-    //get source node
-    private static Long getSource(GraphDB g, double lon, double lat) {
-        return g.closest(lon, lat);
-    }
-
-    //get target node
-    private static Long getTarget(GraphDB g, double lon, double lat) {
-        return g.closest(lon, lat);
-    }
 
 
     //given source and target, return a shortest path from source to target.
