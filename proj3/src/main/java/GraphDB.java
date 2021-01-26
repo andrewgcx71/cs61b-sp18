@@ -24,7 +24,6 @@ public class GraphDB {
      * creating helper classes, e.g. Node, Edge, etc.
      */
 
-    //
     private static List<Map<String, Object>> locations = new ArrayList<>();
 
     public static List<Map<String, Object>> getLocations() {
@@ -79,6 +78,41 @@ public class GraphDB {
             e.printStackTrace();
         }
         clean();
+    }
+
+    /**
+     * In linear time, collect all the names of OSM locations that prefix-match the query string.
+     * @param prefix Prefix string to be searched for. Could be any case, with our without
+     *               punctuation.
+     * @return A <code>List</code> of the full names of locations whose cleaned name matches the
+     * cleaned <code>prefix</code>.
+     */
+
+    public static List<String> getLocationsByPrefix(String prefix) {
+
+        return trie.search(prefix);
+    }
+
+    /**
+     * Collect all locations that match a cleaned <code>locationName</code>, and return
+     * information about each node that matches.
+     * @param locationName A full name of a location searched for.
+     * @return A list of locations whose cleaned name matches the
+     * cleaned <code>locationName</code>, and each location is a map of parameters for the Json
+     * response as specified: <br>
+     * "lat" : Number, The latitude of the node. <br>
+     * "lon" : Number, The longitude of the node. <br>
+     * "name" : String, The actual name of the node. <br>
+     * "id" : Number, The id of the node. <br>
+     */
+    public static List<Map<String, Object>> getLocations(String locationName) {
+        List<Map<String, Object>> results = new ArrayList<>();
+        for(Map<String, Object> location: locations) {
+            if(((String) location.get("name")).equals(locationName)) {
+                results.add(location);
+            }
+        }
+        return results;
     }
 
 
