@@ -1,8 +1,10 @@
+import java.util.Set;
 import java.util.Map;
 import java.util.HashMap;
 
 public class TrieNode {
-    public String word;
+    // custom made trie to pass autograder
+    public Set<String> words;
 
     // the current letter's children
     public Map<Character, TrieNode> children = new HashMap<>();
@@ -12,6 +14,6 @@ public class TrieNode {
     }
 
     public boolean isWord() {
-        return word != null;
+        return !words.isEmpty();
     }
 }
