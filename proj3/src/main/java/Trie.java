@@ -7,16 +7,16 @@ public class Trie {
 
     public TrieNode root = new TrieNode();
 
-    public void insert(String word) {
+    public void insert(String cleanName, String actualName) {
         TrieNode current = root;
-        for(int i = 0; i < word.length(); i++) {
-            char ch = word.charAt(i);
+        for(int i = 0; i < cleanName.length(); i++) {
+            char ch = cleanName.charAt(i);
             if (!current.children.containsKey(ch)) {
                 current.children.put(ch, new TrieNode());
             }
-            if (i == word.length() - 1) {
+            if (i == cleanName.length() - 1) {
                 TrieNode trieNode = current.children.get(ch);
-                trieNode.word = word;
+                trieNode.word = actualName;
             }
             current = current.children.get(ch);
         }

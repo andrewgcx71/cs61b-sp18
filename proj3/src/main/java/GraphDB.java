@@ -77,12 +77,10 @@ public class GraphDB {
         } catch (ParserConfigurationException | SAXException | IOException e) {
             e.printStackTrace();
         }
-        List<String> results = trie.search("d");
+        List<String> results = trie.search("o");
         for (String str: results) {
             System.out.println(str);
         }
-        System.out.println(cleanString("Dana & Durant (UCB Lot)"));
-        trie.insert(cleanString("Dana & Durant (UCB Lot)"));
         clean();
     }
 
