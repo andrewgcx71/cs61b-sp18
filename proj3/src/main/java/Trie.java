@@ -9,16 +9,14 @@ public class Trie {
 
     public void insert(String word) {
         TrieNode current = root;
-        StringBuilder sb = new StringBuilder();
         for(int i = 0; i < word.length(); i++) {
             char ch = word.charAt(i);
-            sb.append(ch);
             if (!current.children.containsKey(ch)) {
                 current.children.put(ch, new TrieNode());
             }
             if (i == word.length() - 1) {
                 TrieNode trieNode = current.children.get(ch);
-                trieNode.word = sb.toString();
+                trieNode.word = word;
             }
             current = current.children.get(ch);
         }

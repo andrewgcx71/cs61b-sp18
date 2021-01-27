@@ -31,59 +31,48 @@ public class Router {
      */
     public static List<Long> shortestPath(GraphDB g, double stlon, double stlat,
                                           double destlon, double destlat) {
-        //DTS: distance to source
-        Map<Long, Double> mapDTS = new HashMap<>();
-        Set<Long> visited = new HashSet<>();
-        Map<Long, Long> preNode = new HashMap<>();
+        Map<Long, Double> distanceToSource = new HashMap<>();
+        Set<Long> visitedNode = new HashSet<>();
+        Map<Long, Long> edgeToPrevious = new HashMap<>();
         ExtrinsicPQ<Long> pq = new ArrayHeap<>();
-        //this approch make the code clean, maybe there is faster way to do it.
-        for (long node : g.vertices()) {
-            mapDTS.put(node, Double.MAX_VALUE);
-            pq.insert(node, Double.MAX_VALUE);
+        Long source = g.closest(stlon, stlat);
+        Long target = g.closest(destlon, destlat);
+        for (Long vertex : g.vertices()) {
+            if (vertex.equals(source)) {
+                distanceToSource.put(source, 0.0);
+            } else {
+                distanceToSource.put(vertex, Double.MAX_VALUE);
+            }
         }
-        Long start = getSource(g, stlon, stlat);
-        Long end = getTarget(g, destlon, destlat);
-        mapDTS.put(start, 0.0);
-        pq.changePriority(start, 0.0);
-        preNode.put(start, start);
+        edgeToPrevious.put(source, source);
+        pq.insert(source, 0.0);
+        outerLoop:
         while (pq.size() != 0) {
             Long current = pq.removeMin();
-            //add to visited as soon as it removed
-            visited.add(current);
-            //break if target has found
-            if (current.equals(end)) {
-                break;
-            } else { // relax edge otherwise.
-                for (Long adjNode : g.adjacent(current)) {
-                    if (!visited.contains(adjNode)) {
-                        double curDis = mapDTS.get(current) + g.distance(current, adjNode);
-                        double bestDis = mapDTS.get(adjNode);
-                        if (curDis < bestDis) {
-                            preNode.put(adjNode, current);
-                            mapDTS.put(adjNode, curDis);
-                            //if (pq.contain(adjNode)) {
-                            pq.changePriority(adjNode, curDis + g.distance(adjNode, end));
-                            //}
+            if (!visitedNode.contains(current)) {
+                visitedNode.add(current);
+                for (Long adj : g.adjacent(current)) {
+                    if (!visitedNode.contains(adj)) {
+                        double currentDistance = distanceToSource.get(current) + g.distance(current, adj);
+                        if (currentDistance < distanceToSource.get(adj)) {
+                            edgeToPrevious.put(adj, current);
+                            distanceToSource.put(adj, currentDistance);
+                            pq.insert(adj, currentDistance + g.distance(adj, target));
                         }
-//                        if (!pq.contain(adjNode)) {
-//                            pq.insert(adjNode, mapDTS.get(adjNode) + g.distance(adjNode, end));
-//                        }
+                        if (adj.equals(target)) {
+                            break outerLoop;
+                        }
                     }
                 }
             }
         }
-        return path(start, end, preNode);
+
+        if (edgeToPrevious.get(target) == null) {
+            return null;
+        }
+        return path(source, target, edgeToPrevious);
     }
 
-    //get source node
-    private static Long getSource(GraphDB g, double lon, double lat) {
-        return g.closest(lon, lat);
-    }
-
-    //get target node
-    private static Long getTarget(GraphDB g, double lon, double lat) {
-        return g.closest(lon, lat);
-    }
 
 
     //given source and target, return a shortest path from source to target.
