@@ -77,10 +77,10 @@ public class GraphDB {
         } catch (ParserConfigurationException | SAXException | IOException e) {
             e.printStackTrace();
         }
-        List<String> results = trie.search("o");
-        for (String str: results) {
-            System.out.println(str);
-        }
+//        List<String> results = trie.search("o");
+//        for (String str: results) {
+//            System.out.println(str);
+//        }
         clean();
     }
 
