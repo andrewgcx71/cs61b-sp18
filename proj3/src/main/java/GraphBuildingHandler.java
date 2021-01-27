@@ -125,7 +125,8 @@ public class GraphBuildingHandler extends DefaultHandler {
                 .equals("name")) {
             /* While looking at a node, we found a <tag...> with k="name". */
             /* TODO Create a location. */
-            g.getTrie().insert(attributes.getValue("v"));
+            String name = g.cleanString(attributes.getValue("v"));
+            g.getTrie().insert(name);
             Map<String, Object> location = new HashMap<>();
             location.put("id", (Long) currentNode);
             location.put("name", attributes.getValue("v"));

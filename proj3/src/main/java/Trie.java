@@ -8,22 +8,19 @@ public class Trie {
     public TrieNode root = new TrieNode();
 
     public void insert(String word) {
-        word = word.toLowerCase();
         TrieNode current = root;
         StringBuilder sb = new StringBuilder();
         for(int i = 0; i < word.length(); i++) {
             char ch = word.charAt(i);
-            if(ch >= 'a' && ch <= 'z' || ch == ' ') {
-                sb.append(ch);
-                if(!current.children.containsKey(ch)) {
-                    current.children.put(ch, new TrieNode());
-                }
-                if(i == word.length() - 1) {
-                    TrieNode trieNode = current.children.get(ch);
-                    trieNode.word = sb.toString();
-                }
-                current = current.children.get(ch);
+            sb.append(ch);
+            if (!current.children.containsKey(ch)) {
+                current.children.put(ch, new TrieNode());
             }
+            if (i == word.length() - 1) {
+                TrieNode trieNode = current.children.get(ch);
+                trieNode.word = sb.toString();
+            }
+            current = current.children.get(ch);
         }
     }
 

@@ -77,7 +77,7 @@ public class GraphDB {
         } catch (ParserConfigurationException | SAXException | IOException e) {
             e.printStackTrace();
         }
-        List<String> results = trie.search("fre");
+        List<String> results = trie.search("kr");
         for (String str: results) {
             System.out.println(str);
         }
