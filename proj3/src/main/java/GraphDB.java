@@ -24,9 +24,9 @@ public class GraphDB {
      * creating helper classes, e.g. Node, Edge, etc.
      */
 
-    private static List<Map<String, Object>> locations = new ArrayList<>();
+    private static Map<String, List<Map<String, Object>>> locations = new HashMap<>();
 
-    public static List<Map<String, Object>> getLocations() {
+    public static Map<String, List<Map<String, Object>>> getLocations() {
         return locations;
     }
 
@@ -69,7 +69,6 @@ public class GraphDB {
             File inputFile = new File(dbPath);
             FileInputStream inputStream = new FileInputStream(inputFile);
             // GZIPInputStream stream = new GZIPInputStream(inputStream);
-
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser saxParser = factory.newSAXParser();
             GraphBuildingHandler gbh = new GraphBuildingHandler(this);
@@ -77,10 +76,6 @@ public class GraphDB {
         } catch (ParserConfigurationException | SAXException | IOException e) {
             e.printStackTrace();
         }
-//        List<String> results = trie.search("o");
-//        for (String str: results) {
-//            System.out.println(str);
-//        }
         clean();
     }
 
@@ -110,13 +105,7 @@ public class GraphDB {
      * "id" : Number, The id of the node. <br>
      */
     public static List<Map<String, Object>> getLocations(String locationName) {
-        List<Map<String, Object>> results = new ArrayList<>();
-        for(Map<String, Object> location: locations) {
-            if(((String) location.get("name")).equals(locationName)) {
-                results.add(location);
-            }
-        }
-        return results;
+        return locations.get(cleanString(locationName));
     }
 
 

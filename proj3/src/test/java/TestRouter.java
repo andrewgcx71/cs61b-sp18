@@ -32,7 +32,7 @@ public class TestRouter {
     public void testShortestPath() throws Exception {
         List<Map<String, Double>> testParams = paramsFromFile();
         List<List<Long>> expectedResults = resultsFromFile();
-
+        Map<String, List<Map<String, Object>>> locations = graph.getLocations();
         for (int i = 0; i < NUM_TESTS; i++) {
             System.out.println(String.format("Running test: %d", i));
             Map<String, Double> params = testParams.get(i);

@@ -36,7 +36,7 @@ public class GraphBuildingHandler extends DefaultHandler {
     // to flag whether this is a highway or not.
     private boolean isHighway = false;
     //previous ID/node
-    private long currentNode;
+    private Long currentNode;
 
     /**
      * Create a new GraphBuildingHandler.
@@ -129,11 +129,23 @@ public class GraphBuildingHandler extends DefaultHandler {
             String actualName = attributes.getValue("v");
             g.getTrie().insert(cleanName, actualName);
             Map<String, Object> location = new HashMap<>();
-            location.put("id", (Long) currentNode);
-            location.put("name", attributes.getValue("v"));
+            location.put("id", currentNode);
+            location.put("name", actualName);
             location.put("lat", g.getCoordinates().get(currentNode).getLat());
             location.put("lon", g.getCoordinates().get(currentNode).getLon());
-            g.getLocations().add(location);
+            boolean contains = false;
+            if (g.getLocations().containsKey(cleanName)) {
+                for (Map<String, Object> loc: g.getLocations().get(cleanName)) {
+                    if (loc.get("id").equals(currentNode)) {
+                        contains = true;
+                    }
+                 }
+                if (contains == false) {
+                    g.getLocations().get(cleanName).add(location);
+                }
+            } else {
+                g.getLocations().put(cleanName, new ArrayList<>(Arrays.asList(location)));
+            }
             /* Hint: Since we found this <tag...> INSIDE a node, we should remember which
             node  this tag belongs to. Remember XML is parsed top-to-bottom, so it's the
             last node that you looked at (check the first if-case). */
