@@ -3,14 +3,14 @@
  *
  * @author Akhil Batra, Alexander Hwang
  *
- **/
+ **/	
 public class CountingSort {
     /**
      * Counting sort on the given int array. Returns a sorted version of the array.
      * Does not touch original array (non-destructive method).
      * DISCLAIMER: this method does not always work, find a case where it fails
      *
-     * @param arr int array that will be sorted
+     * @param arr int array that will be sorted3
      * @return the sorted array
      */
     public static int[] naiveCountingSort(int[] arr) {
@@ -23,7 +23,7 @@ public class CountingSort {
         // gather all the counts for each value
         int[] counts = new int[max + 1];
         for (int i : arr) {
-            counts[i]++;
+						counts[i]++;
         }
 
         // when we're dealing with ints, we can just put each value
@@ -58,7 +58,7 @@ public class CountingSort {
     }
 
     /**
-     * Counting sort on the given int array, must work even with negative numbers.
+     * Counting sort on the given int array, must work with negative numbers.
      * Note, this code does not need to work for ranges of numbers greater
      * than 2 billion.
      * Does not touch original array (non-destructive method).
@@ -67,6 +67,46 @@ public class CountingSort {
      */
     public static int[] betterCountingSort(int[] arr) {
         // TODO make counting sort work with arrays containing negative numbers.
-        return null;
+        int max = Integer.MIN_VALUE;
+        int min = Integer.MAX_VALUE;
+        for (int num: arr) {
+        		if (num > max) {
+        				max = num;
+        		}
+        		if (num < min) {
+        				min = num;
+        		}
+        }
+        int zero = min;
+        int size;
+        if (min <= 0 && max >= 0) {
+          size = max - min + 1;
+        } else {
+          int absMax = Math.abs(max);
+          int absMin = Math.abs(min);
+          size = Math.abs(absMax - absMin);
+        }
+        int[] counts = new int[size];
+        for (int num: arr) {
+        		counts[num - zero] ++;
+        }
+        int pos = 0;
+        int[] starts = new int[size];
+        for (int i = 0; i < size; i ++) {
+        		starts[i] = pos;
+        		pos += counts[i];
+        }
+        int[] sorted = new int[arr.length];
+        for (int num: arr) {
+        		sorted[starts[num - zero]] = num;
+        		starts[num - zero] ++;
+        }
+        return sorted;
+    }
+
+    public static void main(String[] args) {
+      CountingSort cs = new CountingSort();
+      int[] nums = {3, 5 , 2, 1, - 5};
+      cs.betterCountingSort(nums);
     }
 }
