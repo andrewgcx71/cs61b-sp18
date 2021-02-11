@@ -18,11 +18,11 @@ public class RadixSort {
     public static String[] sort(String[] asciis) {
         // TODO: Implement LSD Sort
         int digits = 0;
-        for (int i = 0; i < asciis.length; i++) {
+        for (int i = 0; i < asciis.length; i ++) {
           digits = Math.max(digits, asciis[i].length());
         }
         String[] results = asciis;
-        for (int i = 1; i <= digits; i++) {
+        for (int i = digits - 1; i >= 0; i --) {
           results = sortHelperLSD(results, i);
         }
         return results;
@@ -41,8 +41,8 @@ public class RadixSort {
         int[] counts = new int[256];
         for (int i = 0; i < asciis.length; i++) {
           int size = asciis[i].length();
-          if (size >= index) {
-            char c = asciis[i].charAt(size - index);
+          if (index < size) {
+            char c = asciis[i].charAt(index);
             counts[c]++;
           } else {
             counts[0]++;
@@ -56,8 +56,8 @@ public class RadixSort {
         }
         for (int i = 0; i < asciis.length; i++) {
           int size = asciis[i].length();
-          if (size >= index) {
-            char c = asciis[i].charAt(size - index);
+          if (index < size) {
+            char c = asciis[i].charAt(index);
             sorted[starts[c]] = asciis[i];
             starts[c]++;
           } else {
@@ -70,7 +70,7 @@ public class RadixSort {
 
     public static void main(String[] args) {
         RadixSort rs = new RadixSort();
-        String[] strings = {"3", "5" , "2", "1", "5"};
+        String[] strings = {"ö¿®", "4kdÀè"};
         String[] results = rs.sort(strings);
         for (String str: results) {
             System.out.println(str);
