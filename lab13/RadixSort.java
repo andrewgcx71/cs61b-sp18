@@ -37,7 +37,8 @@ public class RadixSort {
     private static String[] sortHelperLSD(String[] asciis, int index) {
         // Optional LSD helper method for required LSD radix sort
         String[] sorted = new String[asciis.length];
-        int[] counts = new int[128];
+        // this is a extended ASCII
+        int[] counts = new int[256];
         for (int i = 0; i < asciis.length; i++) {
           int size = asciis[i].length();
           if (size >= index) {
@@ -47,7 +48,7 @@ public class RadixSort {
             counts[0]++;
           }
         }
-        int[] starts = new int[128];
+        int[] starts = new int[256];
         int pos = 0;
         for (int i = 0; i < counts.length; i++) {
           starts[i] = pos;
