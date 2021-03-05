@@ -49,9 +49,6 @@ public class SanityCheckTest {
         Picture p = new Picture("images/6x5.png");
         SeamCarver sc = new SeamCarver(p);
         int[] seam = sc.findHorizontalSeam();
-        for (int num: seam) {
-            System.out.println(num);
-        }
         int[] expected = {2, 2, 1, 2, 1, 2};
         assertArrayEquals(expected, seam);
     }

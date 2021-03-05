@@ -70,14 +70,14 @@ public class SeamCarver {
     // sequence of indices for vertical seam
     public int[] findVerticalSeam() {
       double[][] energy = SCUtility.toEnergyMatrix(this);
-      for (int j = 0; j < height(); j++) {
-        for (int i = 1; i < width(); i++) {
+      for (int j = 1; j < height(); j++) {
+        for (int i = 0; i < width(); i++) {
           if (i == 0) {
-            energy[i][i] = Math.min(energy[i][i - 1], energy[i + 1][i - 1]) + energy[i][i];
+            energy[i][j] = Math.min(energy[i][j - 1], energy[i + 1][j - 1]) + energy[i][j];
           } else if (i == width() - 1) {
-            energy[i][i] = Math.min(energy[i - 1][i - 1], energy[i][i - 1]) + energy[i][i];
+            energy[i][j] = Math.min(energy[i - 1][j - 1], energy[i][j - 1]) + energy[i][j];
           } else {
-            energy[i][i] = Math.min(Math.min(energy[i - 1][i - 1], energy[i][i - 1]), energy[i + 1][i - 1]) + energy[i][i];
+            energy[i][j] = Math.min(Math.min(energy[i - 1][j - 1], energy[i][j - 1]), energy[i + 1][j - 1]) + energy[i][j];
           }
         }
       }
