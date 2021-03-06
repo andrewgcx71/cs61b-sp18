@@ -90,6 +90,11 @@ public class SeamCarver {
             columnPath[0] = m;
             return columnPath;
         }
+        //conner case for number of number elements in each row equals to one.
+        // return columnPath immediately (i.e: each column is 0, default value when creating the instance)
+        if (energy.length == 1) {
+            return columnPath;
+        }
         for (int j = 1; j < height(); j++) {
             for (int i = 0; i < width(); i++) {
                 if (i == 0) {
