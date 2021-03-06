@@ -6,7 +6,7 @@ public class SeamCarver {
 
     private Picture picture;
     public SeamCarver(Picture picture) {
-        this.picture = picture;
+        this.picture = new Picture(picture);
     }
 
     // current picture
@@ -76,7 +76,7 @@ public class SeamCarver {
     // sequence of indices for vertical seam
     public int[] findVerticalSeam() {
         double[][] energy = SCUtility.toEnergyMatrix(this);
-        int[] columnPath = new int[height()];
+        int[] seam = new int[height()];
         //conner case for number of rows equal to one.
         if  (energy[0].length == 1) {
             double smallest = Double.MAX_VALUE;
@@ -87,13 +87,13 @@ public class SeamCarver {
                     m = col;
                 }
             }
-            columnPath[0] = m;
-            return columnPath;
+            seam[0] = m;
+            return seam;
         }
         //conner case for number of number elements in each row equals to one.
-        // return columnPath immediately (i.e: each column is 0, default value when creating the instance)
+        // return seam immediately (i.e: each column is 0, default value when creating the instance)
         if (energy.length == 1) {
-            return columnPath;
+            return seam;
         }
         for (int j = 1; j < height(); j++) {
             for (int i = 0; i < width(); i++) {
@@ -108,33 +108,33 @@ public class SeamCarver {
         }
         //go through the each grid in last row, find the column has minimum cost path
         int lastRow = height() - 1;
-        double temp = energy[0][lastRow];
+        double smallest = energy[0][lastRow];
         int col = 0;
         for (int i = 1; i < width(); i++) {
-            if (energy[i][lastRow] < temp) {
-                temp = energy[i][lastRow];
+            if (energy[i][lastRow] < smallest) {
+                smallest = energy[i][lastRow];
                 col = i;
             }
         }
         //This seems to be easiest way to find the column path. is there a better approach?
-        // in columnPath array, each index position represents a paricular row, each value in that particular row represent a column.
-        columnPath[height() - 1] = col;
+        // in seam array, each index position represents a paricular row, each value in that particular row represent a column.
+        seam[height() - 1] = col;
         for (int i = height() - 2; i >= 0; i--) {
             if (col == 0) {
                 if (energy[0][i] > energy[1][i]) {
-                    columnPath[i] = 1;
+                    seam[i] = 1;
                     //update col for next computation.
                     col = 1;
                 } else {
-                    columnPath[i] = 0;
+                    seam[i] = 0;
                     col = 0;
                 }
             } else if (col == width() - 1) {
                 if (energy[width() - 2][i] > energy[width() - 1][i]) {
-                    columnPath[i] = width() - 1;
+                    seam[i] = width() - 1;
                     col = width() - 1;
                 } else {
-                    columnPath[i] = width() - 2;
+                    seam[i] = width() - 2;
                     col = width() - 2;
                 }
             } else {
@@ -146,11 +146,11 @@ public class SeamCarver {
                         tempColumn = j;
                     }
                 }
-                columnPath[i] = tempColumn;
+                seam[i] = tempColumn;
                 col = tempColumn;
             }
         }
-        return columnPath;
+        return seam;
     }
 
     private void transpose() {
@@ -184,6 +184,6 @@ public class SeamCarver {
             }
             k++;
         }
-        picture = tempPicture;
+        picture = new Picture(tempPicture);
     }
 }
