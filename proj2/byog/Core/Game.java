@@ -17,13 +17,14 @@ public class Game{
     public static boolean selectGameOptionOver = false;
     public static boolean enterSeedOver = false;
     public static GameData gamedata = new GameData();
-    public static File path = new File("//Users//andrew//OneDrive//CS61B//skeleton-sp18//proj2//byog//Core//save.txt");
-
+    //public static File path = new File("//Users//andrew//OneDrive//CS61B//skeleton-sp18//proj2//byog//Core//save.txt");
+    public static String path = "save.txt";
     /**
      * Method used for playing a fresh game. The game should start from the main menu.
      */
     public void playWithKeyboard() {
         // initialize the tile rendering engine with a window size of X * Y
+        File file = new File(path);
         ter.initialize(WIDTH, HEIGHT);
         String seed = "";
         while(!selectGameOptionOver) {
@@ -31,7 +32,7 @@ public class Game{
             if (StdDraw.hasNextKeyTyped()) {
                 String userInput = Character.toString(StdDraw.nextKeyTyped()).toLowerCase();
                 if (userInput.equals("l")) {
-                    gamedata = getGameData(path);
+                    gamedata = getGameData(file);
                     selectGameOptionOver = true;
                 }
                 if (userInput.equals("n")) {
@@ -79,10 +80,11 @@ public class Game{
     public TETile[][] playWithInputString(String input) {
         // TODO: Fill out this method to run the game using the input passed in,
         // and return a 2D tile representation of the world that would have been
-        // drawn if the same inputs had been given to playWithKeyboard().]
+        // drawn if the same inputs had been given to playWithKeyboard().
+        File file = new File(path);
         input = input.toLowerCase();
         if (loadSaveGame(input)) {
-            gamedata = getGameData(path); // load last saved game
+            gamedata = getGameData(file); // load last saved game
         } else {
             long seed = getSeed(input); // start a new game
             MapGeneration map = new MapGeneration(seed);
@@ -90,7 +92,7 @@ public class Game{
         }
         startGameWithInputString(gamedata.getWorld(), gamedata.getPlayer(), input);
         if (saveCurrentGame(input)) {
-            save(path, gamedata);
+            save(file, gamedata);
         }
         return gamedata.getWorld();
     }
@@ -265,6 +267,7 @@ public class Game{
 
     //start the game.
     public void startGame(GameData gamedata) {
+        File file = new File(path);
         TETile[][] world = gamedata.getWorld();
         Player player = gamedata.getPlayer();
         ter.initialize(WIDTH, HEIGHT);
@@ -280,7 +283,7 @@ public class Game{
                 player.move(world, m, this);
                 if (m.equals("q")) {
                     gameOver = true;
-                    save(path, gamedata);
+                    save(file, gamedata);
                     System.exit(0);
                 }
             }
