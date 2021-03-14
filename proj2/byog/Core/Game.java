@@ -8,35 +8,34 @@ import edu.princeton.cs.introcs.StdDraw;
 import java.awt.*;
 import java.io.*;
 
-public class Game{
+public class Game {
     TERenderer ter = new TERenderer();
     /* Feel free to change the width and height. */
     public static final int WIDTH = 85;
     public static final int HEIGHT = 48;
     public static boolean gameOver = false;
-    public static boolean selectGameOptionOver = false;
+    public static boolean gameOptionOver = false;
     public static boolean enterSeedOver = false;
     public static GameData gamedata = new GameData();
-    //public static File path = new File("//Users//andrew//OneDrive//CS61B//skeleton-sp18//proj2//byog//Core//save.txt");
-    public static String path = "save.txt";
+    public static File path = new File("save.txt");
+
     /**
      * Method used for playing a fresh game. The game should start from the main menu.
      */
     public void playWithKeyboard() {
         // initialize the tile rendering engine with a window size of X * Y
-        File file = new File(path);
         ter.initialize(WIDTH, HEIGHT);
         String seed = "";
-        while(!selectGameOptionOver) {
+        while (!gameOptionOver) {
             drawUI();
             if (StdDraw.hasNextKeyTyped()) {
                 String userInput = Character.toString(StdDraw.nextKeyTyped()).toLowerCase();
                 if (userInput.equals("l")) {
-                    gamedata = getGameData(file);
-                    selectGameOptionOver = true;
+                    gamedata = getSaveGame(path);
+                    gameOptionOver = true;
                 }
                 if (userInput.equals("n")) {
-                    selectGameOptionOver = true;
+                    gameOptionOver = true;
                     drawFrame(""); // clear the canvas.
                     while (true) {
                         if (StdDraw.hasNextKeyTyped()) {
@@ -44,7 +43,7 @@ public class Game{
                             if (seed.length() == 0 && i.equals("s")) {
                                 continue;
                             }
-                            if (isSingleDigitNumber(i.charAt(0))) {
+                            if (isNumber(i.charAt(0))) {
                                 seed += i;
                             }
                             if (seed.length() > 0 && i.equals("s")) {
@@ -74,6 +73,7 @@ public class Game{
      * world. However, the behavior is slightly different. After playing with "n123sss:q", the game
      * should save, and thus if we then called playWithInputString with the string "l", we'd expect
      * to get the exact same world back again, since this corresponds to loading the saved game.
+     *
      * @param input the input string to feed to your program
      * @return the 2D TETile[][] representing the state of the world
      */
@@ -81,33 +81,62 @@ public class Game{
         // TODO: Fill out this method to run the game using the input passed in,
         // and return a 2D tile representation of the world that would have been
         // drawn if the same inputs had been given to playWithKeyboard().
-        File file = new File(path);
-        input = input.toLowerCase();
-        if (loadSaveGame(input)) {
-            gamedata = getGameData(file); // load last saved game
-        } else {
-            long seed = getSeed(input); // start a new game
-            MapGeneration map = new MapGeneration(seed);
-            gamedata = map.generate(WIDTH, HEIGHT);
+        int start = 0;
+        if (input.charAt(0) == 'n') {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 1; i < input.length(); i++) {
+                if (input.charAt(i) == 's') {
+                    start = i + 1;
+                    break;
+                }
+                sb.append(input.charAt(i));
+            }
+            MapGeneration mg = new MapGeneration(Long.parseLong(sb.toString()));
+            gamedata = mg.generate(WIDTH, HEIGHT);
         }
-        startGameWithInputString(gamedata.getWorld(), gamedata.getPlayer(), input);
-        if (saveCurrentGame(input)) {
-            save(file, gamedata);
+        if (input.charAt(0) == 'l') {
+            gamedata = getSaveGame(path);
+            start = 1;
         }
-        return gamedata.getWorld();
+        int endIndex = GameStart(input, start);
+        if (endIndex == input.length() - 1) {
+            return gamedata.getWorld();
+        }
+        return playWithInputString(input.substring(endIndex + 1, input.length()));
     }
 
-    /** Start game with inputString.*/
-    public void startGameWithInputString(TETile[][] world, Player player, String input) {
-        String movement = UserCommands(input);
+    /**
+     * move the player base on input string, save game if isQuit is true, return index position of q or last index position of the string in parameter.
+     */
+    public int GameStart(String input, int start) {
+        StringBuilder sb = new StringBuilder();
+        boolean isQuit = false;
+        int end = 0;
+        for (int i = start; i < input.length(); i++) {
+            char c = input.charAt(i);
+            if (c == ':' && i + 1 < input.length() && input.charAt(i + 1) == 'q') {
+                isQuit = true;
+                end = i + 1;
+                break;
+            }
+            sb.append(i);
+            end = i;
+        }
         int n = 0;
+        TETile[][] world = gamedata.getWorld();
+        Player player = gamedata.getPlayer();
+        String playerMove = sb.toString();
         //ter.initialize(WIDTH, HEIGHT);
-        while (!gameOver && n < movement.length()) {
-            player.move(world, movement.substring(n, n + 1), this);
+        while (!gameOver && n < playerMove.length()) {
+            player.move(world, playerMove.substring(n, n + 1), this);
             //ter.renderFrame(world);
             //StdDraw.pause(1000);
             n++;
         }
+        if (isQuit) {
+            save(path, gamedata);
+        }
+        return end;
 //        StdDraw.clear(Color.black);
 //        StdDraw.show();
     }
@@ -122,23 +151,14 @@ public class Game{
         return input.substring(input.length() - 1, input.length()).equals("q");
     }
 
-    /** Return user commands, w, a, s, d.*/
-    private String UserCommands(String input) {
-        int start = 0;
-        for (int i = 1; i < input.length(); i++) {
-            if (!isSingleDigitNumber(input.charAt(i))) {
-                start = i;
-                break;
-            }
-        }
-        return input.substring(start + 1, input.length());
-    }
 
-    /** helper method: Return the seed. */
+    /**
+     * helper method: Return the seed.
+     */
     private long getSeed(String input) {
         int end = 0;
         for (int i = 1; i < input.length(); i++) {
-            if (!isSingleDigitNumber(input.charAt(i))) {
+            if (!isNumber(input.charAt(i))) {
                 end = i;
                 break;
             }
@@ -147,7 +167,7 @@ public class Game{
     }
 
     //check if the current character is a number between 0 to 9.
-    private boolean isSingleDigitNumber(char c) {
+    private boolean isNumber(char c) {
         if (c >= '0' && c <= '9') {
             return true;
         }
@@ -168,7 +188,7 @@ public class Game{
     }
 
     // Return a previous saved world
-    private GameData getGameData(File path) {
+    private GameData getSaveGame(File path) {
         if (fileIsEmpty(path)) {
             System.exit(0);
         }
@@ -213,7 +233,9 @@ public class Game{
         }
     }
 
-    /**The method takes the world and draw the world with HUD(heads up display) in the screen. it doesn't return anything*/
+    /**
+     * The method takes the world and draw the world with HUD(heads up display) in the screen. it doesn't return anything
+     */
     public void drawFrame(String Text) {
         StdDraw.clear(Color.black);
         Font font = new Font("Monaco", Font.BOLD, 20);
@@ -225,7 +247,9 @@ public class Game{
         StdDraw.show();
     }
 
-    /** Draw the HUD (heads up display)*/
+    /**
+     * Draw the HUD (heads up display)
+     */
     private void drawHUD(TETile[][] world, int x, int y) {
         String text = "";
         StdDraw.setPenColor(Color.white);
@@ -267,7 +291,6 @@ public class Game{
 
     //start the game.
     public void startGame(GameData gamedata) {
-        File file = new File(path);
         TETile[][] world = gamedata.getWorld();
         Player player = gamedata.getPlayer();
         ter.initialize(WIDTH, HEIGHT);
@@ -275,7 +298,7 @@ public class Game{
             ter.renderFrame(world);
             int x = (int) StdDraw.mouseX();
             int y = (int) StdDraw.mouseY();
-            if (x < WIDTH && y <HEIGHT) { // since StdDraw will get x and y coordinates out of the canvas, set a constrain.
+            if (x < WIDTH && y < HEIGHT) { // since StdDraw will get x and y coordinates out of the canvas, set a constrain.
                 drawHUD(world, x, y);// drawHUD() has to call after Ter.RenderFrame() has been called because Ter.RenderFrame() calls StdDraw.clear().
             }
             if (StdDraw.hasNextKeyTyped()) {
@@ -283,7 +306,7 @@ public class Game{
                 player.move(world, m, this);
                 if (m.equals("q")) {
                     gameOver = true;
-                    save(file, gamedata);
+                    save(path, gamedata);
                     System.exit(0);
                 }
             }
