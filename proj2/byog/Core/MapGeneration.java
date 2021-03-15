@@ -59,32 +59,32 @@ public class MapGeneration {
         int initialX = r.nextInt(X - (maxRandomWidth + 1)) + ((maxRandomWidth - 1) / 2 + 1);
         int initialY = r.nextInt(Y - 3  - (maxRandomLength + 1)) + ((maxRandomLength - 1) / 2 + 1);
         Position initialPos = new Position(initialX, initialY);
-        MapBuilder next = new MapBuilder(randomLength(), randomWidth(), initialPos);
-        next.BuildToWorld(world);
+        MapBuilder current = new MapBuilder(randomLength(), randomWidth(), initialPos);
+        current.BuildToWorld(world);
         Player player = new Player(world, initialPos);
         Stack<MapBuilder> stack = new Stack<>();
-        stack.push(next);
+        stack.push(current);
         while (!stack.isEmpty()) {
-            while (!next.visited()) {
-                s = r.nextInt(3); // the value of s indicate to build a room or hallway next
-                int d = randomDirect(next.getVisits()); // expand at current room/hallway's random direction
+            while (!current.isExpandable()) {
+                s = r.nextInt(3); // the value of s indicate to build a room or hallway current
+                int d = randomDirect(current.neighbors()); // expand at current room/hallway's random direction
                 int l = randomLength();
                 int w = randomWidth();
-                if (next.expandAtD(world, l, w, d, X, Y - 3)) {
-                    next = next.expandD(world, l, w, d);
-                    stack.push(next);
+                if (current.isExpandableAtDirection(world, l, w, d, X, Y - 3)) {
+                    current = current.expand(world, l, w, d);
+                    stack.push(current);
                 } else {
-                    next.getVisits()[d] = true;
+                    current.neighbors()[d] = true;
                 }
             }
-            MapBuilder current = stack.peek();
-            if (!doorCre && current.isRoom()) {
-                makeDoor(world, current);
+            MapBuilder temp = stack.peek();
+            if (!doorCre && temp.isRoom()) {
+                makeDoor(world, temp);
                 doorCre = true;
             }
             stack.pop();
             if (!stack.isEmpty()) {
-                next = stack.peek();
+                current = stack.peek();
             }
         }
         return new GameData(world, player);
@@ -93,17 +93,17 @@ public class MapGeneration {
     //Replace a wall to a door in a room
     private void makeDoor(TETile[][] world, MapBuilder room) {
         for (int i = 0; i < 4; i++) {
-            room.getVisits()[i] = false;
+            room.neighbors()[i] = false;
         }
-        while (!room.visited()) {
-            int d = randomDirect(room.getVisits());
+        while (!room.isExpandable()) {
+            int d = randomDirect(room.neighbors());
             int x = room.getEdgePos(d).getX();
             int y = room.getEdgePos(d).getY();
             if (world[x][y].equals(Tileset.WALL)) {
                 world[x][y] = Tileset.LOCKED_DOOR;
                 break;
             } else {
-                room.getVisits()[d] = true;
+                room.neighbors()[d] = true;
             }
         }
     }

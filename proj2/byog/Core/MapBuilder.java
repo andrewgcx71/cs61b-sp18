@@ -51,7 +51,7 @@ public class MapBuilder {
 
     /** work with expandAtD() method, has to call expandAtD() method before calling this method.
      * This method expand current room/hallway with a new room/hallway at direction d, and return the new room/hallway created */
-    public MapBuilder expandD(TETile[][] world, int l, int w, int d) {
+    public MapBuilder expand(TETile[][] world, int l, int w, int d) {
 
         int x = getEdgePos(d).getX();
         int y = getEdgePos(d).getY();
@@ -74,7 +74,7 @@ public class MapBuilder {
 
     /** check if room/hallway with a particular shape can be expanded at direction d,
      * if expandable, return true, otherwise false.*/
-    public boolean expandAtD(TETile[][] world, int l, int w, int d, int X, int Y) {
+    public boolean isExpandableAtDirection(TETile[][] world, int l, int w, int d, int X, int Y) {
         if (!outOfBoundaries(l, w, d, X, Y) && !isOverlap(world, l, w, d)) {
             return true;
         }
@@ -82,7 +82,7 @@ public class MapBuilder {
     }
 
     /**Return true if 4 directions have been visited, otherwise false */
-    public boolean visited() {
+    public boolean isExpandable() {
         for (boolean temp: visits) {
             if (!temp) {
                 return false;
@@ -243,7 +243,7 @@ public class MapBuilder {
     }
 
     /** return visits.*/
-    public boolean[] getVisits() {
+    public boolean[] neighbors() {
         return visits;
     }
 }
