@@ -1,4 +1,3 @@
-// Grab from lab 10
 
 public interface ExtrinsicPQ<T> {
     void insert(T var1, double var2);

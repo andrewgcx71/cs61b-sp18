@@ -1,4 +1,4 @@
-// Grab from lab 10
+
 
 public class ArrayHeap<T> implements ExtrinsicPQ<T> {
     private ArrayHeap<T>.Node[] contents = new ArrayHeap.Node[16];

@@ -71,30 +71,24 @@ public class Rasterer {
             return result;
         }
         int depth = getDepth(params);
-        Coordinate upperLeft = upperLeft(params, depth);
-        Coordinate lowerRight = lowerRight(params, depth);
-        String[][] images = getNames(upperLeft, lowerRight, depth);
-        updateResult(images, upperLeft, lowerRight, depth);
-        return result;
-    }
-
-    /**
-     * update result.
-     */
-    private void updateResult(String[][] images, Coordinate upperLeft, Coordinate lowerRight, int depth) {
-        result.put("render_grid", images);
-        result.put("raster_ul_lon", upperLeft.getLon());
-        result.put("raster_ul_lat", upperLeft.getLat());
-        result.put("raster_lr_lon", lowerRight.getLon());
-        result.put("raster_lr_lat", lowerRight.getLat());
-        result.put("depth", depth);
-        result.put("query_success", true);
+        Coordinate topLeftCoordinate = upperLeft(params, depth);
+        Coordinate bottomRightCoordinate = lowerRight(params, depth);
+        String[][] fileNames = getFileNames(topLeftCoordinate, bottomRightCoordinate, depth);
+        Map<String, Object> res = new HashMap<>();
+        res.put("render_grid", fileNames);
+        res.put("raster_ul_lon", topLeftCoordinate.getLon());
+        res.put("raster_ul_lat", topLeftCoordinate.getLat());
+        res.put("raster_lr_lon", bottomRightCoordinate.getLon());
+        res.put("raster_lr_lat", bottomRightCoordinate.getLat());
+        res.put("depth", depth);
+        res.put("query_success", true);
+        return res;
     }
 
     /**
      * Return a list of images in the query box
      */
-    private String[][] getNames(Coordinate upperLeft, Coordinate lowerRight, int depth) {
+    private String[][] getFileNames(Coordinate upperLeft, Coordinate lowerRight, int depth) {
         int column = lowerRightColumn - upperLeftColumn + 1;
         int row = lowerRightRow - upperLeftRow + 1;
         String[][] res = new String[row][column];
