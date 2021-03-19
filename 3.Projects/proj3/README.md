@@ -5,7 +5,7 @@ Double click on two points for routing
 
 ![](https://media.giphy.com/media/PO8GNHTTYiWrp71yj9/giphy.gif)
 
-Dirving instrucitons
+Driving instrucitons
 
 ![](https://media.giphy.com/media/WFbzptxL31arPelN3O/giphy.gif)
 
