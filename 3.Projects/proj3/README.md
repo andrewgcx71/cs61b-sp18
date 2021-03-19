@@ -1,7 +1,7 @@
 This project based on Google map, I implement the back-end for this applicaiton, click on [project discription](https://sp18.datastructur.es/materials/proj/proj3/proj3) for more information and below for quick demo.
 
 
-Double click on two points for routing
+Double click for routing
 
 ![](https://media.giphy.com/media/PO8GNHTTYiWrp71yj9/giphy.gif)
 
