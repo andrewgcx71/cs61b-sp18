@@ -3,6 +3,7 @@ Click "CLEAR ROUTE" to start a new routeclea
 ![](https://media.giphy.com/media/lKgKwuUzl1Opkh0ve8/giphy.gif)
 
 Double click on stating point and ending point for routing
+
 ![](https://media.giphy.com/media/SuqQ4Y7CYCjHulRcZW/giphy.gif)
 
 Click on the top right button for dirving instrucitons
@@ -14,4 +15,5 @@ Type in a string in the search bar for autocompletion
 Place a red dot on map that corresponds to the search just made
 
 I also deployed it to Heroku, but since it is a free server, it is very slow.
+
 http://bearmaps-sp18-s64464.herokuapp.com/map.html
