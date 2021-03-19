@@ -25,3 +25,5 @@ Place a red dot on map that corresponds to the search just made
 I also deployed it to Heroku, but since it is a free server, it is very slow.
 
 http://bearmaps-sp18-s64464.herokuapp.com/map.html
+
+![](https://media.giphy.com/media/tFcuvne3zgIHMByaDg/giphy.gif)
