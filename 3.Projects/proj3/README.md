@@ -13,7 +13,7 @@ Zoom in and zoom out
 
 ![](https://media.giphy.com/media/CeNAJPGCcXH696WCYk/giphy.gif)
 
-Autocompletion
+Autocomlete
 
 ![](https://media.giphy.com/media/27HMEPwVBxnZNukAps/giphy.gif)
 
