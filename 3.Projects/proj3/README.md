@@ -7,7 +7,7 @@ Double click for routing
 
 Driving instrucitons
 
-![](https://media.giphy.com/media/WFbzptxL31arPelN3O/giphy.gif)
+![](https://media.giphy.com/media/ZYaqwi2WcdoPpMPsGV/giphy.gif)
 
 Zoom in and zoom out
 
