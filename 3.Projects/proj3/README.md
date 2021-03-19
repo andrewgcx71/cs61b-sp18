@@ -21,8 +21,8 @@ Search
 
 ![](https://media.giphy.com/media/y1N20NLduCJEuoQWM1/giphy.gif)
 
-Heroku deloyment (Warning: free server, extremly slow)
+Deloy on [Heroku](http://bearmaps-sp18-s64464.herokuapp.com/map.html) (Heroku is a free server, the performace is not good)
 
-http://bearmaps-sp18-s64464.herokuapp.com/map.html
+
 
 
