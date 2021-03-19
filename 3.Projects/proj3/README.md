@@ -21,7 +21,7 @@ Search
 
 ![](https://media.giphy.com/media/y1N20NLduCJEuoQWM1/giphy.gif)
 
-Deloy on [Heroku](http://bearmaps-sp18-s64464.herokuapp.com/map.html) (Heroku is a free server, the performace is not good)
+Deloy on Heroku, click [here](http://bearmaps-sp18-s64464.herokuapp.com/map.html) to interact with my application(if you run into any issue, just reload the website)
 
 
 
