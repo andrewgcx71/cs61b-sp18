@@ -15,9 +15,9 @@ public class TestGraphBuilding {
     private static GraphDB graph;
     private static GraphDB graphSmall;
 
-    private static final String OSM_DB_PATH = "data/berkeley-2018.osm.xml";
+    private static final String OSM_DB_PATH = "/Users/andrew/Library/Mobile Documents/com~apple~CloudDocs/CS61B/skeleton-sp18/library-sp18/data/berkeley-2018.osm.xml";
     private static final String OSM_DB_PATH_SMALL =
-            "data/berkeley-2018-small.osm.xml";
+            "/Users/andrew/Library/Mobile Documents/com~apple~CloudDocs/CS61B/skeleton-sp18/library-sp18/data/berkeley-2018-small.osm.xml";
     private static boolean initialized = false;
 
     /**

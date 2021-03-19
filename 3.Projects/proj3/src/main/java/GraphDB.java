@@ -64,17 +64,17 @@ public class GraphDB {
      *
      * @param dbPath Path to the XML file to be parsed.
      */
-    //has been modified for heroku deployment
+    //need to modify for heroku deployment
     public GraphDB(String dbPath) {
         try {
-//            File inputFile = new File(dbPath);
-//            FileInputStream inputStream = new FileInputStream(inputFile);
-            // GZIPInputStream stream = new GZIPInputStream(inputStream);
+            File inputFile = new File(dbPath);
+            FileInputStream inputStream = new FileInputStream(inputFile);
+            //GZIPInputStream stream = new GZIPInputStream(inputStream);
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser saxParser = factory.newSAXParser();
             GraphBuildingHandler gbh = new GraphBuildingHandler(this);
-//           saxParser.parse(inputStream, gbh);
-            saxParser.parse(Thread.currentThread().getContextClassLoader().getResourceAsStream(dbPath), gbh);
+            saxParser.parse(inputStream, gbh);
+            //saxParser.parse(Thread.currentThread().getContextClassLoader().getResourceAsStream(dbPath), gbh);
         } catch (ParserConfigurationException | SAXException | IOException e) {
             e.printStackTrace();
         }

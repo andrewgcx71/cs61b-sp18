@@ -6,7 +6,7 @@ import java.util.*;
  * GraphDB in isolation from all the rest of the parts of this assignment.
  */
 public class GraphDBLauncher {
-    private static final String OSM_DB_PATH = "data/berkeley-2018.osm.xml";
+    private static final String OSM_DB_PATH = "/Users/andrew/Library/Mobile Documents/com~apple~CloudDocs/CS61B/cs61b-sp18/library-sp18/data/berkeley-2018.osm.xml";
 
     public static void main(String[] args) {
         GraphDB g = new GraphDB(OSM_DB_PATH);
