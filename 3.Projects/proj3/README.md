@@ -1,4 +1,4 @@
-Click "CLEAR ROUTE" to start a new routeclea
+Click "CLEAR ROUTE" to start a new route
 
 ![](https://media.giphy.com/media/lKgKwuUzl1Opkh0ve8/giphy.gif)
 
@@ -8,11 +8,19 @@ Double click on stating point and ending point for routing
 
 Click on the top right button for dirving instrucitons
 
-Use either mouse wheel or +/- buttons on the top left to zoom in or zoom out
+![](https://media.giphy.com/media/WFbzptxL31arPelN3O/giphy.gif)
+
+Use +/- buttons on the top left to zoom in or zoom out
+
+![](https://media.giphy.com/media/CeNAJPGCcXH696WCYk/giphy.gif)
 
 Type in a string in the search bar for autocompletion
 
+![](https://media.giphy.com/media/27HMEPwVBxnZNukAps/giphy.gif)
+
 Place a red dot on map that corresponds to the search just made
+
+![](https://media.giphy.com/media/y1N20NLduCJEuoQWM1/giphy.gif)
 
 I also deployed it to Heroku, but since it is a free server, it is very slow.
 
