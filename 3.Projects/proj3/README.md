@@ -3,6 +3,7 @@ Click "CLEAR ROUTE" to start a new routeclea
 ![](https://media.giphy.com/media/lKgKwuUzl1Opkh0ve8/giphy.gif)
 
 Double click on stating point and ending point for routing
+![](https://media.giphy.com/media/SuqQ4Y7CYCjHulRcZW/giphy.gif)
 
 Click on the top right button for dirving instrucitons
 
