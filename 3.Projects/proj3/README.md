@@ -1,1 +1,1 @@
-| Project 3  | [BearMaps](https://github.com/andrewgcx71/cs61b-sp18/tree/master/3.Projects/proj3) | 
+| Project 3  | [BearMaps](https://sp18.datastructur.es/materials/proj/proj3/proj3) | 
