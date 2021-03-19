@@ -1,6 +1,6 @@
 Click "CLEAR ROUTE" to start a new routeclea
 
-![](clearRoute.gif)
+![](https://media.giphy.com/media/lKgKwuUzl1Opkh0ve8/giphy.gif)
 
 Double click on stating point and ending point for routing
 
