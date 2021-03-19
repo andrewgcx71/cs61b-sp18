@@ -19,7 +19,7 @@ Search
 
 ![](https://media.giphy.com/media/y1N20NLduCJEuoQWM1/giphy.gif)
 
-Heroku deloyment
+Heroku deloyment (Warning: free server, extremly slow)
 
 http://bearmaps-sp18-s64464.herokuapp.com/map.html
 
