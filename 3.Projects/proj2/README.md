@@ -2,7 +2,7 @@ This Application is based on 2D tile-based game. The goal of this project is to 
 
 ------------------------------------------------------------------------------------------------------------------------
 
-Generate a world base on a positive number provided by player. Each number genernates a different world.
+Generate explorable worlds.
 
 ![](https://media.giphy.com/media/CZLPK3Ueb3i9aXtGLJ/giphy.gif)
 
