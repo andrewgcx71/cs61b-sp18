@@ -14,15 +14,7 @@ If N is selected, enter a positive number to generate a world. Each number will 
 ![](https://media.giphy.com/media/35tVwIe6qVNRNedLEV/giphy.gif)
 
 ------------------------------------------------------------------------------------------------------------------------
-Use keys beblow to move around the world and Q to quit & save the game. Next time you open the game, press L to load it.
-
-|Key|Command|
-|----| -----|
-|A|Move Left|
-|D|Move Right|
-|W|Move UP|
-|S|Move Down|
-|Q|Quit & Save|
+Use A, S, D W to walk around the world and Q to quit & save the game. Next time you open the game, press L to load it.
 
 ![](https://media.giphy.com/media/yDYVwga9HGWLmF7iDH/giphy.gif)
 
