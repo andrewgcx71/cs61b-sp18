@@ -8,14 +8,14 @@ Generate an unique world base on a positive number provided by player. If same n
 
 ------------------------------------------------------------------------------------------------------------------------
 
-It supports player movements (Use keys A, S, D W).
+Use keyboard to walk around the world. (Use keys A, S, D, W).
 
 
 ![](https://media.giphy.com/media/cEUvQwNodYZC1yIi7q/giphy.gif)
 
 ------------------------------------------------------------------------------------------------------------------------
 
-Heads up display - return the game information on top left corner base on which tile your mouse is pointing at.
+Heads up display - return the game information on top left corner base on tile your mouse is pointing at.
 
 | Tile  | Represents |
 | ------------- | ------------- |
@@ -29,12 +29,12 @@ Heads up display - return the game information on top left corner base on which 
 
 ------------------------------------------------------------------------------------------------------------------------
 
-It supports quit & save (Use key Q) and load saved game (Use key L).
+Game can be saved and load.
 
 ![](https://media.giphy.com/media/8wdK5aOQBKhwBavhZR/giphy.gif)
 
 ------------------------------------------------------------------------------------------------------------------------
 
-Walk to door to end the game.
+Walk to door.
 
 ![](https://media.giphy.com/media/nNb5TO2rGstOLa7127/giphy.gif)
