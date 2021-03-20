@@ -26,7 +26,7 @@ Enter prefix on search bar(top left) for autocompletion
 
 -----------------------------------------------------------------------------------------------
 
-Mark a particular location on the map
+Mark the location we typed in search bar
 
 ![](https://media.giphy.com/media/y1N20NLduCJEuoQWM1/giphy.gif)
 
