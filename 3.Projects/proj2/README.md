@@ -11,13 +11,6 @@ Selection Menu
 If N is selected, enter a positive number to generate a world. 
 
 
-|Tile|Representation|
-|----| -----|
-|#|Wall|
-|.|Floor|
-|@|Player|
-|█|Locked door|
-
 ![](https://media.giphy.com/media/35tVwIe6qVNRNedLEV/giphy.gif)
 
 ------------------------------------------------------------------------------------------------------------------------
