@@ -1,4 +1,4 @@
-This Application is based on 2D tile-based game. Student is required to implemented the applicaiton from scratch base on [Libraries] (https://introcs.cs.princeton.edu/java/stdlib/javadoc/StdDraw.html) provided. Please see [course website](https://sp18.datastructur.es/materials/proj/proj2/proj2) for more information.
+This Application is based on 2D tile-based game. Student is required to implemented the applicaiton from scratch base on [Libraries](https://introcs.cs.princeton.edu/java/stdlib/javadoc/StdDraw.html) provided. Please see [course website](https://sp18.datastructur.es/materials/proj/proj2/proj2) for more information.
 
 ------------------------------------------------------------------------------------------------------------------------
 
@@ -8,7 +8,7 @@ Each seed generates an unique maze.
 
 ------------------------------------------------------------------------------------------------------------------------
 
-Use key (A, W, S, D) to move the character.
+It supports character movement.
 
 ![](https://media.giphy.com/media/cEUvQwNodYZC1yIi7q/giphy.gif)
 
