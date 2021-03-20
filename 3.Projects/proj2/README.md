@@ -2,7 +2,7 @@ This Application is based on 2D tile-based game. The application generates an ex
 
 ------------------------------------------------------------------------------------------------------------------------
 
-Each seed generates an unique maze/world (Each maze varies by seed).
+Each seed generates an unique world (Each world varies by seed).
 
 ![](https://media.giphy.com/media/CZLPK3Ueb3i9aXtGLJ/giphy.gif)
 
