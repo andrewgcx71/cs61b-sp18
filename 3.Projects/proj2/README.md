@@ -14,12 +14,12 @@ keyboard control.
 
 ------------------------------------------------------------------------------------------------------------------------
 
-Heads up display
+HUD
 
 ![](https://media.giphy.com/media/5HAGfGsMiYuKEIOgYo/giphy.gif)
 
 ------------------------------------------------------------------------------------------------------------------------
 
-save game and load game.
+save/load game
 
 ![](https://media.giphy.com/media/8wdK5aOQBKhwBavhZR/giphy.gif)
