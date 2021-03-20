@@ -21,8 +21,9 @@ Search
 
 ![](https://media.giphy.com/media/y1N20NLduCJEuoQWM1/giphy.gif)
 
-Heroku deployment - if you run into any issue, just reload the website, also the website is very slow due to the nature that the server I'm using is
-completely free.
+Upload my project to a free server. Since it's free, so it will be a lot more slower in comparison to use my computer as a server.
+
+Refresh the website if you run into issues. Thanks for your time.
 
 http://bearmaps-sp18-s64464.herokuapp.com/map.html
 
