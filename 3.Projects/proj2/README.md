@@ -15,7 +15,7 @@ If N is selected, enter a positive number, and press S to finish.
 ------------------------------------------------------------------------------------------------------------------------
 
 |Key|Command|
----- --------
+|----| -----|
 |A|Move Left|
 |D|Move Right|
 |W|Move UP|
