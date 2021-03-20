@@ -17,6 +17,8 @@ Keyboard Control:
 
 Winning condition: navigate the character (@) to the locked door(Orange Tile) to end the game.
 
+(HUD is located on the top left corner of the screen.)
+
 |Key|Command|
 |----| -----|
 |A|Move Left|
