@@ -9,7 +9,7 @@ Single click grey icon on top right to display driving instrucitons
 
 ![](https://media.giphy.com/media/ZYaqwi2WcdoPpMPsGV/giphy.gif)
 
-Zoom in and zoom out
+Single click on +/- icon for zooming in/zoomming out
 
 ![](https://media.giphy.com/media/CeNAJPGCcXH696WCYk/giphy.gif)
 
