@@ -23,7 +23,7 @@ Use following keys for movements.
 
 Game Heads up Display (Top left Corner).
 
-Display base on x & y coordinators of mouse cursor.
+Return the game information base on where your mouse is pointing at.
 
 | Tile  | Represents |
 | ------------- | ------------- |
