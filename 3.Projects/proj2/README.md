@@ -1,4 +1,4 @@
-This Application is based on 2D tile-based game. Student is required to generates explorable worlds that is composed of hallways and rooms, as well as the player can walk around and interact with world. Please see [course website](https://sp18.datastructur.es/materials/proj/proj2/proj2) for more information.
+This Application is based on 2D tile-based game. Student is required to a generate explorable world and player can walk around and interact with the world. Please see [course website](https://sp18.datastructur.es/materials/proj/proj2/proj2) for more information.
 
 ------------------------------------------------------------------------------------------------------------------------
 
