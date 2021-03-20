@@ -26,7 +26,7 @@ Enter prefix on search bar(top left) for autocompletion
 
 -----------------------------------------------------------------------------------------------
 
-Mark the query(the location we just entered on search bar) on the map
+Mark the location(the location we just entered on search bar) on the map
 
 ![](https://media.giphy.com/media/y1N20NLduCJEuoQWM1/giphy.gif)
 
