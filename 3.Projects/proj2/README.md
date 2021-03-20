@@ -8,7 +8,14 @@ Use N to start a new game, L to load saved game, and Q to quit the program.
 
 ------------------------------------------------------------------------------------------------------------------------
 
-If N is selected, enter a positive number, and press S to finish. 
+If N is selected, enter a positive number to generate an explorbale world. 
+
+|Tile|As|
+|----| -----|
+|#|Wall|
+|.|Floor|
+|@|Player|
+|█|Locked door|
 
 ![](https://media.giphy.com/media/35tVwIe6qVNRNedLEV/giphy.gif)
 
