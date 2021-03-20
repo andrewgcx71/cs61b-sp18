@@ -13,7 +13,7 @@ Single click on +/- icon on top left for zooming in/zoomming out
 
 ![](https://media.giphy.com/media/CeNAJPGCcXH696WCYk/giphy.gif)
 
-Autocomlete
+Enter prefix to search bar on top left for autocompletion
 
 ![](https://media.giphy.com/media/27HMEPwVBxnZNukAps/giphy.gif)
 
