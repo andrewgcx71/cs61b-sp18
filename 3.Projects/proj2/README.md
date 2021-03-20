@@ -2,7 +2,7 @@ This Application is based on 2D tile-based game. The goal of this project is to 
 
 ------------------------------------------------------------------------------------------------------------------------
 
-Each seed generates an unique world (Each world varies by seed).
+Generate an unique world base on a positive number provided by player. If same number was provide, it should generate a world same as previous, otherwise a new world will be generated.
 
 ![](https://media.giphy.com/media/CZLPK3Ueb3i9aXtGLJ/giphy.gif)
 
