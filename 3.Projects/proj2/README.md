@@ -20,9 +20,9 @@ Point to the below tile should return the following on top left corner
 
 | Tile  | Represents |
 | ------------- | ------------- |
-| [#]  | wall  |
-| [.]  | floor  |
-| [@]  | player |
+| #  | wall  |
+| .  | floor  |
+| @  | player |
 
 
 
