@@ -1,26 +1,26 @@
-This project is based on Google map, I implemented the back-end for this applicaiton, click on [project discription](https://sp18.datastructur.es/materials/proj/proj3/proj3) for more information and below for a quick demo.
+This project is based on Google map, I implemented the back-end for this applicaiton, click on [project discription](https://sp18.datastructur.es/materials/proj/proj3/proj3) for more information and below for a quick demo for functionalities.
 
 -----------------------------------------------------------------------------------------------
 
-Routing
+Double click on each point (point A and Point B) for routing
 
 ![](https://media.giphy.com/media/PO8GNHTTYiWrp71yj9/giphy.gif)
 
 -----------------------------------------------------------------------------------------------
 
-Driving instrucitons
+Single click grey icon(top right corner) to display driving instrucitons
 
 ![](https://media.giphy.com/media/ZYaqwi2WcdoPpMPsGV/giphy.gif)
 
 -----------------------------------------------------------------------------------------------
 
-Zooming in/Zoomming out
+Single click on +/- icon for zooming in/zoomming out
 
 ![](https://media.giphy.com/media/CeNAJPGCcXH696WCYk/giphy.gif)
 
 -----------------------------------------------------------------------------------------------
 
-Autocompletion
+Enter prefix on search bar for autocompletion
 
 ![](https://media.giphy.com/media/27HMEPwVBxnZNukAps/giphy.gif)
 
