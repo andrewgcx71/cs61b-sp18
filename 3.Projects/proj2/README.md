@@ -2,30 +2,28 @@ This Application is based on 2D tile-based game. The goal of this project is to 
 
 ------------------------------------------------------------------------------------------------------------------------
 
-Enter posible number to generate a world.
+Use N to start a new game, L to load saved game, and Q to quit the program.
 
-![](https://media.giphy.com/media/CZLPK3Ueb3i9aXtGLJ/giphy.gif)
-
-------------------------------------------------------------------------------------------------------------------------
-
-Use A, S , D and W to walk around the world.
-
-![](https://media.giphy.com/media/cEUvQwNodYZC1yIi7q/giphy.gif)
+![](https://media.giphy.com/media/Lnzq4ntI047o2s0WbD/giphy.gif)
 
 ------------------------------------------------------------------------------------------------------------------------
 
-Display useful information on the top left.
+If N is selected, enter a positive number, and press S to finish. 
 
-![](https://media.giphy.com/media/5HAGfGsMiYuKEIOgYo/giphy.gif)
-
-------------------------------------------------------------------------------------------------------------------------
-
-Use Q to quit & save game.
-
-![](https://media.giphy.com/media/4PodL5VOMMw10h0vpt/giphy.gif)
+![](https://media.giphy.com/media/35tVwIe6qVNRNedLEV/giphy.gif)
 
 ------------------------------------------------------------------------------------------------------------------------
 
-Use L to load saved game.
+|Key|Command|
+---- --------
+|A|Move Left|
+|D|Move Right|
+|W|Move UP|
+|S|Move Down|
+|Q|Quit & Save
+|
+![](https://media.giphy.com/media/yDYVwga9HGWLmF7iDH/giphy.gif)
 
-![](https://media.giphy.com/media/mOKPdHAm90weyPrLdI/giphy.gif)
+
+
+
