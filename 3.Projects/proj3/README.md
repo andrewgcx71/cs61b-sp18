@@ -1,4 +1,4 @@
-This project based on Google map, I implement the back-end for this applicaiton, click on [project discription](https://sp18.datastructur.es/materials/proj/proj3/proj3) for more information and below for a quick demo.
+This project based on Google map, I implemented the back-end for this applicaiton, click on [project discription](https://sp18.datastructur.es/materials/proj/proj3/proj3) for more information and below for a quick demo.
 
 
 Double click for routing
