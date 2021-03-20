@@ -2,14 +2,13 @@ This Application is based on 2D tile-based game. The goal of this project is to 
 
 ------------------------------------------------------------------------------------------------------------------------
 
-Use N to start a new game, L to load saved game, and Q to quit the program.
+N to start a new game, L to load saved game, and Q to quit the program.
 
 ![](https://media.giphy.com/media/Lnzq4ntI047o2s0WbD/giphy.gif)
 
 ------------------------------------------------------------------------------------------------------------------------
 
-If N is selected, enter a positive number to generate a world. (Each number generate a different world, up to (2^64 / 2 - 1) or 9,223,372,036,854,775,807 worlds)
-
+If N is selected, enter a positive number to generate a world. 
 
 
 |Tile|Representation|
@@ -23,8 +22,6 @@ If N is selected, enter a positive number to generate a world. (Each number gene
 
 ------------------------------------------------------------------------------------------------------------------------
 Keyboard Control:
-
-Winning condition: navigate the character (@) to the locked door(Orange Tile) to end the game.
 
 |Key|Command|
 |----| -----|
