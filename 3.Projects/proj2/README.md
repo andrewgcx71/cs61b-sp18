@@ -10,17 +10,17 @@ Enter a seed to generate a unique maze (each seed genernate a unique maze)
 
 Use key (A, W, S, D) to move the character
 
-![](https://media.giphy.com/media/krktfra6UmzzBK5j7A/giphy.gif)
+![](https://media.giphy.com/media/cEUvQwNodYZC1yIi7q/giphy.gif)
 
 ------------------------------------------------------------------------------------------------------------------------
 
-The top left HUD (heads up display) tells useful information to player, such as which tile your cursor is currently pointing at, it could be either a wall (#), floor (.) or player (@), etc.
+The top left HUD tells useful information to player.
 
 ![](https://media.giphy.com/media/5HAGfGsMiYuKEIOgYo/giphy.gif)
 
 ------------------------------------------------------------------------------------------------------------------------
 
-This application supports quit & save feature, press key (Q) to quit & save the game. Press key (L) to reload the game was saved previously.
+It supports quit & save and reload last game.
 
 ![](https://media.giphy.com/media/8wdK5aOQBKhwBavhZR/giphy.gif)
 
