@@ -1,4 +1,4 @@
-This Application is based on 2D tile-based game. The goal of this project is to teach you how to handle a larger piece of code with little starter code in the hopes of emulating something like a product development cycle. The application generates an explorable world and player should be able to walk around and interact with it. Please see [course website](https://sp18.datastructur.es/materials/proj/proj2/proj2) for more information and it supports following game features.
+This Application is based on 2D tile-based game. The goal of this project is to teach you how to handle a larger piece of code with little starter code in the hopes of emulating something like a product development cycle. The application generates an explorable world and player should be able to walk around and interact with it. Please see [course website](https://sp18.datastructur.es/materials/proj/proj2/proj2) for more information and below for a quick demo.
 
 ------------------------------------------------------------------------------------------------------------------------
 
@@ -20,6 +20,12 @@ Display useful information on the top left.
 
 ------------------------------------------------------------------------------------------------------------------------
 
-save/load game.
+Use Q to quit & save game and then it will bring you back to selection menu.
 
-![](https://media.giphy.com/media/8wdK5aOQBKhwBavhZR/giphy.gif)
+![](https://media.giphy.com/media/4PodL5VOMMw10h0vpt/giphy.gif)
+
+------------------------------------------------------------------------------------------------------------------------
+
+Use L to load game and it should return the game you just saved down above.
+
+![](https://media.giphy.com/media/mOKPdHAm90weyPrLdI/giphy.gif)
