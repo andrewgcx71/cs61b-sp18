@@ -5,7 +5,7 @@ Double click on each point (point A and Point B) for routing
 
 ![](https://media.giphy.com/media/PO8GNHTTYiWrp71yj9/giphy.gif)
 
-Driving instrucitons
+Single click on grey icon on top right to display driving instrucitons
 
 ![](https://media.giphy.com/media/ZYaqwi2WcdoPpMPsGV/giphy.gif)
 
