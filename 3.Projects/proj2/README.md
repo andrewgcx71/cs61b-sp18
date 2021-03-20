@@ -2,24 +2,24 @@ This Application is based on 2D tile-based game. The goal of this project is to 
 
 ------------------------------------------------------------------------------------------------------------------------
 
-Generate explorable worlds.
+Enter posible number to generate a world.
 
 ![](https://media.giphy.com/media/CZLPK3Ueb3i9aXtGLJ/giphy.gif)
 
 ------------------------------------------------------------------------------------------------------------------------
 
-keyboard control.
+Use A, S , D and W to walk around the world.
 
 ![](https://media.giphy.com/media/cEUvQwNodYZC1yIi7q/giphy.gif)
 
 ------------------------------------------------------------------------------------------------------------------------
 
-HUD
+Display useful information on the top left.
 
 ![](https://media.giphy.com/media/5HAGfGsMiYuKEIOgYo/giphy.gif)
 
 ------------------------------------------------------------------------------------------------------------------------
 
-save/load game
+save/load game.
 
 ![](https://media.giphy.com/media/8wdK5aOQBKhwBavhZR/giphy.gif)
