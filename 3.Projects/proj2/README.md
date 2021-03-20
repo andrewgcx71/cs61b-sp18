@@ -2,7 +2,7 @@ This Application is based on 2D tile-based game. The goal of this project is to 
 
 ------------------------------------------------------------------------------------------------------------------------
 
-N to start a new game, L to load saved game, and Q to quit the program.
+Selection Menu
 
 ![](https://media.giphy.com/media/Lnzq4ntI047o2s0WbD/giphy.gif)
 
