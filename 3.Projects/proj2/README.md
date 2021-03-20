@@ -16,6 +16,13 @@ Use keyboard (keys - A, S, D, W) to control the character.
 
 Game Heads up Display (Top left Corner).
 
+Point to the below tile should return the following on top left corner
+
+# = wall
+. = floor 
+@ = player
+
+
 ![](https://media.giphy.com/media/5HAGfGsMiYuKEIOgYo/giphy.gif)
 
 ------------------------------------------------------------------------------------------------------------------------
