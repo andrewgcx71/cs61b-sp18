@@ -8,7 +8,7 @@ Each seed generates an unique maze/world (Each maze varies by seed).
 
 ------------------------------------------------------------------------------------------------------------------------
 
-A, S, D, W for movements.
+It supports player movements.
 
 
 ![](https://media.giphy.com/media/cEUvQwNodYZC1yIi7q/giphy.gif)
@@ -29,7 +29,7 @@ Heads up display - return the game information on top left corner base on which 
 
 ------------------------------------------------------------------------------------------------------------------------
 
-Q for quit & save and L for load saved game.
+It supports quit & save and load saved game.
 
 ![](https://media.giphy.com/media/8wdK5aOQBKhwBavhZR/giphy.gif)
 
