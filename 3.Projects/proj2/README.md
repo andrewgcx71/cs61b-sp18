@@ -1,4 +1,4 @@
-This Application is based on 2D tile-based game. Student is required to implemented the applicaiton from scratch base on [Libraries](https://introcs.cs.princeton.edu/java/stdlib/javadoc/StdDraw.html) provided. Please see [course website](https://sp18.datastructur.es/materials/proj/proj2/proj2) for more information.
+This Application is based on 2D tile-based game. Student is required to build a explorable world that is composed of Hallways and Rooms. Please see [course website](https://sp18.datastructur.es/materials/proj/proj2/proj2) for more information.
 
 ------------------------------------------------------------------------------------------------------------------------
 
