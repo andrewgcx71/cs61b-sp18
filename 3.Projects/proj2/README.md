@@ -14,12 +14,6 @@ Use keyboard (keys - A, S, D, W) to control the character.
 
 ------------------------------------------------------------------------------------------------------------------------
 
-The top left HUD tells useful information to player.
-
-![](https://media.giphy.com/media/5HAGfGsMiYuKEIOgYo/giphy.gif)
-
-------------------------------------------------------------------------------------------------------------------------
-
 It supports quit & save and reload last game.
 
 ![](https://media.giphy.com/media/8wdK5aOQBKhwBavhZR/giphy.gif)
