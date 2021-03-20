@@ -14,7 +14,7 @@ If N is selected, enter a positive number to generate a world.
 ![](https://media.giphy.com/media/35tVwIe6qVNRNedLEV/giphy.gif)
 
 ------------------------------------------------------------------------------------------------------------------------
-Keyboard Control:
+Use keys beblow to move around the world and Q to quit & save the game. Next time you open the game, press L to load it.
 
 |Key|Command|
 |----| -----|
