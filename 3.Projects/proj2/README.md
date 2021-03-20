@@ -8,7 +8,7 @@ Each seed generates an unique maze/world (Each maze varies by seed).
 
 ------------------------------------------------------------------------------------------------------------------------
 
-It supports player movements.
+It supports player movements (Use keys A, S, D W).
 
 
 ![](https://media.giphy.com/media/cEUvQwNodYZC1yIi7q/giphy.gif)
@@ -29,12 +29,12 @@ Heads up display - return the game information on top left corner base on which 
 
 ------------------------------------------------------------------------------------------------------------------------
 
-It supports quit & save and load saved game.
+It supports quit & save (Use key Q) and load saved game (Use key L).
 
 ![](https://media.giphy.com/media/8wdK5aOQBKhwBavhZR/giphy.gif)
 
 ------------------------------------------------------------------------------------------------------------------------
 
-Walk to yellow door to end the game.
+Walk to door to end the game.
 
 ![](https://media.giphy.com/media/nNb5TO2rGstOLa7127/giphy.gif)
