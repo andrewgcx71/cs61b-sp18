@@ -26,5 +26,6 @@ save game and load game.
 
 ------------------------------------------------------------------------------------------------------------------------
 
+Quick run for the game.
 
 ![](https://media.giphy.com/media/nNb5TO2rGstOLa7127/giphy.gif)
