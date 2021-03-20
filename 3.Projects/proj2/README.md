@@ -13,6 +13,9 @@ If N is selected, enter a positive number, and press S to finish.
 ![](https://media.giphy.com/media/35tVwIe6qVNRNedLEV/giphy.gif)
 
 ------------------------------------------------------------------------------------------------------------------------
+Keyboard Control:
+
+Winning condition: navigate the character (@) to the locked door(Orange Tile) to end the game.
 
 |Key|Command|
 |----| -----|
@@ -20,8 +23,8 @@ If N is selected, enter a positive number, and press S to finish.
 |D|Move Right|
 |W|Move UP|
 |S|Move Down|
-|Q|Quit & Save
-|
+|Q|Quit & Save|
+
 ![](https://media.giphy.com/media/yDYVwga9HGWLmF7iDH/giphy.gif)
 
 
