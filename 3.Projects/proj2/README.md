@@ -28,4 +28,4 @@ It supports quit & save and reload last game.
 
 Walk to yellow door to end the game.
 
-![]()
+![](https://media.giphy.com/media/nNb5TO2rGstOLa7127/giphy.gif)
