@@ -8,14 +8,8 @@ Each seed generates an unique maze/world (Each maze varies by seed).
 
 ------------------------------------------------------------------------------------------------------------------------
 
-Use following keys for movements.
+A, S, D, W for movements.
 
-| Key  | Movement |
-| ------------- | ------------- |
-| A  | left  |
-| S  | down  |
-| D  | right |
-| W  | up |
 
 ![](https://media.giphy.com/media/cEUvQwNodYZC1yIi7q/giphy.gif)
 
@@ -35,7 +29,7 @@ Heads up display - return the game information on top left corner base on which 
 
 ------------------------------------------------------------------------------------------------------------------------
 
-It supports quit & save and reload last game.
+Q for quit & save and L for load saved game.
 
 ![](https://media.giphy.com/media/8wdK5aOQBKhwBavhZR/giphy.gif)
 
