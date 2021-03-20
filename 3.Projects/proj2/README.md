@@ -2,7 +2,7 @@ This Application is based on 2D tile-based game. I implemented the applicaiton f
 
 ------------------------------------------------------------------------------------------------------------------------
 
-Enter a seed to generate a unique maze (each seed genernate a unique maze)
+Enter a seed to generate a unique maze
 
 ![](https://media.giphy.com/media/CZLPK3Ueb3i9aXtGLJ/giphy.gif)
 
