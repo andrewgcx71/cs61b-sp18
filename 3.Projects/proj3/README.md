@@ -2,31 +2,31 @@ This project is based on Google map, I implemented the back-end for this applica
 
 -----------------------------------------------------------------------------------------------
 
-Double click on each point (point A and Point B) for routing
+Routing
 
 ![](https://media.giphy.com/media/PO8GNHTTYiWrp71yj9/giphy.gif)
 
 -----------------------------------------------------------------------------------------------
 
-Single click grey icon(top right corner) to display driving instrucitons
+Driving instrucitons
 
 ![](https://media.giphy.com/media/ZYaqwi2WcdoPpMPsGV/giphy.gif)
 
 -----------------------------------------------------------------------------------------------
 
-Single click on +/- icon(top left) for zooming in/zoomming out
+Zooming in/Zoomming out
 
 ![](https://media.giphy.com/media/CeNAJPGCcXH696WCYk/giphy.gif)
 
 -----------------------------------------------------------------------------------------------
 
-Enter prefix on search bar(top left) for autocompletion
+Autocompletion
 
 ![](https://media.giphy.com/media/27HMEPwVBxnZNukAps/giphy.gif)
 
 -----------------------------------------------------------------------------------------------
 
-Mark the locations we typed in search bar
+Search
 
 ![](https://media.giphy.com/media/y1N20NLduCJEuoQWM1/giphy.gif)
 
