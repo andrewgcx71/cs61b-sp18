@@ -21,7 +21,7 @@ Use following keys for movements.
 
 ------------------------------------------------------------------------------------------------------------------------
 
-Heads up display - return the game information on top left corner base on where your mouse is pointing at.
+Heads up display - return the game information on top left corner base on which tile your mouse is pointing at.
 
 | Tile  | Represents |
 | ------------- | ------------- |
