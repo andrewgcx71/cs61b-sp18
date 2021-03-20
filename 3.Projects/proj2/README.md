@@ -8,7 +8,7 @@ Selection Menu
 
 ------------------------------------------------------------------------------------------------------------------------
 
-If N is selected, enter a positive number to generate a world. 
+If N is selected, enter a positive number to generate a world. Each number is supposed to genernate a unique world. 
 
 
 ![](https://media.giphy.com/media/35tVwIe6qVNRNedLEV/giphy.gif)
