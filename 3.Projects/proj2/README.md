@@ -23,9 +23,3 @@ Heads up display
 save game and load game.
 
 ![](https://media.giphy.com/media/8wdK5aOQBKhwBavhZR/giphy.gif)
-
-------------------------------------------------------------------------------------------------------------------------
-
-Quick run for the game.
-
-![](https://media.giphy.com/media/nNb5TO2rGstOLa7127/giphy.gif)
