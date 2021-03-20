@@ -26,6 +26,6 @@ Use Q to quit & save game.
 
 ------------------------------------------------------------------------------------------------------------------------
 
-Use L to load game.
+Use L to load saved game.
 
 ![](https://media.giphy.com/media/mOKPdHAm90weyPrLdI/giphy.gif)
