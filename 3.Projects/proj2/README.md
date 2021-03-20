@@ -8,7 +8,7 @@ Each seed generates an unique maze/world (Each maze varies by seed).
 
 ------------------------------------------------------------------------------------------------------------------------
 
-Use keyboard (A, S, D, E) to control the character.
+Use keyboard (keys - A, S, D, W) to control the character.
 
 ![](https://media.giphy.com/media/cEUvQwNodYZC1yIi7q/giphy.gif)
 
