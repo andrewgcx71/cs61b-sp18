@@ -21,8 +21,10 @@ Search
 
 ![](https://media.giphy.com/media/y1N20NLduCJEuoQWM1/giphy.gif)
 
-Deloy on Heroku, click [here](http://bearmaps-sp18-s64464.herokuapp.com/map.html) to interact with my application(if you run into any issue, just reload the website)
+Heroku deployment - if you run into any issue, just reload the website, also the website is very slow due to the nature that the server I'm using is
+completely free.
 
+http://bearmaps-sp18-s64464.herokuapp.com/map.html
 
 
 
