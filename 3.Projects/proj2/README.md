@@ -8,9 +8,11 @@ Use N to start a new game, L to load saved game, and Q to quit the program.
 
 ------------------------------------------------------------------------------------------------------------------------
 
-If N is selected, enter a positive number to generate an explorbale world. 
+If N is selected, enter a positive number to generate a world. (Each number generate a different world, up to (2^64 / 2 - 1) or 9,223,372,036,854,775,807 worlds)
 
-|Tile|As|
+
+
+|Tile|Representation|
 |----| -----|
 |#|Wall|
 |.|Floor|
@@ -23,8 +25,6 @@ If N is selected, enter a positive number to generate an explorbale world.
 Keyboard Control:
 
 Winning condition: navigate the character (@) to the locked door(Orange Tile) to end the game.
-
-(HUD is located on the top left corner of the screen.)
 
 |Key|Command|
 |----| -----|
