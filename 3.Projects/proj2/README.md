@@ -20,12 +20,12 @@ Display useful information on the top left.
 
 ------------------------------------------------------------------------------------------------------------------------
 
-Use Q to quit & save game and then it will bring you back to selection menu.
+Use Q to quit & save game.
 
 ![](https://media.giphy.com/media/4PodL5VOMMw10h0vpt/giphy.gif)
 
 ------------------------------------------------------------------------------------------------------------------------
 
-Use L to load game and it should return the game you just saved down above.
+Use L to load game.
 
 ![](https://media.giphy.com/media/mOKPdHAm90weyPrLdI/giphy.gif)
