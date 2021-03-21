@@ -20,7 +20,13 @@ If N is selected, enter a positive number. Each number will genernate a new worl
 ![](https://media.giphy.com/media/35tVwIe6qVNRNedLEV/giphy.gif)
 
 ------------------------------------------------------------------------------------------------------------------------
-Use A, S, D W to walk around the world and Q to quit & save the game. Next time you open the game, press L to load it. The text on your top left corner is your HUD.
+Use A, S, D W to walk around the world 
+
+Q to quit & save the game. 
+
+Next time you open the game, press L to load it. 
+
+The text on your top left corner is your HUD.
 
 ![](https://media.giphy.com/media/yDYVwga9HGWLmF7iDH/giphy.gif)
 
