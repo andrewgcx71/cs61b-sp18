@@ -14,7 +14,7 @@ Press Q to quit game
 
 ------------------------------------------------------------------------------------------------------------------------
 
-If N is selected, enter a positive number to generate a world. Each number will genernate a new world, if same number was entered in mutiple games, it returns a same world.
+If N is selected, enter a positive number. Each number will genernate a new world, if same number was entered in mutiple games, it returns a same world.
 
 
 ![](https://media.giphy.com/media/35tVwIe6qVNRNedLEV/giphy.gif)
