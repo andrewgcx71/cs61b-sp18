@@ -5,7 +5,9 @@ This Application is based on 2D tile-based game. The goal of this project is to 
 Selection Menu
 
 Press N to start a new game
+
 Press L to load a saved game
+
 Press Q to quit game
 
 ![](https://media.giphy.com/media/Lnzq4ntI047o2s0WbD/giphy.gif)
