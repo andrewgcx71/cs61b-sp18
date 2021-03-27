@@ -2,13 +2,13 @@ This project is based on Google map, I implemented the back-end for this applica
 
 -----------------------------------------------------------------------------------------------
 
-Double click on each point (point A and Point B) for routing
+Double click on a point to start routing.
 
 ![](https://media.giphy.com/media/PO8GNHTTYiWrp71yj9/giphy.gif)
 
 -----------------------------------------------------------------------------------------------
 
-Single click grey icon(top right corner) to display driving instrucitons
+Single click top right button display driving instrucitons
 
 ![](https://media.giphy.com/media/ZYaqwi2WcdoPpMPsGV/giphy.gif)
 
