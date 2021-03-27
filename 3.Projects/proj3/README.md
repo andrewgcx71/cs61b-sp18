@@ -2,7 +2,7 @@ This project is based on Google map, I implemented the back-end for this applica
 
 -----------------------------------------------------------------------------------------------
 
-Double click on a point to start routing.
+Double click on a location to start routing.
 
 ![](https://media.giphy.com/media/PO8GNHTTYiWrp71yj9/giphy.gif)
 
