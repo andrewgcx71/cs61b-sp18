@@ -26,7 +26,7 @@ Enter prefix on search bar for autocompletion
 
 -----------------------------------------------------------------------------------------------
 
-Search to display locations on the map
+Display a particular location by search
 
 ![](https://media.giphy.com/media/y1N20NLduCJEuoQWM1/giphy.gif)
 
