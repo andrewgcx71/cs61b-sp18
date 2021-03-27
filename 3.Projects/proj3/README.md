@@ -8,7 +8,7 @@ Double click on a location to start routing.
 
 -----------------------------------------------------------------------------------------------
 
-Single click top right button display driving instrucitons
+Single click top right button to display driving instrucitons
 
 ![](https://media.giphy.com/media/ZYaqwi2WcdoPpMPsGV/giphy.gif)
 
