@@ -37,6 +37,9 @@ Display a particular location by search
 
 -----------------------------------------------------------------------------------------------
 
+Heroku deployment:
+------------------
+
 Upload my project to a free server. Since it's free, so it will be a lot more slower in comparison to use my computer as a server.
 
 Refresh the website if you run into issues. Thanks for your time.
