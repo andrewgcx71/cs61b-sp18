@@ -26,7 +26,7 @@ If N is selected, enter a positive number. Each number will genernate a new worl
 ![](https://media.giphy.com/media/35tVwIe6qVNRNedLEV/giphy.gif)
 
 ------------------------------------------------------------------------------------------------------------------------
-Use A, S, D W to walk around the world 
+A, S, D, W to walk around the world 
 
 Q to quit & save the game. 
 
