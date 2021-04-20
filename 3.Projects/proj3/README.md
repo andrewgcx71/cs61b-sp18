@@ -31,7 +31,7 @@ Enter prefix on search bar for autocompletion
 
 -----------------------------------------------------------------------------------------------
 
-Display a particular location by search
+Display a particular location on the map by search
 
 ![](https://media.giphy.com/media/y1N20NLduCJEuoQWM1/giphy.gif)
 
