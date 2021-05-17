@@ -4,4 +4,4 @@ Self- study, finished all labs, homeworks and projects.
 
 Course Website:             
 
-[here](https://sp18.datastructur.es)
+Clikc [here](https://sp18.datastructur.es)
