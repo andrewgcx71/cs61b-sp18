@@ -201,19 +201,14 @@ public class Rasterer {
 
     /** Return a number represent which depth of files should use. */
     private int getDepth(Map<String, Double> params) {
-        double lonDPP = (params.get("lrlon") - params.get("ullon")) / params.get("w");
-        int depth = 0;
-        //current lonDPP starts at depth 0;
-        double rootLonDPP = (lowerRightRoot.getLon() - upperLeftRoot.getLon()) / 256;
-        double currentLonDPP = rootLonDPP;
-        while (true) {
-            if (depth == 7 || currentLonDPP <= lonDPP) {
-                break;
+        double actualLonDPP = (params.get("lrlon") - params.get("ullon")) / params.get("w");
+        for (int i = 0; i < 7; i++) {
+            double currentLonDPP = (lowerRightRoot.getLon() - upperLeftRoot.getLon()) / (256 * Math.pow(2, i));
+            if (currentLonDPP <= actualLonDPP) {
+                return i;
             }
-            depth++;
-            currentLonDPP = rootLonDPP / Math.pow(2, depth);
         }
-        return depth;
+        return 7;
     }
 
     /* return false if query box is out of range. */

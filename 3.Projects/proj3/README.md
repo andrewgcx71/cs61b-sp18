@@ -1,31 +1,50 @@
-This project based on Google map, I implement the back-end for this applicaiton, click on [project discription](https://sp18.datastructur.es/materials/proj/proj3/proj3) for more information and below for a quick demo.
+Introduction:
+------------
 
+This project is based on Google map, click on [project discription](https://sp18.datastructur.es/materials/proj/proj3/proj3) for more information and below for a quick demo for functionalities.
 
-Double click for routing
+-----------------------------------------------------------------------------------------------
+Demo
+----
+
+Double click on a location to start routing.
 
 ![](https://media.giphy.com/media/PO8GNHTTYiWrp71yj9/giphy.gif)
 
-Driving instrucitons
+-----------------------------------------------------------------------------------------------
+
+Single click top right button to display driving instrucitons
 
 ![](https://media.giphy.com/media/ZYaqwi2WcdoPpMPsGV/giphy.gif)
 
-Zoom in and zoom out
+-----------------------------------------------------------------------------------------------
+
+Single click on +/- icon for zooming in/zoomming out
 
 ![](https://media.giphy.com/media/CeNAJPGCcXH696WCYk/giphy.gif)
 
-Autocomlete
+-----------------------------------------------------------------------------------------------
+
+Enter prefix on search bar for autocompletion
 
 ![](https://media.giphy.com/media/27HMEPwVBxnZNukAps/giphy.gif)
 
-Search
+-----------------------------------------------------------------------------------------------
+
+Display a particular location on the map by search
 
 ![](https://media.giphy.com/media/y1N20NLduCJEuoQWM1/giphy.gif)
 
-Upload my project to a free server. Since it's free, so it will be a lot more slower in comparison to use my computer as a server.
+-----------------------------------------------------------------------------------------------
 
-Refresh the website if you run into issues. Thanks for your time.
+Heroku deployment:
+------------------
+
+It is slow becuase it is a free server.
+
+Refresh the website if you run into issues. 
 
 http://bearmaps-sp18-s64464.herokuapp.com/map.html
 
-
+-----------------------------------------------------------------------------------------------
 
