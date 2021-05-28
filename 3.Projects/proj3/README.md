@@ -1,8 +1,7 @@
 Introduction:
 ------------
 
-This project is based on Google map, click on [project discription](https://sp18.datastructur.es/materials/proj/proj3/proj3) for more information and below for a quick demo for functionalities.
-
+This project is based on Google map, click on [Project 3](https://sp18.datastructur.es/materials/proj/proj3/proj3).
 -----------------------------------------------------------------------------------------------
 
 It will be slow.
